@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: baakbook
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: DATA_FILE
+        value: /tmp/data.json

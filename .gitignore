@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Runtime data: the live file must remain on the host
+/data.json
+
+# Logs and operating-system files
+*.log
+.DS_Store
+Thumbs.db
+
+# PythonAnywhere account/session configuration
+bashrc.txt
+gitconfig.txt
+profile.txt
+pythonstartup.py
+vimrc.txt
+
+# Editors
+.vscode/
+.idea/
