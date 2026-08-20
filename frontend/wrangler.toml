@@ -2,7 +2,5 @@ name = "baakbook-pages-local"
 pages_build_output_dir = "."
 compatibility_date = "2026-08-20"
 
-[vars]
-FIREBASE_PROJECT_ID = "baakbook-77c00"
-FIRESTORE_EMULATOR_HOST = "127.0.0.1:8080"
-ALLOWED_ORIGIN = "http://localhost:8788"
+# Production and preview variables are configured in the Cloudflare Pages dashboard.
+# Local emulator values belong in .dev.vars and must never be deployed.
