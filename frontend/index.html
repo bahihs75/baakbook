@@ -564,7 +564,12 @@ body.lab-dark .discover-choice small,body.lab-dark .discover-intro,body.lab-dark
 </footer>
 
 <script src="/runtime-config.js"></script>
-<script>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
+import { getFirestore, addDoc, collection, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+const firebaseApp = initializeApp(window.BAAK_RUNTIME.FIREBASE);
+const db = getFirestore(firebaseApp);
+
 // ==================== CONFIG ====================
 const API_BASE = window.BAAK_RUNTIME?.API_BASE || '/api';
 
@@ -1477,6 +1482,49 @@ function renderOrderSummary() {
   $('summaryTotal').textContent = total !== null ? fmt(total) : '—';
 }
 
+async function createOrderDirect(orderData) {
+  const productsById = new Map(products.map(product => [product.id, product]));
+  const items = [];
+  for (const input of orderData.cart) {
+    const product = productsById.get(input.id);
+    const qty = Number(input.qty);
+    if (!product || product.active === false || product.archived === true || !Number.isInteger(qty) || qty < 1) throw new Error('أحد الكتب لم يعد متاحًا.');
+    if (product.availability_type !== 'on_demand' && Number(product.stock_quantity || 0) < qty) throw new Error('الكمية المطلوبة غير متاحة.');
+    items.push({
+      id: product.id,
+      title: product.title || '',
+      price: Number(product.price || 0),
+      qty,
+      img: product.img || '',
+      availability_type: product.availability_type === 'on_demand' ? 'on_demand' : 'in_stock',
+      lead_time_min_days: Math.min(1, Math.max(0, Number(product.lead_time_min_days ?? product.lead_time_days ?? 0))),
+      lead_time_max_days: Math.min(1, Math.max(0, Number(product.lead_time_max_days ?? product.lead_time_days ?? 0))),
+      purchase_purpose: input.purchase_purpose === 'gift' ? 'gift' : 'personal'
+    });
+  }
+  const fee = getFee();
+  const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const giftItems = items.filter(item => item.purchase_purpose === 'gift');
+  if (giftItems.length && (!orderData.gift?.recipient_name || !orderData.gift?.recipient_phone)) throw new Error('اسم المستلم ورقم هاتفه مطلوبان.');
+  const payload = {
+    status: 'new',
+    items,
+    gift: giftItems.length ? { ...orderData.gift, gift_item_ids: giftItems.map(item => item.id) } : null,
+    customer: orderData.customer,
+    delivery: { wilaya: Number(orderData.wilaya), delivery_type: orderData.delivery_type },
+    subtotal,
+    deliveryFee: Number(fee || 0),
+    total: subtotal + Number(fee || 0),
+    currency: 'DZD',
+    source: 'cloudflare-pages-direct',
+    schemaVersion: 1,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp()
+  };
+  const created = await addDoc(collection(db, 'orders'), payload);
+  return created.id;
+}
+
 // ==================== PLACE ORDER ====================
 $('confirmOrderBtn').onclick = async () => {
   if (!selectedWilaya) { toast('الرجاء اختيار الولاية', 'error'); return; }
@@ -1516,15 +1564,7 @@ $('confirmOrderBtn').onclick = async () => {
   btn.textContent = 'جارٍ تأكيد الطلب...';
 
   try {
-    const res = await fetch(`${API_BASE}/orders`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderData)
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || 'تعذر تأكيد الطلب');
-    }
+    await createOrderDirect(orderData);
     toast('✅ تم تأكيد الطلب بنجاح!', 'success');
     qs('.checkout-step[data-step="2"]').classList.remove('active');
     $('checkoutSuccess').classList.add('show');

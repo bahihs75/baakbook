@@ -195,9 +195,10 @@
   <!-- شاشة تسجيل الدخول -->
   <div id="loginScreen" class="login-panel">
     <h2>🔐 دخول مسؤول المتجر</h2>
-    <input type="password" id="tokenInput" placeholder="أدخل رمز الإدارة" autocomplete="off">
-    <button id="loginBtn">دخول</button>
-    <div class="error-msg" id="loginError">رمز الإدارة غير صحيح</div>
+    <input type="email" id="emailInput" placeholder="البريد الإلكتروني" autocomplete="username">
+    <input type="password" id="passwordInput" placeholder="كلمة المرور" autocomplete="current-password">
+    <button id="loginBtn">دخول آمن</button>
+    <div class="error-msg" id="loginError">بيانات الدخول غير صحيحة أو لا يملك الحساب صلاحية الإدارة</div>
   </div>
 
   <!-- لوحة التحكم الرئيسية -->
@@ -389,15 +390,20 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <script src="/runtime-config.js"></script>
-  <script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
+    import { getFirestore, collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where, writeBatch } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+
     const API_BASE = window.BAAK_RUNTIME?.API_BASE || '/api';
-    let authToken = localStorage.getItem('admin_token') || '';
+    const ADMIN_EMAIL = 'baakbook01@gmail.com';
+    const firebaseApp = initializeApp(window.BAAK_RUNTIME.FIREBASE);
+    const auth = getAuth(firebaseApp);
+    const db = getFirestore(firebaseApp);
 
     // Helpers
     const $ = id => document.getElementById(id);
-    function apiHeaders() {
-      return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` };
-    }
+    function apiHeaders() { return { 'Content-Type': 'application/json' }; }
     function toast(msg, type = 'info') {
       const el = document.createElement('div');
       el.className = 'toast ' + type;
@@ -405,64 +411,180 @@
       $('toastContainer').appendChild(el);
       setTimeout(() => el.remove(), 3000);
     }
-    function formatPrice(val) {
-      return val ? val.toLocaleString('ar-DZ') + ' د.ج' : '—';
-    }
+    function formatPrice(val) { return val ? val.toLocaleString('ar-DZ') + ' د.ج' : '—'; }
     const DELIVERY_LABELS = { stop_desk: 'التوصيل إلى مكتب الاستلام', domicile: 'التوصيل إلى المنزل' };
-    const ORDER_STATUS_LABELS = { New: 'طلب جديد', Processing: 'قيد التجهيز', Delivered: 'تم التسليم', Cancelled: 'ملغى' };
+    const ORDER_STATUS_LABELS = { new: 'طلب جديد', confirmed: 'تم التأكيد', awaiting_supply: 'بانتظار توفير الكتب', processing: 'قيد التجهيز', ready_to_ship: 'جاهز للإرسال', shipped: 'تم الإرسال', delivered: 'تم التسليم', cancelled: 'ملغى', returned: 'مرتجع' };
     function deliveryLabel(value) { return DELIVERY_LABELS[value] || value || '—'; }
     function orderStatusLabel(value) { return ORDER_STATUS_LABELS[value] || value || '—'; }
+    function rawData(snapshot) {
+      const data = snapshot.data() || {};
+      const result = { ...data, id: snapshot.id };
+      for (const [key, value] of Object.entries(result)) {
+        if (value && typeof value === 'object' && typeof value.toDate === 'function') result[key] = value.toDate().toISOString();
+      }
+      return result;
+    }
+    function directResponse(payload, status = 200) {
+      return { ok: status >= 200 && status < 300, status, async json() { return payload; } };
+    }
+    function directError(message, status = 400) { return directResponse({ error: message }, status); }
+    function normalizeOrder(raw) {
+      const customer = raw.customer || {};
+      const delivery = raw.delivery || {};
+      const items = Array.isArray(raw.items) ? raw.items : [];
+      const gift = raw.gift && typeof raw.gift === 'object' ? raw.gift : null;
+      const timestamp = raw.createdAt || raw.timestamp || raw.created_at || new Date(0).toISOString();
+      const deliveryFee = raw.deliveryFee ?? raw.delivery_fee ?? 0;
+      return {
+        ...raw,
+        order_id: raw.order_id || raw.id,
+        timestamp,
+        customer_name: customer.name || raw.customer_name || '',
+        phone: customer.phone || raw.phone || '',
+        wilaya: delivery.wilaya ?? raw.wilaya ?? raw.wilaya_num ?? '',
+        delivery_type: delivery.delivery_type || raw.delivery_type || 'stop_desk',
+        address: customer.address || raw.address || '',
+        order_type: gift ? 'gift' : (items.some(item => item.availability_type === 'on_demand') ? 'on_demand' : 'regular'),
+        items,
+        gift,
+        subtotal: Number(raw.subtotal || 0),
+        delivery_fee: Number(deliveryFee || 0),
+        total: Number(raw.total || 0),
+        status: raw.status || 'new'
+      };
+    }
+    async function findNamedDocument(collectionName, name) {
+      const byId = await getDoc(doc(db, collectionName, name));
+      if (byId.exists()) return byId;
+      const matches = await getDocs(query(collection(db, collectionName), where('name', '==', name)));
+      return matches.empty ? null : matches.docs[0];
+    }
+
+    // Direct Firebase Auth + Firestore adapter. It intentionally keeps the
+    // existing admin page call sites stable while removing the Functions proxy.
+    async function adminFetch(path, options = {}) {
+      try {
+        const url = new URL(path, window.location.origin);
+        const parts = url.pathname.split('/').filter(Boolean);
+        const adminIndex = parts.indexOf('admin');
+        const resource = parts[adminIndex + 1] || '';
+        const id = parts[adminIndex + 2] ? decodeURIComponent(parts[adminIndex + 2]) : '';
+        const method = options.method || 'GET';
+        const body = options.body ? JSON.parse(options.body) : {};
+
+        if (resource === 'products') {
+          if (method === 'GET' && !id) {
+            const snapshots = await getDocs(collection(db, 'products'));
+            return directResponse(snapshots.docs.map(rawData));
+          }
+          if (method === 'POST' && !id) {
+            if (!body.id) return directError('معرّف الكتاب مطلوب');
+            const ref = doc(db, 'products', body.id);
+            if ((await getDoc(ref)).exists()) return directError('معرّف الكتاب مستخدم من قبل', 409);
+            await setDoc(ref, { ...body, id: body.id, createdAt: serverTimestamp(), updatedAt: serverTimestamp(), schemaVersion: 1 });
+            return directResponse({ ...body, id: body.id }, 201);
+          }
+          if (!id) return directError('معرّف الكتاب مطلوب');
+          const ref = doc(db, 'products', id);
+          if (method === 'PUT' || method === 'PATCH') {
+            const update = { ...body, updatedAt: serverTimestamp() };
+            delete update.id;
+            await updateDoc(ref, update);
+            return directResponse({ ...body, id });
+          }
+          if (method === 'DELETE') {
+            await deleteDoc(ref);
+            return directResponse({ ok: true, id });
+          }
+        }
+
+        if (resource === 'categories') {
+          if (method === 'GET' && !id) {
+            const snapshots = await getDocs(collection(db, 'categories'));
+            return directResponse(snapshots.docs.map(rawData).filter(item => item.active !== false).map(item => item.name || item.id).sort((a, b) => a.localeCompare(b, 'ar')));
+          }
+          if (method === 'POST' && !id) {
+            if (!body.name) return directError('اسم التصنيف مطلوب');
+            await setDoc(doc(db, 'categories', body.name), { name: body.name, active: true, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+            return directResponse({ name: body.name }, 201);
+          }
+          if (!id) return directError('اسم التصنيف مطلوب');
+          const oldSnapshot = await findNamedDocument('categories', id);
+          if (!oldSnapshot) return directError('التصنيف غير موجود', 404);
+          if (method === 'PUT' || method === 'PATCH') {
+            const newName = body.name?.trim();
+            if (!newName) return directError('اسم التصنيف مطلوب');
+            const batch = writeBatch(db);
+            if (newName !== id) {
+              batch.set(doc(db, 'categories', newName), { ...(oldSnapshot.data() || {}), name: newName, active: true, updatedAt: serverTimestamp() });
+              const products = await getDocs(query(collection(db, 'products'), where('category', '==', id)));
+              products.docs.forEach(product => batch.update(product.ref, { category: newName, updatedAt: serverTimestamp() }));
+              batch.delete(oldSnapshot.ref);
+            } else {
+              batch.update(oldSnapshot.ref, { name: newName, updatedAt: serverTimestamp() });
+            }
+            await batch.commit();
+            return directResponse({ name: newName });
+          }
+          if (method === 'DELETE') { await deleteDoc(oldSnapshot.ref); return directResponse({ ok: true, name: id }); }
+        }
+
+        if (resource === 'orders') {
+          if (method === 'GET' && !id) {
+            const snapshots = await getDocs(collection(db, 'orders'));
+            return directResponse(snapshots.docs.map(snapshot => normalizeOrder(rawData(snapshot))).sort((a, b) => String(b.timestamp || '').localeCompare(String(a.timestamp || ''))));
+          }
+          if (!id) return directError('رقم الطلب مطلوب');
+          const ref = doc(db, 'orders', id);
+          if (method === 'PUT' || method === 'PATCH') { await updateDoc(ref, { status: body.status, updatedAt: serverTimestamp() }); return directResponse({ ok: true, id, status: body.status }); }
+          if (method === 'DELETE') { await deleteDoc(ref); return directResponse({ ok: true, id }); }
+        }
+
+        if (resource === 'settings') {
+          const ref = doc(db, 'settings', 'public');
+          if (method === 'GET') { const snapshot = await getDoc(ref); return directResponse(snapshot.exists() ? rawData(snapshot) : { features: {} }); }
+          if (method === 'PUT' || method === 'PATCH') { await setDoc(ref, { features: body.features || {}, updatedAt: serverTimestamp() }, { merge: true }); return directResponse({ features: body.features || {} }); }
+        }
+
+        if (resource === 'delivery-fees') {
+          if (method === 'GET' && !id) { const snapshots = await getDocs(collection(db, 'deliveryFees')); return directResponse(snapshots.docs.map(rawData).sort((a, b) => Number(a.num || 0) - Number(b.num || 0))); }
+          if (!id || (method !== 'PUT' && method !== 'PATCH')) return directError('رقم الولاية غير صالح');
+          const matches = await getDocs(query(collection(db, 'deliveryFees'), where('num', '==', Number(id))));
+          if (matches.empty) return directError('رسوم الولاية غير موجودة', 404);
+          await updateDoc(matches.docs[0].ref, { stop_desk: Number(body.stop_desk), domicile: Number(body.domicile), updatedAt: serverTimestamp() });
+          return directResponse({ ...body, num: Number(id) });
+        }
+        return directError('المسار غير موجود', 404);
+      } catch (error) {
+        console.error('direct_firestore_admin_failed', error);
+        return directError(error?.message || 'تعذر تنفيذ العملية', 403);
+      }
+    }
 
     // Authentication
-    async function verifyToken(token) {
-      try {
-        const res = await fetch(`${API_BASE}/admin/products`, { headers: { Authorization: `Bearer ${token}` } });
-        return res.ok;
-      } catch { return false; }
-    }
-
-    async function tryAutoLogin() {
-      if (authToken) {
-        if (await verifyToken(authToken)) {
-          showDashboard();
-          return;
-        }
-        localStorage.removeItem('admin_token');
-        authToken = '';
-      }
-      showLogin();
-    }
-
-    function showLogin() {
-      $('loginScreen').style.display = 'block';
-      $('dashboardScreen').style.display = 'none';
-    }
-
-    function showDashboard() {
-      $('loginScreen').style.display = 'none';
-      $('dashboardScreen').style.display = 'block';
-      loadAllData();
-    }
-
+    function showLogin() { $('loginScreen').style.display = 'block'; $('dashboardScreen').style.display = 'none'; }
+    function showDashboard() { $('loginScreen').style.display = 'none'; $('dashboardScreen').style.display = 'block'; loadAllData(); }
+    onAuthStateChanged(auth, user => {
+      if (user && user.email?.toLowerCase() === ADMIN_EMAIL) showDashboard();
+      else showLogin();
+    });
     $('loginBtn').onclick = async () => {
-      const token = $('tokenInput').value.trim();
-      if (!token) return;
-      if (await verifyToken(token)) {
-        authToken = token;
-        localStorage.setItem('admin_token', token);
-        showDashboard();
-      } else {
+      const email = $('emailInput').value.trim().toLowerCase();
+      const password = $('passwordInput').value;
+      if (!email || !password) return;
+      try {
+        const credentials = await signInWithEmailAndPassword(auth, email, password);
+        if (credentials.user.email?.toLowerCase() !== ADMIN_EMAIL) {
+          await signOut(auth);
+          throw new Error('هذا الحساب ليس حساب المدير المسموح.');
+        }
+      } catch (error) {
+        $('loginError').textContent = error.message || 'بيانات الدخول غير صحيحة';
         $('loginError').style.display = 'block';
-        setTimeout(() => $('loginError').style.display = 'none', 3000);
+        setTimeout(() => $('loginError').style.display = 'none', 3500);
       }
     };
-
-    $('logoutBtn').onclick = () => {
-      localStorage.removeItem('admin_token');
-      authToken = '';
-      showLogin();
-      $('tokenInput').value = '';
-    };
+    $('logoutBtn').onclick = async () => { await signOut(auth); $('passwordInput').value = ''; showLogin(); };
 
     // Tab switching
     document.querySelectorAll('.tab').forEach(tab => {
@@ -490,12 +612,12 @@
     // ========== PRODUCTS ==========
     async function loadProducts() {
       try {
-        const res = await fetch(`${API_BASE}/admin/products`, { headers: apiHeaders() });
+        const res = await adminFetch(`${API_BASE}/admin/products`, { headers: apiHeaders() });
         if (!res.ok) throw new Error('تعذر تحميل البيانات');
         const products = await res.json();
         renderProductsTable(products);
         // تحميل الفئات للقائمة المنسدلة
-        const catRes = await fetch(`${API_BASE}/admin/categories`, { headers: apiHeaders() });
+        const catRes = await adminFetch(`${API_BASE}/admin/categories`, { headers: apiHeaders() });
         if (catRes.ok) {
           const categories = await catRes.json();
           const select = $('prodCategory');
@@ -637,11 +759,11 @@
         let res;
         if (isNew) {
           data.id = id;
-          res = await fetch(`${API_BASE}/admin/products`, {
+          res = await adminFetch(`${API_BASE}/admin/products`, {
             method: 'POST', headers: apiHeaders(), body: JSON.stringify(data)
           });
         } else {
-          res = await fetch(`${API_BASE}/admin/products/${id}`, {
+          res = await adminFetch(`${API_BASE}/admin/products/${id}`, {
             method: 'PUT', headers: apiHeaders(), body: JSON.stringify(data)
           });
         }
@@ -660,7 +782,7 @@
     async function deleteProduct(id) {
       if (!confirm('هل تريد حذف هذا الكتاب؟')) return;
       try {
-        const res = await fetch(`${API_BASE}/admin/products/${id}`, {
+        const res = await adminFetch(`${API_BASE}/admin/products/${id}`, {
           method: 'DELETE', headers: apiHeaders()
         });
         if (!res.ok) throw new Error('تعذر الحذف');
@@ -674,7 +796,7 @@
     // ========== ORDERS ==========
     async function loadOrders() {
       try {
-        const res = await fetch(`${API_BASE}/admin/orders`, { headers: apiHeaders() });
+        const res = await adminFetch(`${API_BASE}/admin/orders`, { headers: apiHeaders() });
         if (!res.ok) throw new Error('تعذر تحميل البيانات');
         const orders = await res.json();
         renderOrdersTable(orders);
@@ -711,7 +833,7 @@
     let currentOrderId = null;
 
     async function showOrderDetail(orderId) {
-      const res = await fetch(`${API_BASE}/admin/orders`, { headers: apiHeaders() });
+      const res = await adminFetch(`${API_BASE}/admin/orders`, { headers: apiHeaders() });
       const orders = await res.json();
       const order = orders.find(o => o.order_id === orderId);
       if (!order) return toast('الطلب غير موجود', 'error');
@@ -761,7 +883,7 @@
       if (!currentOrderId) return;
       const newStatus = $('orderStatusSelect').value;
       try {
-        const res = await fetch(`${API_BASE}/admin/orders/${currentOrderId}`, {
+        const res = await adminFetch(`${API_BASE}/admin/orders/${currentOrderId}`, {
           method: 'PUT',
           headers: apiHeaders(),
           body: JSON.stringify({ status: newStatus })
@@ -779,7 +901,7 @@
       if (!currentOrderId) return;
       if (!confirm(`هل أنت متأكد من حذف الطلب ${currentOrderId}؟ لا يمكن التراجع.`)) return;
       try {
-        const res = await fetch(`${API_BASE}/admin/orders/${currentOrderId}`, {
+        const res = await adminFetch(`${API_BASE}/admin/orders/${currentOrderId}`, {
           method: 'DELETE',
           headers: apiHeaders()
         });
@@ -795,7 +917,7 @@
     // ========== CATEGORIES ==========
     async function loadCategories() {
       try {
-        const res = await fetch(`${API_BASE}/admin/categories`, { headers: apiHeaders() });
+        const res = await adminFetch(`${API_BASE}/admin/categories`, { headers: apiHeaders() });
         const cats = await res.json();
         const tbody = document.querySelector('#categoriesTable tbody');
         tbody.innerHTML = cats.map(c => `
@@ -837,7 +959,7 @@
         const newName = $('catName').value.trim();
         if (!newName) return toast('الاسم مطلوب', 'error');
         try {
-          const res = await fetch(`${API_BASE}/admin/categories/${encodeURIComponent(name)}`, {
+          const res = await adminFetch(`${API_BASE}/admin/categories/${encodeURIComponent(name)}`, {
             method: 'PUT', headers: apiHeaders(), body: JSON.stringify({ name: newName })
           });
           if (!res.ok) throw (await res.json()).error;
@@ -853,7 +975,7 @@
       const name = $('catName').value.trim();
       if (!name) return toast('الاسم مطلوب', 'error');
       try {
-        const res = await fetch(`${API_BASE}/admin/categories`, {
+        const res = await adminFetch(`${API_BASE}/admin/categories`, {
           method: 'POST', headers: apiHeaders(), body: JSON.stringify({ name })
         });
         if (!res.ok) throw (await res.json()).error;
@@ -865,7 +987,7 @@
 
     async function deleteCategory(name) {
       if (!confirm(`هل تريد حذف التصنيف «${name}»؟`)) return;
-      await fetch(`${API_BASE}/admin/categories/${encodeURIComponent(name)}`, {
+      await adminFetch(`${API_BASE}/admin/categories/${encodeURIComponent(name)}`, {
         method: 'DELETE', headers: apiHeaders()
       });
       loadCategories();
@@ -887,7 +1009,7 @@
 
     async function loadSettings() {
       try {
-        const res = await fetch(`${API_BASE}/admin/settings`, { headers: apiHeaders() });
+        const res = await adminFetch(`${API_BASE}/admin/settings`, { headers: apiHeaders() });
         if (!res.ok) throw new Error('تعذر تحميل إعدادات ميزات المتجر');
         const data = await res.json();
         Object.entries(featureMap).forEach(([key, id]) => {
@@ -915,7 +1037,7 @@
       Object.entries(featureMap).forEach(([key, id]) => { features[key] = Boolean($(id)?.checked); });
       try {
         updateFeatureStates();
-        const res = await fetch(`${API_BASE}/admin/settings`, {
+        const res = await adminFetch(`${API_BASE}/admin/settings`, {
           method: 'PUT', headers: apiHeaders(), body: JSON.stringify({ features })
         });
         if (!res.ok) throw new Error('تعذر حفظ تغييرات ميزات المتجر');
@@ -928,7 +1050,7 @@
     // ========== DELIVERY FEES ==========
     async function loadDeliveryFees() {
       try {
-        const res = await fetch(`${API_BASE}/admin/delivery-fees`, { headers: apiHeaders() });
+        const res = await adminFetch(`${API_BASE}/admin/delivery-fees`, { headers: apiHeaders() });
         const fees = await res.json();
         const tbody = document.querySelector('#deliveryTable tbody');
         tbody.innerHTML = fees.map(w => `
@@ -946,7 +1068,7 @@
             const domicile = document.querySelector(`input[data-wilaya="${wilaya}"][data-type="domicile"]`).value;
             const data = { stop_desk: parseInt(stopDesk), domicile: parseInt(domicile) };
             try {
-              const res = await fetch(`${API_BASE}/admin/delivery-fees/${wilaya}`, {
+              const res = await adminFetch(`${API_BASE}/admin/delivery-fees/${wilaya}`, {
                 method: 'PUT', headers: apiHeaders(), body: JSON.stringify(data)
               });
               if (!res.ok) throw (await res.json()).error;
