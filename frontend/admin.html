@@ -133,6 +133,8 @@
     .switch input:checked + span:before { transform:translateX(-20px); }
     .save-settings { margin-top:16px; }
     .admin-note { padding:12px 14px; border-radius:var(--radius-md); background:rgba(196,151,90,.1); color:var(--accent-dark); font-size:12px; line-height:1.7; margin-bottom:16px; }
+    .hero-settings-grid,.hero-cta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.hero-copy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.hero-copy-grid .form-group{margin-bottom:0}.hero-copy-grid input,.hero-copy-grid textarea{width:100%;padding:9px 12px;border-radius:var(--radius-md);border:1px solid rgba(0,0,0,.1);background:rgba(255,255,255,.7);font-family:var(--font);font-size:13px}.hero-cta-grid{margin-top:12px}
+    @media(max-width:760px){.hero-settings-grid,.hero-copy-grid,.hero-cta-grid{grid-template-columns:1fr}}
 
     .modal {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -291,6 +293,24 @@
           <h2 style="font-size:20px; margin-bottom:6px;">إعدادات واجهة المتجر</h2>
           <p class="feature-intro">من هنا تحدد ما يظهر للزوار وما يمكنهم استخدامه. إيقاف تجربة يخفي مدخلها ويمنع استخدامها، لكنه لا يحذف المنتجات أو الطلبات القديمة.</p>
           <div class="admin-note"><strong>كيف تستخدم هذه الصفحة؟</strong><br>فعّل الخيار فقط عندما يكون جاهزًا للعرض. بعد الحفظ، افتح المتجر في نافذة جديدة للتأكد من النتيجة. طلبات الهدايا والكتب التي يمكن اقتناؤها ستبقى ظاهرة في لوحة الإدارة حتى بعد إيقاف استقبال طلبات جديدة.</div>
+          <div class="control-section">
+            <h3 class="control-section-title">الواجهة الرئيسية والـHero</h3>
+            <div class="admin-note">يتحكم هذا القسم في الـHero الجديد الذي يحل محل الواجهة القديمة. اترك الميزات الجديدة متوقفة في البداية، ثم فعّلها واحدةً تلو الأخرى لمراجعة شكلها في المتجر.</div>
+            <div class="hero-settings-grid">
+              <div class="feature-control"><div><h3>إظهار الـHero</h3><p>إخفاؤه يزيل الـHero الجديد بالكامل من الصفحة الرئيسية.</p><span class="feature-state" data-state-for="heroVisible">—</span></div><label class="switch" aria-label="إظهار الـHero"><input type="checkbox" id="heroVisible" checked><span></span></label></div>
+              <div class="feature-control"><div><h3>إظهار شريط المسارات</h3><p>يُظهر أو يخفي بطاقات المسارات أسفل الـHero بحسب الميزات المفعّلة.</p><span class="feature-state" data-state-for="heroFeatureRailVisible">—</span></div><label class="switch" aria-label="إظهار شريط مسارات الـHero"><input type="checkbox" id="heroFeatureRailVisible" checked><span></span></label></div>
+            </div>
+            <div class="hero-copy-grid">
+              <div class="form-group"><label for="heroTitleInput">عنوان الـHero</label><input id="heroTitleInput" maxlength="120" value="كتابك القادم يبدأ من هنا"></div>
+              <div class="form-group"><label for="heroSubtitleInput">النص التوضيحي</label><textarea id="heroSubtitleInput" rows="3" maxlength="240">كتب وروايات اخترناها بعناية؛ لأن الكتاب المناسب لا يملأ وقتك فقط، بل يترك فيك أثرًا.</textarea></div>
+              <div class="form-group"><label for="heroPrimaryLabelInput">نص الزر الأساسي</label><input id="heroPrimaryLabelInput" maxlength="60" value="اكتشف كتابك القادم"></div>
+              <div class="form-group"><label for="heroSecondaryLabelInput">نص الزر الثانوي</label><input id="heroSecondaryLabelInput" maxlength="60" value="اختر هدية تحمل معنى"></div>
+            </div>
+            <div class="hero-cta-grid">
+              <div class="feature-control"><div><h3>إظهار الزر الأساسي</h3><p>يرتبط بميزة اكتشاف كتابك.</p><span class="feature-state" data-state-for="heroPrimaryVisible">—</span></div><label class="switch" aria-label="إظهار الزر الأساسي"><input type="checkbox" id="heroPrimaryVisible" checked><span></span></label></div>
+              <div class="feature-control"><div><h3>إظهار الزر الثانوي</h3><p>يرتبط بمسار الهدايا.</p><span class="feature-state" data-state-for="heroSecondaryVisible">—</span></div><label class="switch" aria-label="إظهار الزر الثانوي"><input type="checkbox" id="heroSecondaryVisible" checked><span></span></label></div>
+            </div>
+          </div>
           <div class="control-section">
             <h3 class="control-section-title">اكتشاف الكتب</h3>
             <div class="feature-grid">
@@ -542,8 +562,8 @@
 
         if (resource === 'settings') {
           const ref = doc(db, 'settings', 'public');
-          if (method === 'GET') { const snapshot = await getDoc(ref); return directResponse(snapshot.exists() ? rawData(snapshot) : { features: {} }); }
-          if (method === 'PUT' || method === 'PATCH') { await setDoc(ref, { features: body.features || {}, updatedAt: serverTimestamp() }, { merge: true }); return directResponse({ features: body.features || {} }); }
+          if (method === 'GET') { const snapshot = await getDoc(ref); return directResponse(snapshot.exists() ? rawData(snapshot) : { features: {}, storefront: {} }); }
+          if (method === 'PUT' || method === 'PATCH') { await setDoc(ref, { features: body.features || {}, storefront: body.storefront || {}, updatedAt: serverTimestamp() }, { merge: true }); return directResponse({ features: body.features || {}, storefront: body.storefront || {} }); }
         }
 
         if (resource === 'delivery-fees') {
@@ -994,6 +1014,17 @@
     }
 
     // ========== FEATURE SETTINGS ==========
+    const heroDefaults = {
+      visible: true,
+      feature_rail_visible: true,
+      primary_cta_visible: true,
+      secondary_cta_visible: true,
+      title: 'كتابك القادم يبدأ من هنا',
+      subtitle: 'كتب وروايات اخترناها بعناية؛ لأن الكتاب المناسب لا يملأ وقتك فقط، بل يترك فيك أثرًا.',
+      primary_cta_label: 'اكتشف كتابك القادم',
+      secondary_cta_label: 'اختر هدية تحمل معنى'
+    };
+
     const featureMap = {
       discovery: 'featureDiscovery',
       gifts: 'featureGifts',
@@ -1015,6 +1046,15 @@
         Object.entries(featureMap).forEach(([key, id]) => {
           if ($(id)) $(id).checked = Boolean(data.features && data.features[key]);
         });
+        const hero = { ...heroDefaults, ...(data.storefront?.hero || {}) };
+        $('heroVisible').checked = hero.visible !== false;
+        $('heroFeatureRailVisible').checked = hero.feature_rail_visible !== false;
+        $('heroPrimaryVisible').checked = hero.primary_cta_visible !== false;
+        $('heroSecondaryVisible').checked = hero.secondary_cta_visible !== false;
+        $('heroTitleInput').value = hero.title;
+        $('heroSubtitleInput').value = hero.subtitle;
+        $('heroPrimaryLabelInput').value = hero.primary_cta_label;
+        $('heroSecondaryLabelInput').value = hero.secondary_cta_label;
         updateFeatureStates();
       } catch (err) {
         toast(err.message, 'error');
@@ -1035,10 +1075,20 @@
     $('saveSettingsBtn').onclick = async () => {
       const features = {};
       Object.entries(featureMap).forEach(([key, id]) => { features[key] = Boolean($(id)?.checked); });
+      const storefront = { hero: {
+        visible: Boolean($('heroVisible')?.checked),
+        feature_rail_visible: Boolean($('heroFeatureRailVisible')?.checked),
+        primary_cta_visible: Boolean($('heroPrimaryVisible')?.checked),
+        secondary_cta_visible: Boolean($('heroSecondaryVisible')?.checked),
+        title: $('heroTitleInput')?.value.trim() || 'كتابك القادم يبدأ من هنا',
+        subtitle: $('heroSubtitleInput')?.value.trim() || 'كتب وروايات اخترناها بعناية؛ لأن الكتاب المناسب لا يملأ وقتك فقط، بل يترك فيك أثرًا.',
+        primary_cta_label: $('heroPrimaryLabelInput')?.value.trim() || 'اكتشف كتابك القادم',
+        secondary_cta_label: $('heroSecondaryLabelInput')?.value.trim() || 'اختر هدية تحمل معنى'
+      } };
       try {
         updateFeatureStates();
         const res = await adminFetch(`${API_BASE}/admin/settings`, {
-          method: 'PUT', headers: apiHeaders(), body: JSON.stringify({ features })
+          method: 'PUT', headers: apiHeaders(), body: JSON.stringify({ features, storefront })
         });
         if (!res.ok) throw new Error('تعذر حفظ تغييرات ميزات المتجر');
         toast('تم حفظ تغييرات ميزات المتجر', 'success');

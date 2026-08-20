@@ -42,11 +42,28 @@ input,select,textarea{font-family:var(--font);outline:none}
 .cart-badge.show{display:flex}
 
 /* HERO */
-.hero{margin-top:var(--nav-height);padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-40%;left:-20%;width:60%;height:80%;background:radial-gradient(ellipse at center,rgba(196,151,90,0.08) 0%,transparent 70%);pointer-events:none}
-.hero h1{font-size:42px;font-weight:800;letter-spacing:-0.5px;margin-bottom:12px;position:relative}
+.hero{margin-top:var(--nav-height);padding:76px 24px 34px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60%;left:12%;width:76%;height:120%;background:radial-gradient(ellipse at center,rgba(196,151,90,0.14) 0%,transparent 68%);pointer-events:none}
+.hero-orbit{position:absolute;border:1px solid rgba(196,151,90,.16);border-radius:50%;pointer-events:none}
+.hero-orbit-one{width:420px;height:220px;top:58px;left:50%;transform:translateX(-50%) rotate(-8deg)}
+.hero-orbit-two{width:620px;height:310px;top:24px;left:50%;transform:translateX(-50%) rotate(10deg);border-color:rgba(196,151,90,.08)}
+.hero-content{position:relative;z-index:1;max-width:760px;margin:0 auto}
+.hero-kicker{display:inline-block;padding:5px 13px;border-radius:999px;background:rgba(196,151,90,.12);color:var(--accent-dark);font-size:11px;font-weight:800;margin-bottom:14px}
+.hero h1{font-size:46px;font-weight:800;letter-spacing:-.7px;margin-bottom:12px;position:relative}
 .hero h1 span{color:var(--accent)}
-.hero p{font-size:17px;color:var(--text-secondary);max-width:540px;margin:0 auto 28px;position:relative}
+.hero p{font-size:17px;color:var(--text-secondary);max-width:560px;margin:0 auto 28px;position:relative}
+.hero-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;position:relative}
+.hero-secondary-cta{background:var(--accent)!important}
+.hero-feature-rail{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:960px;margin:38px auto 0;padding:10px;border:1px solid rgba(196,151,90,.18);border-radius:22px;background:rgba(255,255,255,.52);box-shadow:0 12px 34px rgba(0,0,0,.05);backdrop-filter:blur(14px)}
+.hero-feature-card{display:flex;align-items:center;gap:10px;text-align:right;padding:13px;border:1px solid transparent;border-radius:15px;background:rgba(255,255,255,.58);transition:transform .2s,border-color .2s,background .2s}
+.hero-feature-card:hover{transform:translateY(-2px);border-color:rgba(196,151,90,.45);background:rgba(255,255,255,.85)}
+.hero-feature-icon{width:32px;height:32px;flex:0 0 32px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--accent-light);color:var(--accent-dark);font-size:16px}
+.hero-feature-card strong,.hero-feature-card small{display:block}.hero-feature-card strong{font-size:12px}.hero-feature-card small{font-size:10px;color:var(--text-secondary);margin-top:2px}
+.hero[hidden],.feature-hub[hidden],.hero-feature-rail[hidden],[data-feature][hidden]{display:none!important}
+.feature-visibility-pending [data-feature],.feature-visibility-pending [data-feature-group]{display:none!important}
+.preview-panel{position:fixed;top:76px;right:16px;z-index:2600;width:min(360px,calc(100vw - 32px));padding:14px 16px;border:1px solid rgba(196,151,90,.34);border-radius:18px;background:rgba(255,255,255,.94);box-shadow:0 18px 50px rgba(0,0,0,.16);backdrop-filter:blur(18px);text-align:right}
+.preview-panel[hidden]{display:none!important}.preview-panel strong{display:block;font-size:13px;color:var(--accent-dark);margin-bottom:3px}.preview-panel p{font-size:11px;color:var(--text-secondary);line-height:1.55;margin-bottom:10px}.preview-panel small{display:block;color:var(--text-tertiary);font-size:10px;margin-top:10px}.preview-controls{display:flex;gap:6px;flex-wrap:wrap}.preview-controls a{display:inline-flex;align-items:center;justify-content:center;padding:7px 9px;border-radius:10px;background:rgba(0,0,0,.05);color:var(--text-primary);font-size:11px;font-weight:700;text-decoration:none}.preview-controls a.active{background:var(--text-primary);color:#fff}.preview-controls a.preview-all{background:var(--accent);color:#fff}.preview-flag{display:inline-block;margin-right:4px;padding:2px 6px;border-radius:999px;background:var(--accent-light);color:var(--accent-dark);font-size:10px;font-weight:800}
+@media(max-width:600px){.preview-panel{top:70px;right:10px;width:calc(100vw - 20px)}}
 
 /* DISCOVER YOUR BOOK */
 .discover-cta{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:var(--radius-xl);background:var(--text-primary);color:#fff;font-size:14px;font-weight:700;box-shadow:0 10px 24px rgba(29,29,31,0.12);transition:transform .25s,box-shadow .25s}
@@ -281,7 +298,7 @@ body.lab-dark .discover-choice,body.lab-dark .discover-result-card,body.lab-dark
 body.lab-dark .discover-choice small,body.lab-dark .discover-intro,body.lab-dark .discover-result-reason,body.lab-dark .lab-intro,body.lab-dark .lab-card p,body.lab-dark .lab-book small{color:var(--text-secondary)}
 @media(max-width:768px){
   .feature-hub{padding:0 16px;margin-bottom:26px}.feature-hub-inner{padding:16px}.feature-hub-head{display:block}.feature-hub-note{display:block;margin-top:7px}.feature-hub-grid{grid-template-columns:1fr 1fr;gap:8px}.feature-card{padding:12px;min-height:92px;gap:8px}.feature-card-icon{width:30px;height:30px;flex-basis:30px;font-size:15px}.feature-card h3{font-size:12px}.feature-card p{font-size:10px}.feature-card .feature-link{font-size:10px}.gift-modal{padding:24px 16px;border-radius:20px}.gift-modal h2{font-size:23px}.gift-form{grid-template-columns:1fr}.gift-form .full{grid-column:auto}.gift-book-picks{grid-template-columns:repeat(2,1fr)}.gift-book-pick img{height:100px}
-  .hero h1{font-size:28px}.hero{padding:56px 20px 40px}.group-gift-modal{padding:24px 16px;border-radius:20px}.group-gift-item img{width:38px;height:52px}
+  .hero h1{font-size:28px}.hero{padding:56px 20px 40px}.hero-feature-rail{grid-template-columns:1fr 1fr;margin-top:26px;padding:8px}.hero-feature-card{padding:10px}.hero-feature-card strong{font-size:11px}.hero-feature-card small{font-size:9px}.group-gift-modal{padding:24px 16px;border-radius:20px}.group-gift-item img{width:38px;height:52px}
   .discover-modal{padding:26px 18px}.discover-modal h2{font-size:24px}.discover-choice-grid{grid-template-columns:1fr}.discover-result-card{grid-template-columns:76px 1fr}.discover-result-card img{width:76px;height:104px}
   .search-wrap input{width:140px}.search-wrap input:focus{width:180px}
   .products-grid{grid-template-columns:repeat(2,1fr);gap:12px}
@@ -300,7 +317,7 @@ body.lab-dark .discover-choice small,body.lab-dark .discover-intro,body.lab-dark
 @media(min-width:1024px){.products-grid{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
-<body>
+<body class="feature-visibility-pending">
 
 <header class="header">
   <div class="header-inner">
@@ -309,7 +326,7 @@ body.lab-dark .discover-choice small,body.lab-dark .discover-intro,body.lab-dark
       <span>Baak <em>Books</em></span>
     </div>
     <div class="header-tools">
-      <div class="search-wrap">
+      <div class="search-wrap" data-feature="smart_search">
         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <input type="text" id="searchInput" placeholder="ابحث باسم كتاب أو موضوع..." autocomplete="off">
       </div>
@@ -321,26 +338,37 @@ body.lab-dark .discover-choice small,body.lab-dark .discover-intro,body.lab-dark
   </div>
 </header>
 
-<section class="hero">
-  <h1>كتابك <span>القادم</span> يبدأ من هنا</h1>
-  <p>كتب وروايات اخترناها بعناية؛ لأن الكتاب المناسب لا يملأ وقتك فقط، بل يترك فيك أثرًا.</p>
-  <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;position:relative">
-    <button class="discover-cta" id="discoverOpen"><span class="spark">✦</span> اكتشف كتابك القادم</button>
-    <button class="discover-cta" id="labOpen" style="background:var(--accent)"><span class="spark">◈</span> اكتشف طرقًا أخرى للعثور على كتابك</button>
+<section class="hero" id="storefrontHero" aria-labelledby="heroTitle">
+  <div class="hero-orbit hero-orbit-one" aria-hidden="true"></div>
+  <div class="hero-orbit hero-orbit-two" aria-hidden="true"></div>
+  <div class="hero-content">
+    <span class="hero-kicker">مكتبة Baak Books</span>
+    <h1 id="heroTitle">كتابك <span>القادم</span> يبدأ من هنا</h1>
+    <p id="heroSubtitle">كتب وروايات اخترناها بعناية؛ لأن الكتاب المناسب لا يملأ وقتك فقط، بل يترك فيك أثرًا.</p>
+    <div class="hero-actions" id="heroActions">
+      <button class="discover-cta" id="heroDiscoverOpen" data-feature="discovery"><span class="spark">✦</span><span id="heroPrimaryLabel">اكتشف كتابك القادم</span></button>
+      <button class="discover-cta hero-secondary-cta" id="heroGiftOpen" data-feature="gifts" data-feature-requires="gift_finder"><span class="spark">◈</span><span id="heroSecondaryLabel">اختر هدية تحمل معنى</span></button>
+    </div>
+  </div>
+  <div class="hero-feature-rail" id="heroFeatureRail" data-feature-group aria-label="مسارات القراءة">
+    <button class="hero-feature-card" id="heroRailDiscover" data-feature="discovery" type="button"><span class="hero-feature-icon">✦</span><span><strong>اكتشف كتابك</strong><small>اختيارات تناسب ذوقك الآن</small></span></button>
+    <button class="hero-feature-card" id="heroRailGift" data-feature="gifts" data-feature-requires="gift_finder" type="button"><span class="hero-feature-icon">🎁</span><span><strong>اصنع هدية</strong><small>كتاب يحمل معنى لمن تحب</small></span></button>
+    <button class="hero-feature-card" id="heroRailOnDemand" data-feature="on_demand" type="button"><span class="hero-feature-icon">⌛</span><span><strong>كتب يمكن اقتناؤها</strong><small>عناوين تصل في اليوم نفسه أو خلال يوم</small></span></button>
+    <button class="hero-feature-card" id="heroRailLab" data-feature="ideas_lab" type="button"><span class="hero-feature-icon">◈</span><span><strong>مختبر الأفكار</strong><small>مسارات جديدة لاكتشاف القراءة</small></span></button>
   </div>
 </section>
 
-<section class="feature-hub" aria-labelledby="featureHubTitle">
+<section class="feature-hub" id="featureHub" data-feature-group aria-labelledby="featureHubTitle">
   <div class="feature-hub-inner">
     <div class="feature-hub-head">
       <div><div class="feature-hub-kicker">اختر طريقك إلى الكتاب</div><h2 id="featureHubTitle">من أين تحب أن تبدأ؟</h2><p>ابحث عن كتاب يوافق ذوقك، اختر هدية تحمل معنى، أو اقتنِ عنوانًا لا تجده متوفرًا الآن.</p></div>
       <span class="feature-hub-note">تجارب واضحة · من دون حساب</span>
     </div>
     <div class="feature-hub-grid">
-      <button class="feature-card" id="giftOpen" data-feature="gifts" type="button"><span class="feature-card-icon">🎁</span><span><h3>اختر هدية تحمل معنى</h3><p>حدّد المناسبة والميزانية، ودعنا نقترح لك كتبًا تليق بمن تهديه.</p><span class="feature-link">صمّم هديتك ←</span></span></button>
+      <button class="feature-card" id="giftOpen" data-feature="gifts" data-feature-requires="gift_finder" type="button"><span class="feature-card-icon">🎁</span><span><h3>اختر هدية تحمل معنى</h3><p>حدّد المناسبة والميزانية، ودعنا نقترح لك كتبًا تليق بمن تهديه.</p><span class="feature-link">صمّم هديتك ←</span></span></button>
       <button class="feature-card" id="discoverOpenHub" data-feature="discovery" type="button"><span class="feature-card-icon">✦</span><span><h3>اكتشف كتابك القادم</h3><p>أجب عن ثلاثة أسئلة قصيرة لنقترح لك عناوين تناسب ما تبحث عنه الآن.</p><span class="feature-link">ابدأ الاكتشاف ←</span></span></button>
       <button class="feature-card" id="onDemandOpen" data-feature="on_demand" type="button"><span class="feature-card-icon">⌛</span><span><h3>كتب يمكن اقتناؤها</h3><p>عناوين ليست متوفرة الآن، لكن يمكنك اقتناؤها في اليوم نفسه أو خلال يوم واحد.</p><span class="feature-link">تصفح العناوين ←</span></span></button>
-      <button class="feature-card muted" id="labOpenHub" type="button"><span class="feature-card-icon">◈</span><span><h3>أفكار نختبرها</h3><p>مساحات وتجارب نختبرها محليًا قبل اعتمادها في المتجر.</p><span class="feature-link">استكشف الأفكار ←</span></span></button>
+      <button class="feature-card" id="labOpenHub" data-feature="ideas_lab" type="button"><span class="feature-card-icon">◈</span><span><h3>مختبر الأفكار</h3><p>مساحات وتجارب نختبرها محليًا قبل اعتمادها في المتجر.</p><span class="feature-link">استكشف الأفكار ←</span></span></button>
     </div>
   </div>
 </section>
@@ -542,6 +570,13 @@ body.lab-dark .discover-choice small,body.lab-dark .discover-intro,body.lab-dark
   </div>
 </div>
 
+<aside class="preview-panel" id="previewPanel" hidden aria-label="معاينة محلية آمنة">
+  <strong>معاينة محلية آمنة <span class="preview-flag">لا حفظ</span></strong>
+  <p id="previewModeLabel">اختر ميزة لمعاينتها منفردة. هذه الروابط لا تحفظ الإعدادات ولا ترسل الطلبات.</p>
+  <div class="preview-controls" id="previewControls"></div>
+  <small>لإغلاق المعاينة افتح الصفحة بدون معامل <code>?preview=</code>.</small>
+</aside>
+
 <div class="toast-container" id="toastContainer"></div>
 
 <footer class="footer">
@@ -585,7 +620,47 @@ let buyNowProduct = null;  // للمنتج الذي طلب شراؤه فوراً
 let pendingGift = null;
 let discoveryStep = 1;
 let discoveryAnswers = { goal: null, pace: null, mood: null };
-let featureSettings = { discovery: true, gifts: true, gift_from_product: true, gift_from_cart: true, gift_finder: true, on_demand: true, dark_mode: true, community: false, smart_search: false, ideas_lab: true };
+const DEFAULT_FEATURE_SETTINGS = { discovery: false, gifts: false, gift_from_product: false, gift_from_cart: false, gift_finder: false, on_demand: false, dark_mode: false, community: false, smart_search: false, ideas_lab: false };
+let featureSettings = { ...DEFAULT_FEATURE_SETTINGS };
+let storefrontSettings = { hero: { visible: true, title: 'كتابك القادم يبدأ من هنا', subtitle: 'كتب وروايات اخترناها بعناية؛ لأن الكتاب المناسب لا يملأ وقتك فقط، بل يترك فيك أثرًا.', primary_cta_visible: true, primary_cta_label: 'اكتشف كتابك القادم', secondary_cta_visible: true, secondary_cta_label: 'اختر هدية تحمل معنى', feature_rail_visible: true } };
+
+const previewParam = new URLSearchParams(window.location.search).get('preview');
+const previewMode = previewParam !== null;
+const PREVIEW_OPTIONS = [
+  { key: 'off', label: 'الكل متوقف', keys: [] },
+  { key: 'discovery', label: 'اكتشاف كتاب', keys: ['discovery'] },
+  { key: 'gift', label: 'الهدايا', keys: ['gifts', 'gift_finder', 'gift_from_product', 'gift_from_cart'] },
+  { key: 'on_demand', label: 'كتب يمكن اقتناؤها', keys: ['on_demand'] },
+  { key: 'ideas_lab', label: 'مختبر الأفكار', keys: ['ideas_lab'] },
+  { key: 'smart_search', label: 'البحث الذكي', keys: ['smart_search'] },
+  { key: 'all', label: 'كل الميزات', keys: Object.keys(DEFAULT_FEATURE_SETTINGS) }
+];
+
+function getPreviewFeatureSettings(value) {
+  const requested = new Set();
+  const raw = String(value || 'off').toLowerCase();
+  if (raw === 'all') Object.keys(DEFAULT_FEATURE_SETTINGS).forEach(key => requested.add(key));
+  else if (raw !== 'off') {
+    raw.split(',').map(key => key.trim()).filter(Boolean).forEach(key => requested.add(key));
+    const aliases = PREVIEW_OPTIONS.find(option => option.key === raw);
+    aliases?.keys.forEach(key => requested.add(key));
+  }
+  return Object.fromEntries(Object.keys(DEFAULT_FEATURE_SETTINGS).map(key => [key, requested.has(key)]));
+}
+
+function renderPreviewPanel() {
+  if (!previewMode || !$('previewPanel')) return;
+  $('previewPanel').hidden = false;
+  const selected = String(previewParam || 'off');
+  const current = PREVIEW_OPTIONS.find(option => option.key === selected) || (selected === 'off' ? PREVIEW_OPTIONS[0] : null);
+  $('previewModeLabel').textContent = current ? `الوضع الحالي: ${current.label}. اختر وضعًا آخر للمقارنة، دون أي كتابة إلى Firestore.` : 'وضع مخصص للمعاينة. اختر وضعًا جاهزًا للمقارنة، دون أي كتابة إلى Firestore.';
+  $('previewControls').innerHTML = PREVIEW_OPTIONS.map(option => {
+    const href = `?preview=${encodeURIComponent(option.key)}`;
+    const active = option.key === selected || (option.key === 'off' && selected === 'off');
+    const className = `${active ? 'active ' : ''}${option.key === 'all' ? 'preview-all' : ''}`.trim();
+    return `<a class="${className}" href="${href}">${option.label}</a>`;
+  }).join('');
+}
 
 // ==================== HELPERS ====================
 const $ = id => document.getElementById(id);
@@ -626,8 +701,11 @@ async function loadInitialData() {
     if (settingsRes && settingsRes.ok) {
       const settingsPayload = await settingsRes.json();
       featureSettings = { ...featureSettings, ...(settingsPayload.features || {}) };
+      storefrontSettings = { ...storefrontSettings, ...(settingsPayload.storefront || {}), hero: { ...storefrontSettings.hero, ...(settingsPayload.storefront?.hero || {}) } };
     }
+    if (previewMode) featureSettings = getPreviewFeatureSettings(previewParam);
     applyFeatureVisibility();
+    applyHeroSettings();
     renderFilterBar();
     renderProducts(currentFilter, $('searchInput').value);
     openProductFromURL(); // يدعم ?product=ID
@@ -638,12 +716,51 @@ async function loadInitialData() {
 }
 
 // ==================== FEATURE VISIBILITY ====================
+function isFeatureElementEnabled(element) {
+  const feature = element?.dataset?.feature;
+  if (!feature) return true;
+  const requiredFeatures = (element.dataset.featureRequires || '').split(',').map(value => value.trim()).filter(Boolean);
+  return featureSettings[feature] !== false && requiredFeatures.every(required => featureSettings[required] !== false);
+}
+
 function applyFeatureVisibility() {
   qsa('[data-feature]').forEach(element => {
-    const feature = element.dataset.feature;
-    element.hidden = featureSettings[feature] === false;
+    element.hidden = !isFeatureElementEnabled(element);
+  });
+  qsa('[data-feature-group]').forEach(group => {
+    const visibleChildren = qsa('[data-feature]', group).some(element => !element.hidden);
+    group.hidden = !visibleChildren;
   });
   if (!featureSettings.on_demand && currentFilter === 'on_demand') currentFilter = 'all';
+  document.body.classList.remove('feature-visibility-pending');
+}
+
+function applyHeroSettings() {
+  const hero = $('storefrontHero');
+  const config = { ...storefrontSettings.hero };
+  if (!hero) return;
+  hero.hidden = config.visible === false;
+  if ($('heroTitle') && config.title) {
+    const parts = String(config.title).split(' ');
+    const accentIndex = parts.findIndex(part => /القادم|القراءة|كتاب/.test(part));
+    $('heroTitle').textContent = config.title;
+    if (accentIndex >= 0) {
+      const title = String(config.title);
+      const accentWord = parts[accentIndex];
+      const start = title.indexOf(accentWord);
+      if (start >= 0) $('heroTitle').innerHTML = `${esc(title.slice(0, start))}<span>${esc(accentWord)}</span>${esc(title.slice(start + accentWord.length))}`;
+    }
+  }
+  if ($('heroSubtitle') && config.subtitle) $('heroSubtitle').textContent = config.subtitle;
+  const primary = $('heroDiscoverOpen');
+  const secondary = $('heroGiftOpen');
+  if (primary) { primary.hidden = config.primary_cta_visible === false || !isFeatureElementEnabled(primary); if ($('heroPrimaryLabel') && config.primary_cta_label) $('heroPrimaryLabel').textContent = config.primary_cta_label; }
+  if (secondary) { secondary.hidden = config.secondary_cta_visible === false || !isFeatureElementEnabled(secondary); if ($('heroSecondaryLabel') && config.secondary_cta_label) $('heroSecondaryLabel').textContent = config.secondary_cta_label; }
+  if ($('heroFeatureRail')) $('heroFeatureRail').hidden = config.feature_rail_visible === false || !$qsaVisible('[data-feature]', $('heroFeatureRail'));
+}
+
+function $qsaVisible(selector, parent) {
+  return qsa(selector, parent).filter(element => !element.hidden);
 }
 
 function guardFeature(feature) {
@@ -1063,7 +1180,7 @@ function renderDiscoveryResults(recommendations) {
   });
 }
 
-$('discoverOpen').onclick = openDiscovery;
+if ($('discoverOpen')) $('discoverOpen').onclick = openDiscovery;
 $('discoverClose').onclick = closeDiscovery;
 $('discoverOverlay').onclick = event => {
   if (event.target === $('discoverOverlay')) closeDiscovery();
@@ -1264,19 +1381,24 @@ function labAction(action) {
     $('labWallOutput').innerHTML = '<div class="lab-notice">مجموعة روايات · مجموعة تنمية · مجموعة اكتشاف — هذا نموذج بصري أولي يمكن تحويله لاحقًا إلى تجربة تصفح كاملة.</div>';
   }
 }
-$('labOpen').onclick = openLab;
+$('heroRailLab').onclick = openLab;
 $('labOpenHub').onclick = openLab;
+$('heroRailDiscover').onclick = openDiscovery;
+$('heroDiscoverOpen').onclick = openDiscovery;
 $('discoverOpenHub').onclick = openDiscovery;
+$('heroRailGift').onclick = openGiftBuilder;
+$('heroGiftOpen').onclick = openGiftBuilder;
 $('giftOpen').onclick = openGiftBuilder;
-$('giftClose').onclick = closeGiftBuilder;
-$('giftCancel').onclick = closeGiftBuilder;
-$('onDemandOpen').onclick = () => {
+$('heroRailOnDemand').onclick = () => {
   if (!guardFeature('on_demand')) return;
   qsa('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.cat === 'on_demand'));
   currentFilter = 'on_demand';
   renderProducts(currentFilter, $('searchInput').value);
   document.querySelector('.section').scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
+$('onDemandOpen').onclick = () => $('heroRailOnDemand').click();
+$('giftClose').onclick = closeGiftBuilder;
+$('giftCancel').onclick = closeGiftBuilder;
 $('labClose').onclick = closeLab;
 $('labOverlay').onclick = event => { if (event.target === $('labOverlay')) closeLab(); };
 if (localStorage.getItem('baak-lab-dark') === 'true') document.body.classList.add('lab-dark');
@@ -1483,6 +1605,7 @@ function renderOrderSummary() {
 }
 
 async function createOrderDirect(orderData) {
+  if (previewMode) throw new Error('المعاينة المحلية لا ترسل الطلبات ولا تحفظ أي بيانات.');
   const productsById = new Map(products.map(product => [product.id, product]));
   const items = [];
   for (const input of orderData.cart) {
@@ -1623,6 +1746,7 @@ document.onkeydown = e => {
 };
 
 // ==================== INIT ====================
+renderPreviewPanel();
 loadInitialData();
 </script>
 </body>
