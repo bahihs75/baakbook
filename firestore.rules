@@ -8,7 +8,6 @@ service cloud.firestore {
 
     function isAdmin() {
       return signedIn()
-        && request.auth.token.email_verified == true
         && (request.auth.token.admin == true || request.auth.token.email == 'baakbook01@gmail.com');
     }
 
@@ -49,19 +48,18 @@ service cloud.firestore {
     }
 
     match /products/{productId} {
-      allow read: if resource.data.active == true && resource.data.archived != true;
+      allow read: if isAdmin() || (resource.data.active == true && resource.data.archived != true);
       allow create, update: if isAdmin() && validProductPublicFields();
-      allow delete: if false;
+      allow delete: if isAdmin();
     }
 
     match /categories/{categoryId} {
-      allow read: if resource.data.active != false;
-      allow create, update: if isAdmin();
-      allow delete: if false;
+      allow read: if isAdmin() || resource.data.active != false;
+      allow create, update, delete: if isAdmin();
     }
 
     match /deliveryFees/{deliveryFeeId} {
-      allow read: if resource.data.active != false;
+      allow read: if isAdmin() || resource.data.active != false;
       allow create, update: if isAdmin();
       allow delete: if false;
     }

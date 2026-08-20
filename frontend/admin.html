@@ -703,7 +703,7 @@
 
     async function editProduct(id) {
       try {
-        const res = await fetch(`${API_BASE}/products/${id}`);
+        const res = await adminFetch(`${API_BASE}/admin/products/${id}`, { headers: apiHeaders() });
         if (!res.ok) throw new Error('الكتاب غير موجود');
         const p = await res.json();
         $('prodId').value = p.id;
@@ -1079,8 +1079,8 @@
       } catch (err) { toast('تعذر تحميل رسوم التوصيل', 'error'); }
     }
 
-    // Init
-    tryAutoLogin();
+    // Firebase Auth state listener above is the single initialization path.
+    // No legacy token-based auto-login is used in the direct Firestore mode.
   </script>
 </body>
 </html>
