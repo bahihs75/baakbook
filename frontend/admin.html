@@ -97,11 +97,12 @@
     th, td { padding: 12px 8px; border-bottom: 1px solid rgba(0,0,0,0.05); text-align: right; }
     th { font-weight: 600; color: var(--text-secondary); font-size: 12px; }
     .product-img-thumb { width: 40px; height: 56px; object-fit: cover; border-radius: 6px; background: #eee; }
-    .actions button { background: none; border: none; cursor: pointer; font-size: 18px; margin: 0 4px; transition: 0.2s; }
-    .actions .edit { color: var(--accent); }
-    .actions .delete { color: var(--danger); }
-    .actions .copy-link { color: #6e6e73; font-size: 16px; }
-    .actions button:hover { transform: scale(1.15); }
+    .actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .actions button { border: 1px solid rgba(0,0,0,0.08); cursor: pointer; font: inherit; font-size: 12px; font-weight: 700; margin: 0; padding: 7px 10px; border-radius: 10px; background: rgba(255,255,255,0.72); color: var(--text-secondary); }
+    .actions .edit { color: var(--accent-dark); border-color: rgba(196,151,90,0.35); }
+    .actions .delete { color: var(--danger); border-color: rgba(212,90,90,0.28); }
+    .actions .copy-link { color: var(--text-secondary); }
+    .actions button:hover { background: var(--accent-light); }
 
     .add-btn {
       margin-bottom: 16px; padding: 10px 24px; border-radius: var(--radius-xl);
@@ -165,7 +166,8 @@
       background: rgba(255,255,255,0.7);
       font-family: var(--font); font-size: 14px;
     }
-    .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+    .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; flex-wrap: wrap; }
+    .form-actions > button { min-height: 42px; }
     .btn-primary {
       background: var(--accent); color: #fff;
       padding: 10px 20px; border-radius: var(--radius-md);
@@ -194,12 +196,62 @@
     .toast.error { background: rgba(212,90,90,0.92); }
     @keyframes slideIn { from { transform: translateX(100%); opacity:0; } to { transform: translateX(0); opacity:1; } }
     @keyframes fadeOut { to { opacity:0; transform: translateY(-8px); } }
+
+    @media (max-width: 760px) {
+      body { padding: 14px 10px 92px; }
+      .container { width: 100%; }
+      .header { align-items: flex-start; margin-bottom: 20px; gap: 12px; }
+      .header h1 { font-size: clamp(21px, 6vw, 28px); line-height: 1.35; }
+      .logout-btn { width: 100%; min-height: 42px; }
+      .tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
+      .tab { min-height: 44px; padding: 9px 6px; font-size: 12px; line-height: 1.35; }
+      .card { padding: 12px; border-radius: 20px; overflow: visible; }
+      .card > table { min-width: 0; display: block; }
+      .card > table thead { display: none; }
+      .card > table tbody, .card > table tr, .card > table td { display: block; width: 100%; }
+      .card > table tr { padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
+      .card > table tr:last-child { border-bottom: 0; }
+      .card > table td { display: grid; grid-template-columns: minmax(92px, 38%) minmax(0, 1fr); gap: 10px; align-items: center; padding: 8px 4px; border-bottom: 0; text-align: right; overflow-wrap: anywhere; }
+      .card > table td::before { content: attr(data-label); color: var(--text-secondary); font-size: 11px; font-weight: 700; }
+      .card > table td[colspan] { display: block; text-align: center; }
+      .card > table td[colspan]::before { content: none; }
+      .card > table .actions { justify-content: flex-start; }
+      .card > table .actions::before { flex: 0 0 38%; content: attr(data-label); color: var(--text-secondary); font-size: 11px; font-weight: 700; }
+      .card > table .actions button { min-height: 38px; }
+      .product-img-thumb { width: 54px; height: 72px; }
+      .feature-grid, .hero-settings-grid, .hero-admin-settings, .hero-copy-grid, .hero-cta-grid, .hero-slide-form { grid-template-columns: 1fr; }
+      .hero-slide-form .wide { grid-column: auto; }
+      .hero-slide-card { padding: 14px; border-radius: 18px; }
+      .hero-slide-head { align-items: stretch; }
+      .hero-slide-head h3 { flex: 1 1 100%; }
+      .hero-slide-order { width: 100%; }
+      .hero-slide-order button { flex: 1; min-height: 40px; }
+      .image-input-row, .media-toolbar { flex-direction: column; align-items: stretch; }
+      .image-input-row input, .image-input-row button, .media-toolbar .form-group, .media-toolbar > button { width: 100%; min-width: 0; }
+      .media-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+      .media-card { padding: 8px; }
+      .media-card img { height: 128px; }
+      .media-card-actions { flex-direction: column; }
+      .media-card-actions button { width: 100%; min-height: 38px; }
+      .modal { padding: 10px; align-items: flex-start; }
+      .modal-content { width: 100%; max-width: none; max-height: calc(100vh - 20px); padding: 16px; border-radius: 22px; margin-top: 8px; }
+      .form-actions { flex-direction: column-reverse; }
+      .form-actions > button { width: 100%; }
+      .toast-container { left: 10px; right: 10px; bottom: 12px; }
+      .toast { width: 100%; text-align: center; }
+      #imgbbApiKey { direction: ltr; text-align: left; unicode-bidi: plaintext; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .02em; }
+      .media-toolbar { gap: 12px; }
+      .media-toolbar > button { min-height: 44px; }
+      .image-input-row button { min-height: 42px; }
+      .form-group input[type="url"] { direction: ltr; text-align: left; unicode-bidi: plaintext; }
+      .modal-content { overscroll-behavior: contain; }
+    }
   </style>
 </head>
 <body>
   <!-- شاشة تسجيل الدخول -->
   <div id="loginScreen" class="login-panel">
-    <h2>🔐 دخول مسؤول المتجر</h2>
+    <h2>دخول مسؤول المتجر</h2>
     <input type="email" id="emailInput" placeholder="البريد الإلكتروني" autocomplete="username">
     <input type="password" id="passwordInput" placeholder="كلمة المرور" autocomplete="current-password">
     <button id="loginBtn">دخول آمن</button>
@@ -214,18 +266,18 @@
         <button class="logout-btn" id="logoutBtn">تسجيل الخروج</button>
       </div>
       <div class="tabs">
-        <button class="tab active" data-tab="products">📚 إدارة الكتب</button>
-        <button class="tab" data-tab="hero">🎞️ إدارة الـHero</button>
-        <button class="tab" data-tab="media">🖼️ مكتبة الصور</button>
-        <button class="tab" data-tab="orders">📦 الطلبات</button>
-        <button class="tab" data-tab="categories">🏷️ التصنيفات</button>
-        <button class="tab" data-tab="delivery">🚚 التوصيل</button>
-      <button class="tab" data-tab="features">⚙️ ميزات المتجر</button>
+        <button class="tab active" data-tab="products">إدارة الكتب</button>
+        <button class="tab" data-tab="hero">إدارة الـHero</button>
+        <button class="tab" data-tab="media">مكتبة الصور</button>
+        <button class="tab" data-tab="orders">الطلبات</button>
+        <button class="tab" data-tab="categories">التصنيفات</button>
+        <button class="tab" data-tab="delivery">التوصيل</button>
+        <button class="tab" data-tab="features">ميزات المتجر</button>
       </div>
 
       <!-- قسم المنتجات -->
       <div class="panel active" id="panel-products">
-        <button class="add-btn" id="addProductBtn">➕ إضافة كتاب</button>
+        <button class="add-btn" id="addProductBtn">إضافة كتاب</button>
         <div class="card">
           <table id="productsTable">
             <thead>
@@ -265,7 +317,7 @@
             <div class="form-group wide"><label>نص تلميح التمرير</label><input type="text" maxlength="80" id="heroAdminScrollLabel"></div>
           </div>
           <div id="heroSlidesList"></div>
-          <button class="add-btn" id="addHeroSlideBtn" type="button">➕ إضافة شريحة جديدة</button>
+          <button class="add-btn" id="addHeroSlideBtn" type="button">إضافة شريحة جديدة</button>
         </div>
         <button class="btn-primary save-settings" id="saveHeroBtn" type="button">حفظ إعدادات الـHero والشرائح</button>
       </div>
@@ -277,13 +329,13 @@
           <p class="feature-intro">ارفع الصور مباشرة إلى ImgBB، ثم احفظ رابطها في مكتبة Baak Books لاستخدامها لاحقًا في أغلفة الكتب وشرائح الـHero. حذف الصورة من هنا يحذف سجلها من المكتبة فقط ولا يحذفها من ImgBB.</p>
           <div class="admin-note"><strong>ملاحظة أمان:</strong> مفتاح ImgBB لا يوجد في GitHub ولا في الصفحة العامة. يحفظ داخل Firestore في سجل محمي للمدير، ويُقرأ عند فتح هذه التبويبة فقط. أثناء الرفع يظهر للمسؤول المصادق عليه في المتصفح لأن ImgBB يتطلبه في طلب الرفع.</div>
           <div class="media-toolbar">
-            <div class="form-group"><label for="imgbbApiKey">مفتاح ImgBB</label><input id="imgbbApiKey" type="password" autocomplete="new-password" placeholder="أدخل المفتاح أو اتركه لقراءة المفتاح المحفوظ"></div>
-            <button class="btn-secondary" id="toggleImgbbKey" type="button">إظهار/إخفاء</button>
-            <button class="btn-primary" id="saveImgbbKey" type="button">حفظ المفتاح</button>
+            <div class="form-group"><label for="imgbbApiKey">مفتاح ImgBB</label><input id="imgbbApiKey" type="password" dir="ltr" inputmode="text" spellcheck="false" autocomplete="new-password" placeholder="أدخل مفتاح ImgBB أو اتركه لقراءة المحفوظ"><small class="field-help">يُحفظ المفتاح في Firestore داخل سجل المدير، ولا يُرفع إلى GitHub.</small></div>
+            <button class="btn-secondary" id="toggleImgbbKey" type="button">إظهار المفتاح</button>
+            <button class="btn-primary" id="saveImgbbKey" type="button">حفظ مفتاح ImgBB</button>
           </div>
           <div class="media-toolbar">
             <div class="form-group"><label for="mediaFileInput">صور جديدة</label><input id="mediaFileInput" type="file" accept="image/*,.svg" multiple></div>
-            <button class="add-btn" id="uploadMediaBtn" type="button">⬆️ رفع الصور إلى ImgBB</button>
+            <button class="add-btn" id="uploadMediaBtn" type="button">رفع الصور من الجهاز إلى ImgBB</button>
           </div>
           <div id="mediaUploadStatus" class="media-status" aria-live="polite"></div>
           <div id="mediaGrid" class="media-grid"></div>
@@ -314,7 +366,7 @@
 
       <!-- قسم الفئات -->
       <div class="panel" id="panel-categories">
-        <button class="add-btn" id="addCategoryBtn">➕ إضافة تصنيف</button>
+        <button class="add-btn" id="addCategoryBtn">إضافة تصنيف</button>
         <div class="card">
           <table id="categoriesTable">
             <thead><tr><th>اسم التصنيف</th><th>إجراءات</th></tr></thead>
@@ -383,7 +435,7 @@
         <div class="form-group"><label>العنوان</label><input id="prodTitle"></div>
         <div class="form-group"><label>التصنيف</label><select id="prodCategory"></select></div>
         <div class="form-group"><label>الوصف</label><textarea id="prodDesc" rows="3"></textarea></div>
-        <div class="form-group"><label>صورة الغلاف</label><div class="image-input-row"><input id="prodImg" type="url" placeholder="https://..."><button class="btn-secondary" id="pickProdImage" type="button">اختيار من المكتبة</button></div><img id="prodImgPreview" class="image-preview" alt="معاينة غلاف الكتاب" style="display:none"></div>
+        <div class="form-group"><label>صورة الغلاف</label><div class="image-input-row"><input id="prodImg" type="url" dir="ltr" placeholder="https://..."><button class="btn-secondary" id="pickProdImage" type="button">اختيار من المكتبة</button><button class="btn-secondary" id="uploadProdImage" type="button">رفع صورة من الجهاز</button><input id="prodImgFile" type="file" accept="image/*,.svg" hidden></div><img id="prodImgPreview" class="image-preview" alt="معاينة غلاف الكتاب" style="display:none"><small class="field-help">يمكنك لصق رابط مباشر، أو اختيار صورة محفوظة، أو رفع صورة جديدة إلى ImgBB.</small></div>
         <div class="form-group"><label>السعر (دج)</label><input type="number" id="prodPrice" min="0" value="0"></div>
         <div class="form-group"><label>الكمية المتاحة</label><input type="number" id="prodStock" min="0" value="10"></div>
         <div class="form-group"><label>طريقة اقتناء الكتاب</label><select id="prodAvailability"><option value="in_stock">متوفر الآن</option><option value="on_demand">يمكن اقتناؤه</option></select></div>
@@ -443,8 +495,8 @@
           </select>
         </div>
         <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px;">
-          <button class="btn-secondary" id="deleteOrderBtn">🗑️ حذف الطلب</button>
-          <button class="btn-primary" id="saveOrderStatusBtn">💾 حفظ الحالة</button>
+          <button class="btn-secondary" id="deleteOrderBtn">حذف الطلب</button>
+          <button class="btn-primary" id="saveOrderStatusBtn">حفظ الحالة</button>
           <button class="btn-secondary" id="closeOrderDetailBtn">إغلاق</button>
         </div>
       </div>
@@ -604,30 +656,71 @@
 
     async function saveImgbbKey() {
       const key = $('imgbbApiKey').value.trim();
-      if (!key) return toast('أدخل مفتاح ImgBB أولًا', 'error');
+      if (!key) throw new Error('أدخل مفتاح ImgBB أولًا');
+      if (!/^[a-zA-Z0-9]{20,80}$/.test(key)) throw new Error('صيغة مفتاح ImgBB غير صحيحة. ألصق المفتاح كاملًا دون مسافات.');
       await setDoc(doc(db, 'adminSecrets', 'imgbb'), { apiKey: key, updatedAt: serverTimestamp(), updatedBy: auth.currentUser?.email || '' }, { merge: true });
       mediaState.key = key;
       toast('تم حفظ مفتاح ImgBB في سجل المدير', 'success');
+    }
+
+    async function getImgbbApiKey() {
+      const typed = $('imgbbApiKey')?.value.trim();
+      if (typed) return typed;
+      if (mediaState.key) return mediaState.key;
+      try { return await loadImgbbKey(); }
+      catch (error) {
+        console.error('ImgBB key read failed', error);
+        if (error?.code === 'permission-denied') throw new Error('لا توجد صلاحية لقراءة مفتاح ImgBB. سجّل الدخول بالحساب الإداري baakbook01@gmail.com ثم أعد المحاولة.');
+        throw new Error('تعذر قراءة مفتاح ImgBB من Firestore. تحقق من اتصال Firebase وقواعد الصلاحيات.');
+      }
     }
 
     async function uploadMediaToImgBB(file, apiKey) {
       const prepared = await compressMediaFile(await validateMediaFile(file));
       const form = new FormData();
       form.append('image', prepared);
-      const response = await fetch(`https://api.imgbb.com/1/upload?key=${encodeURIComponent(apiKey)}`, { method: 'POST', body: form });
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 45000);
+      let response;
+      try {
+        response = await fetch(`https://api.imgbb.com/1/upload?key=${encodeURIComponent(apiKey)}`, { method: 'POST', body: form, signal: controller.signal });
+      } catch (error) {
+        if (error?.name === 'AbortError') throw new Error('انتهت مهلة رفع الصورة. تحقق من الاتصال وحاول مجددًا.');
+        throw new Error('تعذر الاتصال بخدمة ImgBB.');
+      } finally { clearTimeout(timeout); }
       let payload = null;
       try { payload = await response.json(); } catch (_) { payload = null; }
-      if (!response.ok || !payload?.success || !payload?.data?.url) throw new Error(payload?.error?.message || 'فشل رفع الصورة إلى ImgBB');
+      if (!response.ok || !payload?.success || !payload?.data?.url) throw new Error(payload?.error?.message || 'رفضت خدمة ImgBB رفع الصورة');
       return { ...payload.data, name: file.name };
     }
 
+    async function uploadImageToField(file, input, label = 'الصورة') {
+      const apiKey = await getImgbbApiKey();
+      if (!apiKey) throw new Error('احفظ مفتاح ImgBB أولًا');
+      const result = await uploadMediaToImgBB(file, apiKey);
+      input.value = result.url;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      toast(`تم رفع ${label} وإرجاع الرابط المباشر`, 'success');
+      return result;
+    }
+
     async function loadMediaLibrary() {
+      let libraryFailed = false;
       try {
         const snapshots = await getDocs(collection(db, 'imageLibrary'));
         mediaState.items = snapshots.docs.map(rawData).map(normalizeMediaItem).filter(item => item.url).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
-        renderMediaGrid();
-        await loadImgbbKey();
-      } catch (error) { toast('تعذر تحميل مكتبة الصور', 'error'); }
+      } catch (error) {
+        libraryFailed = true;
+        mediaState.items = [];
+        console.error('Image library read failed', error);
+        toast(error?.code === 'permission-denied' ? 'لا توجد صلاحية لمكتبة الصور. سجّل الدخول بالحساب الإداري الصحيح.' : 'تعذر تحميل مكتبة الصور', 'error');
+      }
+      renderMediaGrid();
+      try { await loadImgbbKey(); }
+      catch (error) {
+        console.error('ImgBB key read failed', error);
+        if (!libraryFailed || error?.code !== 'permission-denied') toast('تعذر قراءة مفتاح ImgBB من Firestore', 'error');
+      }
     }
 
     function mediaCard(item, picker = false) {
@@ -659,7 +752,8 @@
     async function uploadSelectedMedia() {
       const files = [...($('mediaFileInput').files || [])];
       if (!files.length) return toast('اختر صورة واحدة على الأقل', 'error');
-      const apiKey = $('imgbbApiKey').value.trim() || mediaState.key || await loadImgbbKey();
+      let apiKey;
+      try { apiKey = await getImgbbApiKey(); } catch (error) { return toast(error.message, 'error'); }
       if (!apiKey) return toast('احفظ مفتاح ImgBB أولًا', 'error');
       const status = $('mediaUploadStatus');
       let completed = 0;
@@ -781,9 +875,15 @@
 
     // Authentication
     function showLogin() { $('loginScreen').style.display = 'block'; $('dashboardScreen').style.display = 'none'; }
-    function showDashboard() { $('loginScreen').style.display = 'none'; $('dashboardScreen').style.display = 'block'; loadAllData(); }
+    async function showDashboard() {
+      $('loginScreen').style.display = 'none';
+      $('dashboardScreen').style.display = 'block';
+      try { await auth.currentUser?.getIdToken(true); }
+      catch (error) { console.warn('تعذر تحديث جلسة الإدارة قبل تحميل البيانات', error); }
+      await loadAllData();
+    }
     onAuthStateChanged(auth, user => {
-      if (user && user.email?.toLowerCase() === ADMIN_EMAIL) showDashboard();
+      if (user && user.email?.toLowerCase() === ADMIN_EMAIL) void showDashboard();
       else showLogin();
     });
     $('loginBtn').onclick = async () => {
@@ -841,7 +941,19 @@
 
     $('prodImg')?.addEventListener('input', updateProductImagePreview);
     $('pickProdImage')?.addEventListener('click', async () => { if (!mediaState.items.length) await loadMediaLibrary(); openMediaPicker({ type: 'product', input: $('prodImg') }); });
-    $('toggleImgbbKey')?.addEventListener('click', () => { const input = $('imgbbApiKey'); input.type = input.type === 'password' ? 'text' : 'password'; });
+    $('uploadProdImage')?.addEventListener('click', () => $('prodImgFile')?.click());
+    $('prodImgFile')?.addEventListener('change', async event => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const button = $('uploadProdImage');
+      const original = button.textContent;
+      button.disabled = true;
+      button.textContent = 'جارٍ رفع الصورة…';
+      try { await uploadImageToField(file, $('prodImg'), 'غلاف الكتاب'); updateProductImagePreview(); }
+      catch (error) { toast(error.message || 'تعذر رفع غلاف الكتاب', 'error'); }
+      finally { button.disabled = false; button.textContent = original; event.target.value = ''; }
+    });
+    $('toggleImgbbKey')?.addEventListener('click', () => { const input = $('imgbbApiKey'); const visible = input.type === 'password'; input.type = visible ? 'text' : 'password'; $('toggleImgbbKey').textContent = visible ? 'إخفاء المفتاح' : 'إظهار المفتاح'; });
     $('saveImgbbKey')?.addEventListener('click', async () => { try { await saveImgbbKey(); } catch (error) { toast(error.message || 'تعذر حفظ مفتاح ImgBB', 'error'); } });
     $('uploadMediaBtn')?.addEventListener('click', uploadSelectedMedia);
     $('closeMediaPicker')?.addEventListener('click', () => { $('mediaPickerModal').classList.remove('open'); mediaState.target = null; });
@@ -875,19 +987,19 @@
       }
       tbody.innerHTML = products.map(p => `
         <tr>
-          <td><img class="product-img-thumb" src="${p.img || ''}" onerror="this.style.display='none'"></td>
-          <td>${p.id}</td>
-          <td>${p.title}</td>
-          <td>${formatPrice(p.price)}</td>
-          <td><span class="type-badge ${p.availability_type === 'on_demand' ? 'on-demand' : ''}">${p.availability_type === 'on_demand' ? (() => { const max = Math.min(1, Math.max(0, Number(p.lead_time_max_days ?? p.lead_time_days ?? 0))); return `يمكن اقتناؤه · ${max <= 0 ? 'في اليوم نفسه' : 'خلال يوم واحد'}`; })() : 'متوفر الآن'}</span></td>
-          <td>${p.stock_quantity}</td>
-          <td>${p.giftable !== false ? '🎁' : '—'} / ${p.discoverable !== false ? '🔎' : '—'}</td>
-          <td>${p.featured ? '⭐' : '—'}</td>
-          <td>${p.active ? '✅' : '❌'}</td>
-          <td class="actions">
-            <button class="copy-link" data-id="${p.id}" title="نسخ رابط الكتاب">🔗</button>
-            <button class="edit" data-doc-id="${p.docId || p.id}" data-id="${p.id}">✏️</button>
-            <button class="delete" data-doc-id="${p.docId || p.id}" data-id="${p.id}">🗑️</button>
+          <td data-label="الصورة"><img class="product-img-thumb" src="${p.img || ''}" onerror="this.style.display='none'" alt="غلاف ${p.title || 'الكتاب'}"></td>
+          <td data-label="رمز الكتاب">${p.id}</td>
+          <td data-label="العنوان">${p.title}</td>
+          <td data-label="السعر">${formatPrice(p.price)}</td>
+          <td data-label="طريقة الاقتناء"><span class="type-badge ${p.availability_type === 'on_demand' ? 'on-demand' : ''}">${p.availability_type === 'on_demand' ? (() => { const max = Math.min(1, Math.max(0, Number(p.lead_time_max_days ?? p.lead_time_days ?? 0))); return `يمكن اقتناؤه · ${max <= 0 ? 'في اليوم نفسه' : 'خلال يوم واحد'}`; })() : 'متوفر الآن'}</span></td>
+          <td data-label="الكمية المتاحة">${p.stock_quantity}</td>
+          <td data-label="الإهداء / الاكتشاف">إهداء: ${p.giftable !== false ? 'نعم' : 'لا'}<br>اكتشاف: ${p.discoverable !== false ? 'نعم' : 'لا'}</td>
+          <td data-label="كتاب مميز">${p.featured ? 'نعم' : 'لا'}</td>
+          <td data-label="منشور">${p.active ? 'نعم' : 'لا'}</td>
+          <td class="actions" data-label="إجراءات">
+            <button class="copy-link" data-id="${p.id}" title="نسخ رابط الكتاب">نسخ الرابط</button>
+            <button class="edit" data-doc-id="${p.docId || p.id}" data-id="${p.id}">تعديل</button>
+            <button class="delete" data-doc-id="${p.docId || p.id}" data-id="${p.id}">حذف</button>
           </td>
         </tr>
       `).join('');
@@ -899,7 +1011,7 @@
           const productId = btn.dataset.id;
           const link = `${window.location.origin}/?product=${encodeURIComponent(productId)}`;
           navigator.clipboard.writeText(link).then(() => {
-            toast('✅ تم نسخ الرابط!', 'success');
+            toast('تم نسخ الرابط بنجاح', 'success');
           }).catch(() => {
             prompt('انسخ الرابط:', link);
           });
@@ -922,6 +1034,7 @@
       $('prodCategory').value = 'روايات';
       $('prodDesc').value = '';
       $('prodImg').value = '';
+      if ($('prodImgFile')) $('prodImgFile').value = '';
       updateProductImagePreview();
       $('prodPrice').value = 0;
       $('prodStock').value = 10;
@@ -1054,15 +1167,15 @@
       }
       tbody.innerHTML = orders.map(o => `
         <tr>
-          <td>${o.order_id}</td>
-          <td>${new Date(o.timestamp).toLocaleDateString('ar-DZ')}</td>
-          <td>${o.customer_name}</td>
-          <td dir="ltr" style="text-align:right">${o.phone}</td>
-          <td>${o.wilaya}</td>
-          <td><span class="type-badge ${o.order_type === 'gift' ? 'gift' : o.order_type === 'on_demand' ? 'on-demand' : ''}">${o.order_type === 'gift' ? '🎁 طلب هدية' : o.order_type === 'on_demand' ? '⌛ كتاب يمكن اقتناؤه' : 'طلب اعتيادي'}</span></td>
-          <td>${formatPrice(o.total)}</td>
-          <td><span class="status-badge">${orderStatusLabel(o.status)}</span></td>
-          <td><button class="btn-secondary view-order-btn" data-id="${o.order_id}">👁️ عرض</button></td>
+          <td data-label="رقم الطلب">${o.order_id}</td>
+          <td data-label="التاريخ">${new Date(o.timestamp).toLocaleDateString('ar-DZ')}</td>
+          <td data-label="العميل">${o.customer_name}</td>
+          <td data-label="الهاتف" dir="ltr" style="text-align:right">${o.phone}</td>
+          <td data-label="الولاية">${o.wilaya}</td>
+          <td data-label="نوع الطلب"><span class="type-badge ${o.order_type === 'gift' ? 'gift' : o.order_type === 'on_demand' ? 'on-demand' : ''}">${o.order_type === 'gift' ? 'طلب هدية' : o.order_type === 'on_demand' ? 'كتاب يمكن اقتناؤه' : 'طلب اعتيادي'}</span></td>
+          <td data-label="المجموع">${formatPrice(o.total)}</td>
+          <td data-label="الحالة"><span class="status-badge">${orderStatusLabel(o.status)}</span></td>
+          <td data-label="التفاصيل"><button class="btn-secondary view-order-btn" data-id="${o.order_id}">عرض التفاصيل</button></td>
         </tr>
       `).join('');
 
@@ -1095,7 +1208,7 @@
         <div style="margin-bottom:6px;"><strong>الهاتف:</strong> <span dir="ltr">${order.phone}</span></div>
         <div style="margin-bottom:6px;"><strong>الولاية:</strong> ${order.wilaya}</div>
         <div style="margin-bottom:6px;"><strong>طريقة التوصيل:</strong> ${deliveryLabel(order.delivery_type)}</div>
-        <div style="margin-bottom:6px;"><strong>نوع الطلب:</strong> <span class="type-badge ${order.order_type === 'gift' ? 'gift' : order.order_type === 'on_demand' ? 'on-demand' : ''}">${order.order_type === 'gift' ? '🎁 طلب هدية' : order.order_type === 'on_demand' ? '⌛ كتاب يمكن اقتناؤه' : 'طلب اعتيادي'}</span></div>
+        <div style="margin-bottom:6px;"><strong>نوع الطلب:</strong> <span class="type-badge ${order.order_type === 'gift' ? 'gift' : order.order_type === 'on_demand' ? 'on-demand' : ''}">${order.order_type === 'gift' ? 'طلب هدية' : order.order_type === 'on_demand' ? 'كتاب يمكن اقتناؤه' : 'طلب اعتيادي'}</span></div>
         <div style="margin-bottom:6px;"><strong>العنوان:</strong> ${order.address}</div>
         ${order.fulfillment_note ? `<div class="admin-note"><strong>ملاحظات تجهيز الطلب:</strong> ${order.fulfillment_note}</div>` : ''}
         ${order.gift ? `<div class="admin-note"><strong>تفاصيل الهدية:</strong><br>المستلم: ${order.gift.recipient_name || '—'}<br>المناسبة: ${order.gift.occasion || '—'}<br>الرسالة: ${order.gift.message || '—'}</div>` : ''}
@@ -1160,10 +1273,10 @@
         const tbody = document.querySelector('#categoriesTable tbody');
         tbody.innerHTML = cats.map(c => `
           <tr>
-            <td>${c}</td>
-            <td class="actions">
-              <button class="edit" data-name="${c}">✏️</button>
-              <button class="delete" data-name="${c}">🗑️</button>
+            <td data-label="اسم التصنيف">${c}</td>
+            <td class="actions" data-label="إجراءات">
+              <button class="edit" data-name="${c}">تعديل</button>
+              <button class="delete" data-name="${c}">حذف</button>
             </td>
           </tr>`).join('');
         document.querySelectorAll('#categoriesTable .edit').forEach(btn => {
@@ -1301,7 +1414,7 @@
     }
     function heroSlideRow(slide, index, total) {
       return `<div class="hero-slide-card" data-hero-id="${adminEsc(slide.id)}">
-        <div class="hero-slide-head"><h3>الشريحة ${index + 1}</h3><div class="hero-slide-order"><button type="button" class="hero-up" ${index === 0 ? 'disabled' : ''}>↑ أعلى</button><button type="button" class="hero-down" ${index === total - 1 ? 'disabled' : ''}>↓ أسفل</button></div></div>
+        <div class="hero-slide-head"><h3>الشريحة ${index + 1}</h3><div class="hero-slide-order"><button type="button" class="hero-up" ${index === 0 ? 'disabled' : ''}>نقل إلى الأعلى</button><button type="button" class="hero-down" ${index === total - 1 ? 'disabled' : ''}>نقل إلى الأسفل</button></div></div>
         <div class="hero-slide-form">
           <label class="hero-check"><input type="checkbox" class="s-active" ${slide.active !== false ? 'checked' : ''}> الشريحة مفعّلة</label>
           <div class="form-group"><label>الشارة الصغيرة فوق العنوان</label><input class="s-eyebrow" maxlength="80" value="${adminEsc(slide.eyebrow)}"></div>
@@ -1310,7 +1423,7 @@
           <div class="form-group"><label>Title (EN — اختياري)</label><input class="s-title-en" maxlength="140" value="${adminEsc(slide.title_en)}"></div>
           <div class="form-group wide"><label>الوصف</label><textarea class="s-text" maxlength="360">${adminEsc(slide.text)}</textarea></div>
           <div class="form-group"><label>Description (EN — اختياري)</label><textarea class="s-text-en" maxlength="360">${adminEsc(slide.text_en)}</textarea></div>
-          <div class="form-group wide"><label>صورة الخلفية</label><div class="image-input-row"><input class="s-image" type="url" maxlength="700" value="${adminEsc(slide.image)}" placeholder="https://..."><button type="button" class="btn-secondary pick-hero-image">اختيار من المكتبة</button></div><img class="hero-slide-preview" src="${adminEsc(slide.image)}" alt="معاينة الصورة" onerror="this.style.display='none'" onload="this.style.display='block'"></div>
+          <div class="form-group wide"><label>صورة الخلفية</label><div class="image-input-row"><input class="s-image" type="url" dir="ltr" maxlength="700" value="${adminEsc(slide.image)}" placeholder="https://..."><button type="button" class="btn-secondary pick-hero-image">اختيار من المكتبة</button><button type="button" class="btn-secondary upload-hero-image">رفع صورة من الجهاز</button><input class="s-image-file" type="file" accept="image/*,.svg" hidden></div><img class="hero-slide-preview" src="${adminEsc(slide.image)}" alt="معاينة الصورة" onerror="this.style.display='none'" onload="this.style.display='block'"></div>
           <div class="form-group wide"><label>النص البديل للصورة</label><input class="s-alt" maxlength="180" value="${adminEsc(slide.image_alt)}"></div>
           <label class="hero-check"><input type="checkbox" class="s-primary-visible" ${slide.primary_visible !== false ? 'checked' : ''}> إظهار الزر الأساسي</label>
           <div class="form-group"><label>نص الزر الأساسي</label><input class="s-primary-label" maxlength="70" value="${adminEsc(slide.primary_label)}"></div>
@@ -1328,6 +1441,27 @@
         <button type="button" class="btn-secondary danger-outline hero-remove">حذف الشريحة</button>
       </div>`;
     }
+    function bindHeroImageUpload(card) {
+      const button = card.querySelector('.upload-hero-image');
+      const fileInput = card.querySelector('.s-image-file');
+      const urlInput = card.querySelector('.s-image');
+      if (!button || !fileInput || !urlInput) return;
+      button.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', async event => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        const original = button.textContent;
+        button.disabled = true;
+        button.textContent = 'جارٍ رفع الصورة…';
+        try {
+          const result = await uploadImageToField(file, urlInput, 'صورة الـHero');
+          const preview = card.querySelector('.hero-slide-preview');
+          if (preview) { preview.src = result.url; preview.style.display = 'block'; }
+        } catch (error) { toast(error.message || 'تعذر رفع صورة الـHero', 'error'); }
+        finally { button.disabled = false; button.textContent = original; event.target.value = ''; }
+      });
+    }
+
     function renderHeroEditor() {
       if (!heroAdminConfig) heroAdminConfig = normalizeHeroAdmin();
       $('heroAdminVisible').checked = heroAdminConfig.visible !== false; $('heroAdminAutoplay').checked = heroAdminConfig.autoplay !== false; $('heroAdminDots').checked = heroAdminConfig.dots !== false; $('heroAdminArrows').checked = heroAdminConfig.arrows !== false; $('heroAdminScrollHint').checked = heroAdminConfig.scroll_hint !== false; $('heroAdminPause').checked = heroAdminConfig.pause_on_interaction !== false; $('heroAdminInterval').value = heroAdminConfig.interval || 6; $('heroAdminHeight').value = heroAdminConfig.height || 540; $('heroAdminScrollLabel').value = heroAdminConfig.scroll_hint_label || 'مرّر لاكتشاف الكتب';
@@ -1339,6 +1473,7 @@
         card.querySelector('.hero-remove')?.addEventListener('click', () => { heroAdminConfig.slides = heroAdminConfig.slides.filter(slide => slide.id !== id); renderHeroEditor(); });
         card.querySelector('.s-image')?.addEventListener('input', event => { const preview = card.querySelector('.hero-slide-preview'); preview.src = event.target.value.trim(); preview.style.display = event.target.value.trim() ? 'block' : 'none'; });
         card.querySelector('.pick-hero-image')?.addEventListener('click', async () => { if (!mediaState.items.length) await loadMediaLibrary(); openMediaPicker({ type: 'hero', input: card.querySelector('.s-image') }); });
+        bindHeroImageUpload(card);
       });
     }
     function loadHeroEditor() { if (!heroAdminConfig) heroAdminConfig = normalizeHeroAdmin(); renderHeroEditor(); }
@@ -1361,11 +1496,11 @@
         const tbody = document.querySelector('#deliveryTable tbody');
         tbody.innerHTML = fees.map(w => `
           <tr>
-            <td>${w.num}</td>
-            <td>${w.name}</td>
-            <td><input type="number" value="${w.stop_desk}" data-wilaya="${w.num}" data-type="stop_desk" ${w.stop_desk === -1 ? 'disabled' : ''} style="width:100px"></td>
-            <td><input type="number" value="${w.domicile}" data-wilaya="${w.num}" data-type="domicile" ${w.domicile === -1 ? 'disabled' : ''} style="width:100px"></td>
-            <td><button class="btn-primary save-fee" data-wilaya="${w.num}" ${w.stop_desk === -1 ? 'disabled' : ''}>حفظ</button></td>
+            <td data-label="الرقم">${w.num}</td>
+            <td data-label="الولاية">${w.name}</td>
+            <td data-label="مكتب الاستلام"><input type="number" value="${w.stop_desk}" data-wilaya="${w.num}" data-type="stop_desk" ${w.stop_desk === -1 ? 'disabled' : ''} style="width:100px;max-width:100%"></td>
+            <td data-label="التوصيل إلى المنزل"><input type="number" value="${w.domicile}" data-wilaya="${w.num}" data-type="domicile" ${w.domicile === -1 ? 'disabled' : ''} style="width:100px;max-width:100%"></td>
+            <td data-label="إجراء"><button class="btn-primary save-fee" data-wilaya="${w.num}" ${w.stop_desk === -1 ? 'disabled' : ''}>حفظ الرسوم</button></td>
           </tr>`).join('');
         document.querySelectorAll('.save-fee').forEach(btn => {
           btn.onclick = async () => {
