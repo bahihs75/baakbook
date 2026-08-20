@@ -41,26 +41,39 @@ input,select,textarea{font-family:var(--font);outline:none}
 .cart-badge{position:absolute;top:-2px;right:-2px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;display:none}
 .cart-badge.show{display:flex}
 
-/* HERO */
-.hero{margin-top:var(--nav-height);padding:76px 24px 34px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-60%;left:12%;width:76%;height:120%;background:radial-gradient(ellipse at center,rgba(196,151,90,0.14) 0%,transparent 68%);pointer-events:none}
-.hero-orbit{position:absolute;border:1px solid rgba(196,151,90,.16);border-radius:50%;pointer-events:none}
-.hero-orbit-one{width:420px;height:220px;top:58px;left:50%;transform:translateX(-50%) rotate(-8deg)}
-.hero-orbit-two{width:620px;height:310px;top:24px;left:50%;transform:translateX(-50%) rotate(10deg);border-color:rgba(196,151,90,.08)}
-.hero-content{position:relative;z-index:1;max-width:760px;margin:0 auto}
-.hero-kicker{display:inline-block;padding:5px 13px;border-radius:999px;background:rgba(196,151,90,.12);color:var(--accent-dark);font-size:11px;font-weight:800;margin-bottom:14px}
-.hero h1{font-size:46px;font-weight:800;letter-spacing:-.7px;margin-bottom:12px;position:relative}
-.hero h1 span{color:var(--accent)}
-.hero p{font-size:17px;color:var(--text-secondary);max-width:560px;margin:0 auto 28px;position:relative}
-.hero-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;position:relative}
-.hero-secondary-cta{background:var(--accent)!important}
-.hero-feature-rail{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:960px;margin:38px auto 0;padding:10px;border:1px solid rgba(196,151,90,.18);border-radius:22px;background:rgba(255,255,255,.52);box-shadow:0 12px 34px rgba(0,0,0,.05);backdrop-filter:blur(14px)}
-.hero-feature-card{display:flex;align-items:center;gap:10px;text-align:right;padding:13px;border:1px solid transparent;border-radius:15px;background:rgba(255,255,255,.58);transition:transform .2s,border-color .2s,background .2s}
-.hero-feature-card:hover{transform:translateY(-2px);border-color:rgba(196,151,90,.45);background:rgba(255,255,255,.85)}
-.hero-feature-icon{width:32px;height:32px;flex:0 0 32px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--accent-light);color:var(--accent-dark);font-size:16px}
-.hero-feature-card strong,.hero-feature-card small{display:block}.hero-feature-card strong{font-size:12px}.hero-feature-card small{font-size:10px;color:var(--text-secondary);margin-top:2px}
-.hero[hidden],.feature-hub[hidden],.hero-feature-rail[hidden],[data-feature][hidden]{display:none!important}
-.feature-visibility-pending [data-feature],.feature-visibility-pending [data-feature-group]{display:none!important}
+/* HERO SLIDER — Baak Books adaptation of the Afak Carpet interaction model */
+.hero{margin-top:var(--nav-height);padding:18px 24px 34px;position:relative;overflow:hidden}
+.hero-slider{position:relative;max-width:var(--max-width);min-height:540px;margin:0 auto;border-radius:30px;overflow:hidden;background:#26221e;box-shadow:0 24px 70px rgba(29,29,31,.14);touch-action:pan-y;user-select:none}
+.hero-slide{position:absolute;inset:0;display:grid;align-items:center;opacity:0;visibility:hidden;transform:scale(1.018);transition:opacity .55s ease,transform .8s ease,visibility .55s;isolation:isolate}
+.hero-slide.active{opacity:1;visibility:visible;transform:scale(1)}
+.hero-slide-media,.hero-slide-shade,.hero-slide-reflection{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.hero-slide-media{z-index:-3}
+.hero-slide-shade{z-index:-2;background:linear-gradient(90deg,rgba(20,17,14,.78) 0%,rgba(20,17,14,.48) 42%,rgba(20,17,14,.16) 100%)}
+.hero-slide-reflection{z-index:-1;background:linear-gradient(180deg,rgba(255,255,255,.18),transparent 32%);opacity:0}
+.hero-slide.has-reflection .hero-slide-reflection{opacity:1}
+.hero-slide-copy{width:min(650px,72%);padding:70px 76px;color:var(--hero-text,#fff);text-align:right;text-shadow:var(--hero-text-shadow,none)}
+.hero-slide-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;color:inherit;opacity:.9}
+.hero-slide-eyebrow::before{content:'';width:28px;height:2px;background:var(--accent);border-radius:9px}
+.hero-slide h1{font-size:clamp(32px,5vw,64px);font-weight:800;line-height:1.2;letter-spacing:-1.1px;margin-bottom:14px;color:inherit}
+.hero-slide p{max-width:570px;font-size:clamp(14px,1.7vw,18px);line-height:1.9;margin-bottom:28px;color:inherit;opacity:.9}
+.hero-actions{display:flex;justify-content:flex-start;gap:10px;flex-wrap:wrap;position:relative}
+.hero-slide-cta{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 20px;border-radius:14px;font-size:13px;font-weight:800;text-decoration:none;transition:transform .2s,background .2s,box-shadow .2s;border:1px solid transparent}
+.hero-slide-cta:hover{transform:translateY(-2px)}
+.hero-slide-cta.primary{background:var(--accent);color:#fff;box-shadow:0 12px 26px rgba(0,0,0,.18)}
+.hero-slide-cta.primary:hover{background:var(--accent-dark)}
+.hero-slide-cta.secondary{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.5);color:inherit;backdrop-filter:blur(10px)}
+.hero-slide-cta.secondary:hover{background:rgba(255,255,255,.26)}
+.hero-slider-control{position:absolute;z-index:3;top:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:#fff;font-size:22px;transform:translateY(-50%);backdrop-filter:blur(10px);transition:background .2s,transform .2s}
+.hero-slider-control:hover{background:rgba(255,255,255,.28);transform:translateY(-50%) scale(1.05)}
+.hero-slider-control.prev{right:22px}.hero-slider-control.next{left:22px}
+.hero-dots{position:absolute;z-index:3;bottom:22px;left:50%;display:flex;gap:7px;transform:translateX(-50%)}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.46);transition:width .25s,background .25s}.hero-dot.active{width:25px;border-radius:8px;background:var(--accent)}
+.hero-scroll-hint{position:absolute;z-index:3;bottom:18px;right:28px;color:rgba(255,255,255,.78);font-size:10px;display:flex;align-items:center;gap:8px}.hero-scroll-hint::after{content:'↓';font-size:16px;color:var(--accent)}
+.hero-feature-rail{position:relative;z-index:4;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:960px;margin:18px auto 0;padding:10px;border:1px solid rgba(196,151,90,.18);border-radius:22px;background:rgba(255,255,255,.52);box-shadow:0 12px 34px rgba(0,0,0,.05);backdrop-filter:blur(14px)}
+.hero-feature-card{display:flex;align-items:center;gap:10px;text-align:right;padding:13px;border:1px solid transparent;border-radius:15px;background:rgba(255,255,255,.58);transition:transform .2s,border-color .2s,background .2s}.hero-feature-card:hover{transform:translateY(-2px);border-color:rgba(196,151,90,.45);background:rgba(255,255,255,.85)}
+.hero-feature-icon{width:32px;height:32px;flex:0 0 32px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--accent-light);color:var(--accent-dark);font-size:16px}.hero-feature-card strong,.hero-feature-card small{display:block}.hero-feature-card strong{font-size:12px}.hero-feature-card small{font-size:10px;color:var(--text-secondary);margin-top:2px}
+.hero[hidden],.feature-hub[hidden],.hero-feature-rail[hidden],[data-feature][hidden]{display:none!important}.feature-visibility-pending [data-feature],.feature-visibility-pending [data-feature-group]{display:none!important}
+@media(max-width:760px){.hero{padding:10px 12px 24px}.hero-slider{min-height:570px;border-radius:24px}.hero-slide-copy{width:100%;padding:42px 28px 70px;text-align:center}.hero-slide-eyebrow{justify-content:center}.hero-slide h1{font-size:36px}.hero-slide p{font-size:14px;margin-left:auto;margin-right:auto}.hero-actions{justify-content:center}.hero-slider-control{width:36px;height:36px}.hero-slider-control.prev{right:12px}.hero-slider-control.next{left:12px}.hero-scroll-hint{right:50%;transform:translateX(50%);bottom:48px}.hero-feature-rail{grid-template-columns:repeat(2,1fr);margin-top:12px}.hero-feature-card{padding:10px}.hero-feature-card strong{font-size:11px}.hero-feature-card small{font-size:9px}}
 .preview-panel{position:fixed;top:76px;right:16px;z-index:2600;width:min(360px,calc(100vw - 32px));padding:14px 16px;border:1px solid rgba(196,151,90,.34);border-radius:18px;background:rgba(255,255,255,.94);box-shadow:0 18px 50px rgba(0,0,0,.16);backdrop-filter:blur(18px);text-align:right}
 .preview-panel[hidden]{display:none!important}.preview-panel strong{display:block;font-size:13px;color:var(--accent-dark);margin-bottom:3px}.preview-panel p{font-size:11px;color:var(--text-secondary);line-height:1.55;margin-bottom:10px}.preview-panel small{display:block;color:var(--text-tertiary);font-size:10px;margin-top:10px}.preview-controls{display:flex;gap:6px;flex-wrap:wrap}.preview-controls a{display:inline-flex;align-items:center;justify-content:center;padding:7px 9px;border-radius:10px;background:rgba(0,0,0,.05);color:var(--text-primary);font-size:11px;font-weight:700;text-decoration:none}.preview-controls a.active{background:var(--text-primary);color:#fff}.preview-controls a.preview-all{background:var(--accent);color:#fff}.preview-flag{display:inline-block;margin-right:4px;padding:2px 6px;border-radius:999px;background:var(--accent-light);color:var(--accent-dark);font-size:10px;font-weight:800}
 @media(max-width:600px){.preview-panel{top:70px;right:10px;width:calc(100vw - 20px)}}
@@ -338,17 +351,13 @@ body.lab-dark .discover-choice small,body.lab-dark .discover-intro,body.lab-dark
   </div>
 </header>
 
-<section class="hero" id="storefrontHero" aria-labelledby="heroTitle">
-  <div class="hero-orbit hero-orbit-one" aria-hidden="true"></div>
-  <div class="hero-orbit hero-orbit-two" aria-hidden="true"></div>
-  <div class="hero-content">
-    <span class="hero-kicker">مكتبة Baak Books</span>
-    <h1 id="heroTitle">كتابك <span>القادم</span> يبدأ من هنا</h1>
-    <p id="heroSubtitle">كتب وروايات اخترناها بعناية؛ لأن الكتاب المناسب لا يملأ وقتك فقط، بل يترك فيك أثرًا.</p>
-    <div class="hero-actions" id="heroActions">
-      <button class="discover-cta" id="heroDiscoverOpen" data-feature="discovery"><span class="spark">✦</span><span id="heroPrimaryLabel">اكتشف كتابك القادم</span></button>
-      <button class="discover-cta hero-secondary-cta" id="heroGiftOpen" data-feature="gifts" data-feature-requires="gift_finder"><span class="spark">◈</span><span id="heroSecondaryLabel">اختر هدية تحمل معنى</span></button>
-    </div>
+<section class="hero" id="storefrontHero" aria-label="الواجهة الرئيسية">
+  <div class="hero-slider" id="heroSlider" aria-live="polite">
+    <div id="heroSlides" class="hero-slides"></div>
+    <button class="hero-slider-control prev" id="heroPrev" type="button" aria-label="الشريحة السابقة">‹</button>
+    <button class="hero-slider-control next" id="heroNext" type="button" aria-label="الشريحة التالية">›</button>
+    <div class="hero-dots" id="heroDots" role="tablist" aria-label="مؤشرات الشرائح"></div>
+    <div class="hero-scroll-hint" id="heroScrollHint">مرّر لاكتشاف الكتب</div>
   </div>
   <div class="hero-feature-rail" id="heroFeatureRail" data-feature-group aria-label="مسارات القراءة">
     <button class="hero-feature-card" id="heroRailDiscover" data-feature="discovery" type="button"><span class="hero-feature-icon">✦</span><span><strong>اكتشف كتابك</strong><small>اختيارات تناسب ذوقك الآن</small></span></button>
@@ -622,7 +631,20 @@ let discoveryStep = 1;
 let discoveryAnswers = { goal: null, pace: null, mood: null };
 const DEFAULT_FEATURE_SETTINGS = { discovery: false, gifts: false, gift_from_product: false, gift_from_cart: false, gift_finder: false, on_demand: false, dark_mode: false, community: false, smart_search: false, ideas_lab: false };
 let featureSettings = { ...DEFAULT_FEATURE_SETTINGS };
-let storefrontSettings = { hero: { visible: true, title: 'كتابك القادم يبدأ من هنا', subtitle: 'كتب وروايات اخترناها بعناية؛ لأن الكتاب المناسب لا يملأ وقتك فقط، بل يترك فيك أثرًا.', primary_cta_visible: true, primary_cta_label: 'اكتشف كتابك القادم', secondary_cta_visible: true, secondary_cta_label: 'اختر هدية تحمل معنى', feature_rail_visible: true } };
+const DEFAULT_HERO_SLIDES = [{
+  id: 'default-baak-hero', active: true, image: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1800&q=85',
+  image_alt: 'كتب مفتوحة على طاولة', eyebrow: 'Baak Books', eyebrow_en: '', title: 'كتابك القادم يبدأ من هنا', title_en: '',
+  text: 'كتب وروايات اخترناها بعناية؛ لأن الكتاب المناسب لا يملأ وقتك فقط، بل يترك فيك أثرًا.', text_en: '',
+  primary_visible: true, primary_label: 'اكتشف كتابك القادم', primary_label_en: '', primary_action: 'discovery', primary_link: '',
+  secondary_visible: true, secondary_label: 'اختر هدية تحمل معنى', secondary_label_en: '', secondary_action: 'gift', secondary_link: '',
+  reflection: true, text_backdrop: true, text_color_mode: 'manual', text_color: '#ffffff', auto_text_color: '#ffffff'
+}];
+let heroTimer = null;
+let heroIndex = 0;
+let heroSlides = [...DEFAULT_HERO_SLIDES];
+let heroPointerStartX = null;
+let heroSwipeMoved = false;
+let storefrontSettings = { hero: { visible: true, autoplay: true, interval: 6, dots: true, arrows: true, scroll_hint: true, scroll_hint_label: 'مرّر لاكتشاف الكتب', height: 540, pause_on_interaction: true, feature_rail_visible: true, slides: [...DEFAULT_HERO_SLIDES] } };
 
 const previewParam = new URLSearchParams(window.location.search).get('preview');
 const previewMode = previewParam !== null;
@@ -735,28 +757,56 @@ function applyFeatureVisibility() {
   document.body.classList.remove('feature-visibility-pending');
 }
 
+function normalizeHeroConfig(raw = {}) {
+  const slides = Array.isArray(raw.slides) && raw.slides.length ? raw.slides : DEFAULT_HERO_SLIDES;
+  return { visible: true, autoplay: true, interval: 6, dots: true, arrows: true, scroll_hint: true, scroll_hint_label: 'مرّر لاكتشاف الكتب', height: 540, pause_on_interaction: true, feature_rail_visible: true, ...raw, slides };
+}
+function heroActionLink(action, link) {
+  if (action === 'discovery' || action === 'gift' || action === 'on_demand' || action === 'ideas_lab') return '#';
+  const value = String(link || '#books').trim();
+  return /^(https?:|mailto:|tel:|#|\/)/i.test(value) ? value : '#books';
+}
+function renderHeroSlides(config) {
+  const slider = $('heroSlider'); const list = $('heroSlides'); const dots = $('heroDots');
+  if (!slider || !list || !dots) return;
+  heroSlides = (Array.isArray(config.slides) ? config.slides : []).filter(slide => slide && slide.active !== false);
+  if (!heroSlides.length) heroSlides = [...DEFAULT_HERO_SLIDES];
+  heroIndex = Math.min(heroIndex, heroSlides.length - 1);
+  slider.style.minHeight = `${Math.max(420, Math.min(760, Number(config.height) || 540))}px`;
+  list.innerHTML = heroSlides.map((slide, index) => {
+    const color = /^#[0-9a-f]{6}$/i.test(String(slide.text_color || '')) ? slide.text_color : '#ffffff';
+    const primaryAction = slide.primary_action || (slide.primary_link ? 'link' : 'discovery');
+    const secondaryAction = slide.secondary_action || (slide.secondary_link ? 'link' : 'gift');
+    const primaryFeature = primaryAction === 'discovery' ? ' data-feature="discovery"' : '';
+    const secondaryFeature = secondaryAction === 'gift' ? ' data-feature="gifts" data-feature-requires="gift_finder"' : '';
+    const primary = slide.primary_visible !== false && slide.primary_label ? `<a class="hero-slide-cta primary hero-action" data-hero-action="${esc(primaryAction)}" href="${esc(heroActionLink(primaryAction, slide.primary_link))}"${primaryFeature}>${esc(slide.primary_label)}</a>` : '';
+    const secondary = slide.secondary_visible !== false && slide.secondary_label ? `<a class="hero-slide-cta secondary hero-action" data-hero-action="${esc(secondaryAction)}" href="${esc(heroActionLink(secondaryAction, slide.secondary_link))}"${secondaryFeature}>${esc(slide.secondary_label)}</a>` : '';
+    return `<article class="hero-slide ${index === heroIndex ? 'active' : ''} ${slide.reflection ? 'has-reflection' : ''}" data-slide-index="${index}" aria-hidden="${index === heroIndex ? 'false' : 'true'}" style="--hero-text:${color};--hero-text-shadow:${slide.text_backdrop ? '0 2px 18px rgba(0,0,0,.34)' : 'none'}"><img class="hero-slide-media" src="${esc(slide.image || '')}" alt="${esc(slide.image_alt || slide.title || 'صورة Hero')}" loading="${index === 0 ? 'eager' : 'lazy'}"><div class="hero-slide-shade"></div><div class="hero-slide-reflection" aria-hidden="true"></div><div class="hero-slide-copy"><div class="hero-slide-eyebrow">${esc(slide.eyebrow || '')}</div><h1>${esc(slide.title || '')}</h1><p>${esc(slide.text || '')}</p><div class="hero-actions">${primary}${secondary}</div></div></article>`;
+  }).join('');
+  dots.innerHTML = heroSlides.length > 1 && config.dots !== false ? heroSlides.map((slide, index) => `<button class="hero-dot ${index === heroIndex ? 'active' : ''}" type="button" data-hero-dot="${index}" role="tab" aria-label="الشريحة ${index + 1}" aria-selected="${index === heroIndex}"></button>`).join('') : '';
+  $('heroPrev').hidden = config.arrows === false || heroSlides.length < 2;
+  $('heroNext').hidden = config.arrows === false || heroSlides.length < 2;
+  $('heroScrollHint').hidden = config.scroll_hint === false;
+  $('heroScrollHint').textContent = config.scroll_hint_label || 'مرّر لاكتشاف الكتب';
+  updateHeroSlideState();
+  startHeroAutoplay(config);
+}
+function updateHeroSlideState() {
+  qsa('.hero-slide', $('heroSlider')).forEach((slide, index) => { const active = index === heroIndex; slide.classList.toggle('active', active); slide.setAttribute('aria-hidden', String(!active)); });
+  qsa('.hero-dot', $('heroDots')).forEach((dot, index) => { const active = index === heroIndex; dot.classList.toggle('active', active); dot.setAttribute('aria-selected', String(active)); });
+}
+function setHeroSlide(next, restart = true) { if (!heroSlides.length) return; heroIndex = (next + heroSlides.length) % heroSlides.length; updateHeroSlideState(); if (restart) startHeroAutoplay(storefrontSettings.hero); }
+function stopHeroAutoplay() { if (heroTimer) { clearInterval(heroTimer); heroTimer = null; } }
+function startHeroAutoplay(config = storefrontSettings.hero) { stopHeroAutoplay(); if (config.autoplay === false || heroSlides.length < 2) return; const seconds = Math.max(2, Math.min(60, Number(config.interval) || 6)); heroTimer = setInterval(() => setHeroSlide(heroIndex + 1, false), seconds * 1000); }
 function applyHeroSettings() {
   const hero = $('storefrontHero');
-  const config = { ...storefrontSettings.hero };
+  const config = normalizeHeroConfig(storefrontSettings.hero || {});
+  storefrontSettings.hero = config;
   if (!hero) return;
   hero.hidden = config.visible === false;
-  if ($('heroTitle') && config.title) {
-    const parts = String(config.title).split(' ');
-    const accentIndex = parts.findIndex(part => /القادم|القراءة|كتاب/.test(part));
-    $('heroTitle').textContent = config.title;
-    if (accentIndex >= 0) {
-      const title = String(config.title);
-      const accentWord = parts[accentIndex];
-      const start = title.indexOf(accentWord);
-      if (start >= 0) $('heroTitle').innerHTML = `${esc(title.slice(0, start))}<span>${esc(accentWord)}</span>${esc(title.slice(start + accentWord.length))}`;
-    }
-  }
-  if ($('heroSubtitle') && config.subtitle) $('heroSubtitle').textContent = config.subtitle;
-  const primary = $('heroDiscoverOpen');
-  const secondary = $('heroGiftOpen');
-  if (primary) { primary.hidden = config.primary_cta_visible === false || !isFeatureElementEnabled(primary); if ($('heroPrimaryLabel') && config.primary_cta_label) $('heroPrimaryLabel').textContent = config.primary_cta_label; }
-  if (secondary) { secondary.hidden = config.secondary_cta_visible === false || !isFeatureElementEnabled(secondary); if ($('heroSecondaryLabel') && config.secondary_cta_label) $('heroSecondaryLabel').textContent = config.secondary_cta_label; }
+  renderHeroSlides(config);
   if ($('heroFeatureRail')) $('heroFeatureRail').hidden = config.feature_rail_visible === false || !$qsaVisible('[data-feature]', $('heroFeatureRail'));
+  applyFeatureVisibility();
 }
 
 function $qsaVisible(selector, parent) {
@@ -1384,11 +1434,42 @@ function labAction(action) {
 $('heroRailLab').onclick = openLab;
 $('labOpenHub').onclick = openLab;
 $('heroRailDiscover').onclick = openDiscovery;
-$('heroDiscoverOpen').onclick = openDiscovery;
 $('discoverOpenHub').onclick = openDiscovery;
 $('heroRailGift').onclick = openGiftBuilder;
-$('heroGiftOpen').onclick = openGiftBuilder;
 $('giftOpen').onclick = openGiftBuilder;
+document.addEventListener('click', event => {
+  if (heroSwipeMoved) { heroSwipeMoved = false; return; }
+  const dot = event.target.closest('[data-hero-dot]');
+  if (dot) { setHeroSlide(Number(dot.dataset.heroDot)); return; }
+  if (event.target.closest('#heroPrev')) { setHeroSlide(heroIndex - 1); return; }
+  if (event.target.closest('#heroNext')) { setHeroSlide(heroIndex + 1); return; }
+  const action = event.target.closest('.hero-action');
+  if (!action) return;
+  const name = action.dataset.heroAction;
+  if (name === 'discovery') { event.preventDefault(); openDiscovery(); }
+  else if (name === 'gift') { event.preventDefault(); openGiftBuilder(); }
+  else if (name === 'on_demand') { event.preventDefault(); $('heroRailOnDemand').click(); }
+  else if (name === 'ideas_lab') { event.preventDefault(); openLab(); }
+});
+$('heroSlider').addEventListener('mouseenter', () => { if (storefrontSettings.hero.pause_on_interaction !== false) stopHeroAutoplay(); });
+$('heroSlider').addEventListener('mouseleave', () => startHeroAutoplay(storefrontSettings.hero));
+$('heroSlider').addEventListener('focusin', () => { if (storefrontSettings.hero.pause_on_interaction !== false) stopHeroAutoplay(); });
+$('heroSlider').addEventListener('focusout', () => startHeroAutoplay(storefrontSettings.hero));
+$('heroSlider').addEventListener('pointerdown', event => {
+  if (heroSlides.length < 2) return;
+  heroPointerStartX = event.clientX;
+  heroSwipeMoved = false;
+  $('heroSlider').setPointerCapture?.(event.pointerId);
+});
+$('heroSlider').addEventListener('pointerup', event => {
+  if (heroPointerStartX === null || heroSlides.length < 2) return;
+  const delta = event.clientX - heroPointerStartX;
+  heroPointerStartX = null;
+  if (Math.abs(delta) < 48) return;
+  heroSwipeMoved = true;
+  setHeroSlide(heroIndex + (delta < 0 ? 1 : -1));
+});
+$('heroSlider').addEventListener('pointercancel', () => { heroPointerStartX = null; });
 $('heroRailOnDemand').onclick = () => {
   if (!guardFeature('on_demand')) return;
   qsa('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.cat === 'on_demand'));
