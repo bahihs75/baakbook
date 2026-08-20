@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            color: #1A1A1A;
+            padding: 80px 60px 10px 60px; /* keep top padding (important) */
+            position: relative;
+        }
+        .header {
+            margin-bottom: 12px; /* reduced to save space */
+        }
+        .page-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+        .divider {
+            width: 80px;
+            height: 2px;
+            background-color: #D4AF37;
+            margin-bottom: 8px; /* reduced */
+        }
+        .intro-text {
+            font-size: 24px;
+            font-weight: 400;
+            color: #4A4A4A;
+            margin-bottom: 12px; /* reduced */
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px; /* reduced horizontal gap */
+            align-items: start;
+        }
+        .step-block {
+            border-top: 2px solid #E5E5E5;
+            padding-top: 8px; /* reduced */
+            margin-bottom: 6px; /* reduced */
+        }
+        .step-block.no-top {
+            border-top: none;
+            padding-top: 4px;
+            margin-top: 4px;
+        }
+        .step-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #D4AF37;
+            margin-bottom: 8px; /* reduced */
+        }
+        .step-text {
+            font-size: 20px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.7;
+            margin-bottom: 6px; /* reduced */
+        }
+        .highlight-box {
+            background-color: #F9F9F9;
+            border-right: 4px solid #1A1A1A;
+            padding: 8px; /* reduced */
+            margin-top: 6px; /* reduced */
+        }
+        .highlight-text {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1A1A1A;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h2 class="page-title">مراجعة الطلب والتوصيل والتأكيد</h2>
+            <div class="divider"></div>
+            <p class="intro-text">تمر عملية الإتمام بمرحلتين واضحتين لضمان دقة المعلومات:</p>
+        </div>
+
+        <div class="grid-container">
+            <div class="column">
+                <div class="step-block">
+                    <h3 class="step-title">أولًا — معلومات التواصل</h3>
+                    <p class="step-text">أدخل الاسم الكامل ورقم هاتفك.</p>
+                    <p class="step-text"><strong>إذا كان الطلب هدية:</strong> أدخل اسم المستلم ورقم هاتفه، ويمكنك إضافة اسم المُهدي والمناسبة ورسالة الهدية.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <p class="highlight-text">طريقة الدفع الحالية هي الدفع عند الاستلام. اضغط «تأكيد الطلب» لإرسال طلبك.</p>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="step-block">
+                    <h3 class="step-title">ثانيًا — طريقة التوصيل</h3>
+                    <p class="step-text">اختر الولاية، ثم اختر <strong>مكتب الاستلام</strong> أو <strong>التوصيل إلى المنزل</strong>.</p>
+                    <p class="step-text">عند اختيار المنزل، اكتب العنوان: الولاية، البلدية، الحي، ورقم المنزل.</p>
+                </div>
+
+                <div class="step-block no-top">
+                    <p class="step-text">تظهر رسالة «تم استلام طلبك»، ثم يتواصل المتجر معك لتأكيد التفاصيل وموعد التوصيل.</p>
+                    <p class="step-text" style="color: #D4AF37; font-weight: 800;">ملاحظة: بالنسبة إلى «كتب يمكن اقتناؤها»، المدة المتوقعة هي في اليوم نفسه أو خلال يوم واحد فقط.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

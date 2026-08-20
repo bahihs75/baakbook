@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            color: #1A1A1A;
+            padding: 80px 100px 10px 100px;
+            position: relative;
+        }
+        .header {
+            margin-bottom: 40px;
+        }
+        .page-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+        .divider {
+            width: 80px;
+            height: 2px;
+            background-color: #D4AF37;
+            margin-bottom: 30px;
+        }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 65% 30%;
+            gap: 5%;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #D4AF37;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #E5E5E5;
+            padding-bottom: 10px;
+        }
+        .intro-text {
+            font-size: 18px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        .fields-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .field-group-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 12px;
+        }
+        .field-list {
+            list-style: none;
+        }
+        .field-list li {
+            position: relative;
+            padding-right: 20px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .field-list li::before {
+            content: "■";
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 10px;
+            color: #D4AF37;
+            line-height: 2.4;
+        }
+        .highlight-box {
+            background-color: #F9F9F9;
+            border-right: 4px solid #1A1A1A;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        .highlight-text {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1A1A1A;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h2 class="page-title">إدارة الكتب والتصنيفات</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="main-grid">
+            <div class="books-column">
+                <h3 class="section-title">إدارة الكتب</h3>
+                <p class="intro-text">اضغط «إضافة كتاب» لإنشاء منتج جديد، أو استخدم زر التعديل في صف الكتاب. املأ الحقول التالية:</p>
+
+                <div class="fields-grid">
+                    <div>
+                        <h4 class="field-group-title">البيانات الأساسية</h4>
+                        <ul class="field-list">
+                            <li>رمز الكتاب، العنوان، التصنيف، الوصف، ورابط صورة الغلاف.</li>
+                            <li>السعر بالدينار الجزائري والكمية المتاحة.</li>
+                            <li>طريقة الاقتناء: «متوفر الآن» أو «يمكن اقتناؤه».</li>
+                            <li>مدة الاقتناء عند الطلب: «في اليوم نفسه» أو «خلال يوم واحد».</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="field-group-title">الخصائص المتقدمة</h4>
+                        <ul class="field-list">
+                            <li>وسوم الاكتشاف ووسوم الهدية، مفصولة بفواصل.</li>
+                            <li>«قابل للإهداء»</li>
+                            <li>«يظهر في اكتشف كتابك»</li>
+                            <li>«إظهار ضمن الكتب المميزة»</li>
+                            <li>«منشور للزوار»</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cats-column">
+                <h3 class="section-title">إدارة التصنيفات</h3>
+                <p class="intro-text">في تبويب «التصنيفات» استخدم «إضافة تصنيف»، أو عدّل/احذف تصنيفًا موجودًا.</p>
+                <p class="intro-text" style="font-weight: 800; color: #1A1A1A;">عند إعادة تسمية تصنيف، تُحدّث الكتب المرتبطة به إلى الاسم الجديد تلقائيًا.</p>
+
+                <div class="highlight-box">
+                    <p class="highlight-text">اضغط «حفظ»، ثم راجع بطاقة الكتاب في المتجر. استخدم «نسخ رابط الكتاب» لمشاركة رابط مباشر مع العملاء.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

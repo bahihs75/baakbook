@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            color: #1A1A1A;
+            padding: 80px 100px 10px 100px;
+            position: relative;
+        }
+        .header {
+            margin-bottom: 40px;
+        }
+        .page-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+        .divider {
+            width: 80px;
+            height: 2px;
+            background-color: #D4AF37;
+            margin-bottom: 30px;
+        }
+        .intro-text {
+            font-size: 24px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.8;
+            margin-bottom: 28px; /* reduced from 50 -> saves vertical space */
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+        .list-block {
+            list-style: none;
+        }
+        .list-item {
+            position: relative;
+            padding-right: 30px;
+            margin-bottom: 12px; /* reduced from 24 -> saves vertical space */
+            font-size: 20px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.6;
+        }
+        .list-item::before {
+            content: "■";
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 14px;
+            color: #D4AF37;
+            line-height: 1.6;
+        }
+        .list-item strong {
+            color: #1A1A1A;
+            font-weight: 800;
+        }
+        .action-block {
+            background-color: #F9F9F9;
+            padding: 20px; /* reduced from 40 -> saves vertical space */
+            border-right: 4px solid #D4AF37;
+        }
+        .action-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 20px;
+        }
+        .action-text {
+            font-size: 20px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        .note-text {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1A1A1A;
+            border-top: 2px solid #E5E5E5;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h2 class="page-title">كيف تنشئ هدية؟</h2>
+            <div class="divider"></div>
+        </div>
+
+        <p class="intro-text">افتح «اصنع هدية» أو «اختر هدية تحمل معنى». املأ البيانات التي تساعد المتجر على بناء اقتراح مناسب:</p>
+
+        <div class="grid-container">
+            <ul class="list-block">
+                <li class="list-item"><strong>صلة المستلم:</strong> صديق، فرد من العائلة، شخص مقرّب، أو طالب/قارئ مبتدئ.</li>
+                <li class="list-item"><strong>المناسبة:</strong> عيد ميلاد، نجاح أو تخرج، شكر وتقدير، أو بداية جديدة.</li>
+                <li class="list-item"><strong>الميزانية:</strong> حتى 1,500 أو 3,000 أو 5,000 دج.</li>
+                <li class="list-item"><strong>بيانات المستلم:</strong> اسم المستلم ورقم هاتفه، مع اختيار أجواء الهدية (دافئة، ملهمة، مشوقة، أو خيالية).</li>
+                <li class="list-item"><strong>رسالة الهدية:</strong> رسالة قصيرة اختيارية ترفق مع الكتب.</li>
+            </ul>
+
+            <div class="action-block">
+                <h3 class="action-title">الخطوات التالية</h3>
+                <p class="action-text">اضغط «شاهد اقتراح الهدية»، راجع الكتب المقترحة، ثم تابع إلى السلة. يمكن تعديل الاختيارات قبل تأكيد الطلب.</p>
+                <p class="note-text">ملاحظة: رقم هاتف المستلم يصبح إلزاميًا عند إتمام طلب الهدية.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

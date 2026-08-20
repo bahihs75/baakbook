@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            color: #1A1A1A;
+            display: grid;
+            grid-template-columns: 60% 40%;
+            overflow: hidden;
+            position: relative;
+        }
+        .content-area {
+            /* keep top padding (important), reduce bottom padding to save height */
+            padding: 80px 100px 10px 100px; /* top right bottom left */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            text-align: right;
+        }
+        .image-area {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .image-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .main-title {
+            font-size: 72px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #1A1A1A;
+            margin-bottom: 40px;
+            letter-spacing: -0.5px;
+        }
+        .divider {
+            width: 120px;
+            height: 2px;
+            background-color: #D4AF37;
+            margin-bottom: 24px; /* reduced from 40px */
+        }
+        .subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.8;
+            max-width: 500px;
+            margin-bottom: 20px; /* replaced auto with fixed smaller gap */
+        }
+        .footer {
+            margin-top: 40px; /* reduced from 80px */
+            font-size: 16px;
+            color: #4A4A4A;
+        }
+        .footer a {
+            color: #D4AF37;
+            text-decoration: none;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="content-area">
+            <h1 class="main-title">Baak Books<br>دليل الاستخدام والإدارة</h1>
+            <div class="divider"></div>
+            <p class="subtitle">عرض عملي من جزأين: كيف يستخدم القارئ المتجر، وكيف يدير المدير الكتب والطلبات والواجهة.</p>
+            <div class="footer">
+                <a href="https://baakbook.pages.dev/">baakbook.pages.dev</a>
+                <span>النسخة الحالية — أغسطس 2026</span>
+            </div>
+        </div>
+        <div class="image-area">
+            <img src="/home/ubuntu/upload/search_images/XJvYY5AHJB9G.jpeg" alt="مكتبة هادئة">
+        </div>
+    </div>
+</body>
+</html>

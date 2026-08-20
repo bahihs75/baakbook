@@ -1,0 +1,135 @@
+{
+  "project_info": {
+    "title": "Baak Books — دليل الاستخدام والإدارة",
+    "created": 1787228255.129,
+    "last_updated": 1787228593.315,
+    "total_slides": 12
+  },
+  "slides": [
+    {
+      "id": "cover",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "map_and_rules",
+      "state": "edited",
+      "pageNum": 2
+    },
+    {
+      "id": "user_hero",
+      "state": "edited",
+      "pageNum": 3
+    },
+    {
+      "id": "user_discovery",
+      "state": "edited",
+      "pageNum": 4
+    },
+    {
+      "id": "user_gift_builder",
+      "state": "edited",
+      "pageNum": 5
+    },
+    {
+      "id": "user_cart_and_group",
+      "state": "edited",
+      "pageNum": 6
+    },
+    {
+      "id": "user_checkout",
+      "state": "edited",
+      "pageNum": 7
+    },
+    {
+      "id": "admin_login",
+      "state": "edited",
+      "pageNum": 8
+    },
+    {
+      "id": "admin_books_cats",
+      "state": "edited",
+      "pageNum": 9
+    },
+    {
+      "id": "admin_hero_settings",
+      "state": "edited",
+      "pageNum": 10
+    },
+    {
+      "id": "admin_hero_slides",
+      "state": "edited",
+      "pageNum": 11
+    },
+    {
+      "id": "admin_daily_ops",
+      "state": "edited",
+      "pageNum": 12
+    }
+  ],
+  "outline": [
+    {
+      "id": "cover",
+      "title": "Baak Books — دليل الاستخدام والإدارة",
+      "summary": "شريحة الغلاف مع صورة المكتبة العربية والعنوان الرئيسي.",
+      "image_plan": "/home/ubuntu/upload/search_images/XJvYY5AHJB9G.jpeg - Cozy library corner matching Arabic library aesthetic and cover requirement"
+    },
+    {
+      "id": "map_and_rules",
+      "title": "خريطة العرض وقاعدة التشغيل",
+      "summary": "شرح تقسيم العرض والقواعد الأساسية للمستخدم والمدير."
+    },
+    {
+      "id": "user_hero",
+      "title": "الجزء الأول: ابدأ من Hero والصفحة الرئيسية",
+      "summary": "خطوات تفاعل المستخدم مع Hero وشريط المسارات."
+    },
+    {
+      "id": "user_discovery",
+      "title": "البحث والتصنيفات واكتشاف الكتاب",
+      "summary": "شرح التصفح المباشر وميزة اكتشف كتابك والبحث الذكي."
+    },
+    {
+      "id": "user_gift_builder",
+      "title": "كيف تنشئ هدية؟",
+      "summary": "خطوات بناء الهدية واختيار المناسبة والميزانية."
+    },
+    {
+      "id": "user_cart_and_group",
+      "title": "تفاصيل الكتاب والسلة وإهداء مجموعة",
+      "summary": "خيارات بطاقة الكتاب والسلة وميزة إهداء مجموعة.",
+      "image_plan": "/home/ubuntu/upload/search_images/35yLtHoFNy52.jpg - Books cart and checkout reference illustration"
+    },
+    {
+      "id": "user_checkout",
+      "title": "مراجعة الطلب والتوصيل والتأكيد",
+      "summary": "مراحل مراجعة الطلب، إدخال بيانات التواصل، وطريقة التوصيل."
+    },
+    {
+      "id": "admin_login",
+      "title": "الجزء الثاني: الدخول إلى لوحة الإدارة",
+      "summary": "طريقة الدخول واستعراض التبويبات الإدارية الرئيسية.",
+      "image_plan": "/home/ubuntu/upload/search_images/8jgvtST1yfMt.png - Admin dashboard reference UI for Part 2 start"
+    },
+    {
+      "id": "admin_books_cats",
+      "title": "إدارة الكتب والتصنيفات",
+      "summary": "إضافة وتعديل الكتب والتصنيفات، وخصائص كل كتاب."
+    },
+    {
+      "id": "admin_hero_settings",
+      "title": "إدارة الـHero: الإعدادات العامة",
+      "summary": "التحكم في إعدادات Hero العامة مثل التبديل التلقائي والارتفاع."
+    },
+    {
+      "id": "admin_hero_slides",
+      "title": "إدارة الـHero: إنشاء الشريحة وتنسيقها",
+      "summary": "تفاصيل إنشاء وتنسيق شرائح Hero وإعداد الأزرار."
+    },
+    {
+      "id": "admin_daily_ops",
+      "title": "الطلبات والتوصيل ومفاتيح الميزات",
+      "summary": "قائمة التشغيل اليومية لمتابعة الطلبات وتحديث الميزات."
+    }
+  ]
+}

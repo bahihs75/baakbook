@@ -307,3 +307,5 @@ export const createOrder = onCall(
     }
   },
 );
+
+export { adminTrusted } from "./admin";

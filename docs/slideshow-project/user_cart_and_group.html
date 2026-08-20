@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            color: #1A1A1A;
+            display: grid;
+            grid-template-columns: 60% 40%;
+            position: relative;
+            align-items: start; /* prevent children stretching to 720px */
+        }
+        .content-area {
+            padding: 80px 60px 8px 100px; /* keep top padding */
+            display: flex;
+            flex-direction: column;
+        }
+        .image-area {
+            width: 100%;
+            background-color: #F9F9F9;
+            align-self: start; /* don't stretch */
+        }
+        .image-area img {
+            width: 100%;
+            height: auto; /* allow natural scaling */
+            display: block;
+            object-fit: cover;
+        }
+        .page-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 18px;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+        .divider {
+            width: 80px;
+            height: 2px;
+            background-color: #D4AF37;
+            margin-bottom: 8px;
+        }
+        .intro-text {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 6px;
+        }
+        .options-list {
+            list-style: none;
+            margin-bottom: 6px;
+            padding-right: 0;
+        }
+        .option-item {
+            font-size: 18px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.4;
+            margin-bottom: 6px;
+            padding-right: 20px;
+            position: relative;
+        }
+        .option-item::before {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 10px;
+            width: 8px;
+            height: 8px;
+            background-color: #D4AF37;
+        }
+        .cart-text {
+            font-size: 18px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .rule-block {
+            border-top: 2px solid #E5E5E5;
+            padding-top: 8px;
+            margin-top: 10px;
+        }
+        .rule-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #D4AF37;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .rule-text {
+            font-size: 16px;
+            font-weight: 400;
+            color: #1A1A1A;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="content-area">
+            <h2 class="page-title">تفاصيل الكتاب والسلة<br>وإهداء مجموعة</h2>
+            <div class="divider"></div>
+
+            <p class="intro-text">من بطاقة الكتاب اختر أحد المسارات:</p>
+
+            <ul class="options-list">
+                <li class="option-item"><strong>أضف إلى السلة:</strong> احتفظ به مع كتب أخرى.</li>
+                <li class="option-item"><strong>اقتنه الآن:</strong> اذهب إلى مراجعة الطلب.</li>
+                <li class="option-item"><strong>أهدِ هذا الكتاب:</strong> يظهر للكتب القابلة للإهداء.</li>
+            </ul>
+
+            <p class="cart-text">راجع الكميات والمجموع، ثم اختر «مراجعة الطلب». إذا كانت ميزة الإهداء مفعّلة يظهر زر خاص لاختيار كتب الهدية.</p>
+
+            <div class="rule-block">
+                <h3 class="rule-title">قاعدة الإصدار الحالي</h3>
+                <p class="rule-text">لكل طلب مجموعة هدية واحدة ومستلم واحد. الكتب غير المحددة تبقى مشتريات شخصية.</p>
+            </div>
+        </div>
+
+        <div class="image-area">
+            <img src="/home/ubuntu/upload/search_images/35yLtHoFNy52.jpg" alt="سلة الكتب">
+        </div>
+    </div>
+</body>
+</html>

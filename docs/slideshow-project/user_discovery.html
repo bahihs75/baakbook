@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            color: #1A1A1A;
+            padding: 80px 100px 10px 100px;
+            position: relative;
+        }
+        .header {
+            margin-bottom: 50px;
+        }
+        .page-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+        .divider {
+            width: 80px;
+            height: 2px;
+            background-color: #D4AF37;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 60% 35%;
+            gap: 5%;
+        }
+        .feature-block {
+            border-top: 2px solid #E5E5E5;
+            padding-top: 24px;
+            margin-bottom: 40px;
+        }
+        .feature-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #D4AF37;
+            margin-bottom: 16px;
+        }
+        .feature-text {
+            font-size: 18px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .question-list {
+            list-style: none;
+            margin-bottom: 16px;
+        }
+        .question-list li {
+            position: relative;
+            padding-right: 24px;
+            font-size: 18px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        .question-list li::before {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 12px;
+            width: 6px;
+            height: 6px;
+            background-color: #D4AF37;
+        }
+        .highlight {
+            font-weight: 800;
+            color: #1A1A1A;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h2 class="page-title">البحث والتصنيفات واكتشاف الكتاب</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="content-grid">
+            <div class="main-column">
+                <div class="feature-block">
+                    <h3 class="feature-title">اكتشف كتابك القادم</h3>
+                    <p class="feature-text">اضغط المسار أو البطاقة، ثم أجب عن ثلاثة أسئلة قصيرة:</p>
+                    <ul class="question-list">
+                        <li><span class="highlight">ما الذي تريده من القراءة الآن:</span> حكاية، خطوة عملية، معرفة، أو عالم مختلف؟</li>
+                        <li><span class="highlight">ما الإيقاع الذي تفضله:</span> قراءة خفيفة أم قراءة متأنية؟</li>
+                        <li><span class="highlight">أي أجواء تستوقفك:</span> الغموض، الرومانسية، الخيال، أم التغيير؟</li>
+                    </ul>
+                    <p class="feature-text">بعد الإجابة تظهر عناوين مقترحة مع سبب واضح لكل اقتراح. اختر «أضف إلى السلة» أو افتح تفاصيل الكتاب، ويمكنك إعادة الاختبار من زر «ابدأ من جديد».</p>
+                </div>
+            </div>
+
+            <div class="side-column">
+                <div class="feature-block">
+                    <h3 class="feature-title">التصفح المباشر</h3>
+                    <p class="feature-text">مرّر إلى شبكة الكتب، ثم اختر «جميع الكتب» أو تصنيفًا محددًا. افتح بطاقة الكتاب لرؤية الغلاف، العنوان، الوصف، السعر، وحالة التوفر.</p>
+                </div>
+
+                <div class="feature-block">
+                    <h3 class="feature-title">البحث الذكي</h3>
+                    <p class="feature-text">يظهر فقط عندما يفعّله المدير، ويُستخدم للوصول إلى الكتب بالموضوع أو التصنيف أو الكلمات المهمة.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

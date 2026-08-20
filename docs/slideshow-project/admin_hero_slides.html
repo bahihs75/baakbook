@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        .slide-container{
+            width:1280px;
+            min-height:720px; /* keep as required */
+            background:#fff;
+            font-family:'Noto Kufi Arabic',sans-serif;
+            color:#1A1A1A;
+            padding:80px 100px 0 100px; /* keep top padding */
+            position:relative;
+        }
+        .header{margin-bottom:20px}
+        .page-title{font-size:48px;font-weight:800;color:#1A1A1A;margin-bottom:12px;letter-spacing:-0.5px}
+        .divider{width:80px;height:2px;background:#D4AF37;margin-bottom:16px}
+        .intro-text{font-size:24px;font-weight:400;color:#4A4A4A;margin-bottom:16px}
+        .grid-container{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;row-gap:18px}
+        .section-block{border-top:2px solid #E5E5E5;padding-top:12px;margin-bottom:12px}
+        .section-title{font-size:24px;font-weight:800;color:#D4AF37;margin-bottom:12px}
+        .field-list{list-style:none}
+        .field-list li{position:relative;padding-right:20px;font-size:18px;font-weight:400;color:#4A4A4A;line-height:1.4;margin-bottom:8px}
+        .field-list li::before{content:"■";position:absolute;right:0;top:0;font-size:12px;color:#D4AF37;line-height:1.6}
+        .field-list li strong{color:#1A1A1A;font-weight:800}
+        .highlight-box{background:#F9F9F9;border-right:4px solid #1A1A1A;padding:12px;margin-top:12px}
+        .highlight-text{font-size:18px;font-weight:800;color:#1A1A1A;line-height:1.4}
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h2 class="page-title">إدارة الـHero: إنشاء الشريحة وتنسيقها</h2>
+            <div class="divider"></div>
+            <p class="intro-text">في تبويب «إدارة الـHero»، اضغط «إضافة شريحة جديدة» أو عدّل شريحة قائمة.</p>
+        </div>
+        <div class="grid-container">
+            <div class="column">
+                <div class="section-block">
+                    <h3 class="section-title">النصوص والصورة</h3>
+                    <ul class="field-list">
+                        <li><strong>العنوان الرئيسي:</strong> نص بارز في الشريحة.</li>
+                        <li><strong>النصوص الفرعية:</strong> وصف قصير تحت العنوان.</li>
+                        <li><strong>رابط الصورة:</strong> URL لصورة الخلفية.</li>
+                    </ul>
+                </div>
+                <div class="section-block">
+                    <h3 class="section-title">الأزرار (CTA)</h3>
+                    <ul class="field-list">
+                        <li><strong>الزر الأساسي:</strong> نص الزر ورابط توجيه.</li>
+                        <li><strong>الزر الثانوي:</strong> خيار اختياري بنص ورابط.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-block">
+                    <h3 class="section-title">التنسيق البصري</h3>
+                    <ul class="field-list">
+                        <li><strong>لون النص:</strong> اختر فاتح أو داكن حسب الخلفية.</li>
+                        <li><strong>طبقة القراءة:</strong> خلفية شبه شفافة لوضوح النص.</li>
+                        <li><strong>الانعكاس:</strong> قلب الصورة أفقيًا عند الحاجة.</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3 class="section-title" style="color:#1A1A1A;margin-bottom:8px">الحالة والترتيب</h3>
+                    <ul class="field-list">
+                        <li><strong>التفعيل:</strong> إظهار أو إخفاء الشريحة مؤقتًا.</li>
+                        <li><strong>الترتيب:</strong> تحريك الشريحة للأعلى أو الأسفل.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

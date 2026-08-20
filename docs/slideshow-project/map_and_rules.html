@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            color: #1A1A1A;
+            padding: 80px 100px 10px 100px;
+            position: relative;
+        }
+        .header {
+            margin-bottom: 40px;
+        }
+        .page-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+        .divider {
+            width: 80px;
+            height: 2px;
+            background-color: #D4AF37;
+        }
+        .intro-text {
+            font-size: 24px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.8;
+            margin-bottom: 60px;
+            max-width: 900px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        .rule-block {
+            border-top: 2px solid #E5E5E5;
+            padding-top: 30px;
+        }
+        .rule-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #D4AF37;
+            margin-bottom: 20px;
+        }
+        .rule-text {
+            font-size: 20px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h2 class="page-title">خريطة العرض وقاعدة التشغيل</h2>
+            <div class="divider"></div>
+        </div>
+
+        <p class="intro-text">ينقسم العرض إلى جزأين مستقلين. الجزء الأول يشرح رحلة الزائر من اكتشاف الكتاب حتى إرسال الطلب. الجزء الثاني يشرح لوحة الإدارة من تسجيل الدخول إلى متابعة الطلبات وتعديل Hero.</p>
+
+        <div class="grid-container">
+            <div class="rule-block">
+                <h3 class="rule-title">قاعدة مهمة للزائر</h3>
+                <p class="rule-text">لا يحتاج المستخدم إلى إنشاء حساب كي يتصفح أو يطلب. يختار الكتاب، يراجع السلة، يملأ بيانات التواصل والتوصيل، ثم يؤكد الطلب بالدفع عند الاستلام.</p>
+            </div>
+
+            <div class="rule-block">
+                <h3 class="rule-title">قاعدة مهمة للمدير</h3>
+                <p class="rule-text">إعدادات الميزات لا تحذف البيانات عند إيقافها؛ إنها تخفي المداخل الجديدة عن الزوار، بينما تبقى الكتب والطلبات القديمة قابلة للإدارة.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

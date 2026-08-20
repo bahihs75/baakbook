@@ -39,6 +39,7 @@ functions/lib/
 
 # Local migration exports and reports
 migration/reports/
+migration/sources/
 
 # PythonAnywhere account/session configuration
 bashrc.txt

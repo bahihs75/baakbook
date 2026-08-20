@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            color: #1A1A1A;
+            padding: 80px 100px 10px 100px;
+            display: grid;
+            grid-template-columns: 35% 65%;
+            gap: 60px;
+            position: relative;
+        }
+        .sidebar {
+            border-left: 2px solid #E5E5E5;
+            padding-left: 40px;
+        }
+        .page-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+        .divider {
+            width: 80px;
+            height: 2px;
+            background-color: #D4AF37;
+            margin-bottom: 40px;
+        }
+        .note-block {
+            margin-top: 60px;
+            background-color: #F9F9F9;
+            padding: 30px;
+            border-right: 4px solid #1A1A1A;
+        }
+        .note-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 10px;
+        }
+        .note-text {
+            font-size: 16px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.8;
+        }
+        .content-area {
+            padding-top: 10px;
+        }
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        .step-item {
+            position: relative;
+            padding-right: 50px;
+            margin-bottom: 30px;
+            font-size: 20px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.6;
+        }
+        .step-item::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 24px;
+            font-weight: 800;
+            color: #D4AF37;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="sidebar">
+            <h2 class="page-title">الجزء الأول:<br>ابدأ من Hero والصفحة الرئيسية</h2>
+            <div class="divider"></div>
+
+            <div class="note-block">
+                <h3 class="note-title">ماذا يعني اختفاء مسار؟</h3>
+                <p class="note-text">إيقاف ميزة من لوحة الإدارة يخفي زرها وبطاقتها وقسمها المرتبط؛ لا يعني أن الكتب أو الطلبات حُذفت.</p>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <ul class="step-list">
+                <li class="step-item">افتح الرابط <strong>baakbook.pages.dev</strong> للوصول إلى الصفحة الرئيسية.</li>
+                <li class="step-item">استخدم أسهم Hero للانتقال بين الشرائح، أو النقاط لاختيار شريحة مباشرة، أو اسحب على الهاتف للتنقل.</li>
+                <li class="step-item">إذا كان التبديل التلقائي مفعّلًا، ينتقل العرض بين الشرائح تلقائيًا. يمكن أن يتوقف مؤقتًا عند التفاعل إذا فعّل المدير خيار «إيقاف التبديل عند التفاعل».</li>
+                <li class="step-item">استخدم زر Hero الأساسي مثل «اكتشف كتابك القادم»، أو الزر الثانوي مثل «اختر هدية تحمل معنى»، بحسب ما نشره المدير.</li>
+                <li class="step-item">مرّر إلى شريط المسارات لاختيار «اكتشف كتابك»، «اصنع هدية»، «كتب يمكن اقتناؤها»، أو «مختبر الأفكار» عندما تكون هذه الميزات مفعّلة.</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            color: #1A1A1A;
+            padding-top: 80px;
+            padding-right: 100px;
+            padding-left: 100px;
+            position: relative;
+        }
+        .header { margin-top: 0; }
+        .page-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-top: 0;
+            letter-spacing: -0.5px;
+        }
+        .divider { width: 80px; height: 2px; background-color: #D4AF37; margin-top: 18px; }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 60% 35%;
+            gap: 5%;
+            margin-top: 20px; /* reduced to save vertical space */
+        }
+        .intro-text {
+            font-size: 20px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.6;
+            margin-top: 0;
+        }
+        .settings-list {
+            list-style: none;
+            margin-top: 12px; /* reduced */
+        }
+        .settings-list li {
+            position: relative;
+            padding-right: 24px;
+            font-size: 18px;
+            font-weight: 400;
+            color: #4A4A4A;
+            line-height: 1.4; /* tightened to reduce height */
+            margin-top: 8px; /* reduced gaps */
+        }
+        .settings-list li::before {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            background-color: #D4AF37;
+        }
+        .highlight { font-weight: 800; color: #1A1A1A; }
+        .action-block {
+            background-color: #F9F9F9;
+            border-right: 4px solid #1A1A1A;
+            padding-top: 16px; /* slightly reduced */
+            padding-right: 16px;
+            padding-left: 16px;
+            margin-top: 0;
+        }
+        .action-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #D4AF37;
+            margin-top: 0;
+        }
+        .action-text {
+            font-size: 18px;
+            font-weight: 400;
+            color: #1A1A1A;
+            line-height: 1.4;
+            margin-top: 8px;
+        }
+        .image-wrapper {
+            width: 100%;
+            height: 200px; /* reduced from 280 */
+            border: 2px solid #E5E5E5;
+            padding-top: 8px;
+            padding-right: 8px;
+            padding-left: 8px;
+            background-color: #F9F9F9;
+            margin-top: 12px; /* reduced */
+        }
+        .image-wrapper img {
+            width: 100%;
+            height: 180px; /* adjusted */
+            object-fit: cover;
+            object-position: top;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h2 class="page-title">إدارة الـHero: الإعدادات العامة</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="content-grid">
+            <div class="main-column">
+                <p class="intro-text">من تبويب «إدارة الـHero»، يتيح لك قسم الإعدادات العامة التحكم في سلوك ومظهر العارض الرئيسي قبل تفاصيل كل شريحة:</p>
+
+                <ul class="settings-list">
+                    <li><span class="highlight">إظهار الـHero:</span> تفعيل أو إخفاء العارض.</li>
+                    <li><span class="highlight">التبديل التلقائي:</span> تشغيل الانتقال الآلي بين الشرائح.</li>
+                    <li><span class="highlight">مدة التبديل (ثوانٍ):</span> تحديد زمن الانتقال لكل شريحة.</li>
+                    <li><span class="highlight">إيقاف التبديل عند التفاعل:</span> الإيقاف عند تمرير الماوس.</li>
+                    <li><span class="highlight">إظهار مؤشرات الشرائح (Dots):</span> عرض نقاط التنقل السفلية.</li>
+                    <li><span class="highlight">إظهار أسهم التنقل:</span> عرض أسهم التنقل اليدوي.</li>
+                    <li><span class="highlight">ارتفاع الـHero:</span> ضبط ارتفاع العارض ليتناسب مع العرض.</li>
+                </ul>
+            </div>
+
+            <div class="side-column">
+                <div class="action-block">
+                    <h3 class="action-title">حفظ التغييرات</h3>
+                    <p class="action-text">بعد تعديل أي خيار، اضغط على <strong>«حفظ الإعدادات العامة»</strong> لتطبيقها على الواجهة.</p>
+                </div>
+
+                <div class="image-wrapper">
+                    <img src="/home/ubuntu/upload/search_images/8jgvtST1yfMt.png" alt="إعدادات لوحة الإدارة">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
