@@ -164,9 +164,39 @@ export async function listTopLevelDocuments(
   collectionId: string,
   env: BaakEnv,
   limit = 100,
+  filters: Array<{ fieldPath: string; value: unknown }> = [],
 ): Promise<Array<Record<string, unknown> & { id: string }>> {
-  const response = await firestoreFetch(env, `/${encodeURIComponent(collectionId)}?pageSize=${Math.max(1, Math.min(100, limit))}`);
-  if (!response.ok) throw new Error(`Firestore collection read failed with status ${response.status}`);
-  const payload = await response.json() as FirestoreListResponse;
-  return (payload.documents || []).map(decodeDocument);
+  const boundedLimit = Math.max(1, Math.min(100, limit));
+  if (filters.length === 0) {
+    const response = await firestoreFetch(env, `/${encodeURIComponent(collectionId)}?pageSize=${boundedLimit}`);
+    if (!response.ok) throw new Error(`Firestore collection read failed with status ${response.status}`);
+    const payload = await response.json() as FirestoreListResponse;
+    return (payload.documents || []).map(decodeDocument);
+  }
+
+  const fieldFilters = filters.map((filter) => ({
+    fieldFilter: {
+      field: { fieldPath: filter.fieldPath },
+      op: "EQUAL" as const,
+      value: firestoreValue(filter.value),
+    },
+  }));
+  const where = fieldFilters.length === 1
+    ? fieldFilters[0]
+    : { compositeFilter: { op: "AND" as const, filters: fieldFilters } };
+  const query: StructuredQuery = {
+    from: [{ collectionId }],
+    where,
+    limit: boundedLimit,
+  };
+  const response = await firestoreFetch(env, ":runQuery", {
+    method: "POST",
+    body: JSON.stringify({ structuredQuery: query }),
+  });
+  if (!response.ok) throw new Error(`Firestore filtered collection read failed with status ${response.status}`);
+  const values: unknown = await response.json();
+  if (!Array.isArray(values)) return [];
+  return values
+    .filter((item): item is { document: FirestoreDocument } => Boolean(item && typeof item === "object" && "document" in item))
+    .map((item) => decodeDocument(item.document));
 }

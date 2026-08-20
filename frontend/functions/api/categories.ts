@@ -8,7 +8,7 @@ export const onRequestOptions: CategoriesRoute = async ({ request, env }) => han
 
 export const onRequestGet: CategoriesRoute = async ({ request, env }) => {
   try {
-    const documents = await listTopLevelDocuments("categories", env, 100);
+    const documents = await listTopLevelDocuments("categories", env, 100, [{ fieldPath: "active", value: true }]);
     const categories = documents
       .filter((item) => item.active !== false)
       .sort((left, right) => String(left.name ?? "").localeCompare(String(right.name ?? ""), "ar"));

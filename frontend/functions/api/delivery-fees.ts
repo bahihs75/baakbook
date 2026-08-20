@@ -8,7 +8,7 @@ export const onRequestOptions: DeliveryFeesRoute = async ({ request, env }) => h
 
 export const onRequestGet: DeliveryFeesRoute = async ({ request, env }) => {
   try {
-    const documents = await listTopLevelDocuments("deliveryFees", env, 100);
+    const documents = await listTopLevelDocuments("deliveryFees", env, 100, [{ fieldPath: "active", value: true }]);
     const fees = documents.sort((left, right) => Number(left.num ?? 0) - Number(right.num ?? 0));
     return jsonResponse(fees, request, env);
   } catch (error) {
