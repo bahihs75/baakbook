@@ -18,6 +18,23 @@ BaakBook هو متجر كتب عربي بواجهة RTL مصممة لعرض ال
 
 > **تنبيه مهم:** ملف `data.json` الموجود في بيئة التشغيل يحتوي على أسماء وأرقام هواتف وعناوين عملاء. لذلك تم استبعاده من GitHub، وأُضيف بدلًا منه `data.example.json` منزوع الطلبات الحية.
 
+## هدف الترحيل الجديد
+
+الهدف المعتمد هو نقل المتجر في **عملية انتقال واحدة** بعد تجهيز البيئة واختبارها محليًا وتجريبيًا:
+
+| الجزء | الوجهة الجديدة |
+|---|---|
+| الواجهة والمتجر ولوحة الإدارة | Cloudflare Pages |
+| عنوان الإنتاج | `https://baakbook.pages.dev` |
+| المنتجات والطلبات والإعدادات | Cloud Firestore |
+| تسجيل دخول الإدارة | Firebase Authentication مع دور إداري |
+| العمليات الحساسة | Firebase Cloud Functions 2nd gen |
+| الصور الحالية | الحفاظ على روابطها، ثم إدارة الصور عبر مكتبة ImgBB لاحقًا |
+
+لن يتم رفع `data.json` إلى GitHub أو Cloudflare Pages. ستبقى PythonAnywhere والنسخة الأصلية من البيانات متاحتين للرجوع حتى انتهاء فترة المراقبة بعد الانتقال.
+
+> **حالة الترحيل:** جرى بناء التصميم وعقد البيانات وأدوات فحص وتحويل محلية. لم يتم إنشاء أو ربط مشروع Firebase إنتاجي، ولم يتم النشر إلى Cloudflare Pages، ولم يتم تعديل PythonAnywhere.
+
 ## البنية المعمارية
 
 ```text
@@ -31,6 +48,18 @@ BaakBook هو متجر كتب عربي بواجهة RTL مصممة لعرض ال
 ```
 
 يعتمد التطبيق حاليًا على تخزين JSON محلي. هذا مناسب لمتجر صغير أو مرحلة أولية على خادم واحد، لكنه ليس التصميم الأفضل عند استخدام أكثر من نسخة تشغيل أو عند الحاجة إلى نسخ احتياطية واستمرارية بيانات قوية. المرحلة التطويرية التالية الموصى بها هي نقل الطلبات والمنتجات إلى PostgreSQL أو SQLite على قرص دائم، مع إبقاء بيانات العملاء خارج المستودع.
+
+## فحص الترحيل محليًا
+
+توجد أدوات القراءة والتحويل والفحص المستقل داخل `migration/`. هذه الأوامر تعمل على نسخة محلية فقط:
+
+```bash
+python3 migration/inspect_source.py data.json migration/reports/source-inventory.json
+python3 migration/transform.py data.json migration/reports/target-fixture.json --batch-id local-dry-run
+python3 migration/verify_bundle.py data.json migration/reports/target-fixture.json migration/reports/reconciliation.json
+```
+
+التحقق الناجح يجب أن يعرض `status: verified` و`differences: {}`. لا تشغّل هذه الأدوات على ملف حي أثناء استقبال الطلبات؛ تصدير البيانات الحية سيكون خطوة منفصلة داخل نافذة الانتقال النهائي.
 
 ## التشغيل المحلي
 
@@ -183,8 +212,14 @@ git push -u origin feature/short-description
 | `data.example.json` | نموذج بيانات نظيف بلا طلبات عملاء |
 | `wsgi.py` | نقطة تشغيل WSGI |
 | `Procfile` | أمر تشغيل Gunicorn |
-| `render.yaml` | إعداد أولي للنشر على Render؛ يجب معالجة التخزين قبل استخدامه للإنتاج |
-| `.env.example` | قالب متغيرات البيئة |
+| `render.yaml` | إعداد قديم للنشر على Render؛ لا يمثل الهدف الجديد |
+| `firebase.json` | إعداد Firestore وFunctions Emulator محليًا |
+| `firestore.rules` | قواعد Firestore المبدئية غير المنشورة |
+| `firestore.indexes.json` | الفهارس الأولية للاستعلامات المحددة |
+| `functions/` | Functions TypeScript موثوقة، حاليًا مع Function إنشاء الطلب |
+| `frontend/` | نسخة واجهة مستقلة تمهيدًا لتكييفها مع Pages |
+| `migration/` | أدوات الجرد والتحويل والفحص المحلي |
+| `.env.example` | قالب متغيرات البيئة للنسخة Flask الحالية |
 | `.github/workflows/tests.yml` | الاختبارات التلقائية |
 
 ## المراجع

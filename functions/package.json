@@ -1,0 +1,20 @@
+{
+  "name": "baak-books-functions",
+  "private": true,
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "firebase-admin": "14.2.0",
+    "firebase-functions": "7.3.2"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

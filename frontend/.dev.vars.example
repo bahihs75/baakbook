@@ -1,0 +1,12 @@
+FIREBASE_PROJECT_ID=baakbook-77c00
+FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+ALLOWED_ORIGIN=http://localhost:8788
+
+# Configure only when a trusted Firebase Function is deployed for local testing.
+TRUSTED_ORDER_FUNCTION_URL=
+TRUSTED_ADMIN_FUNCTION_URL=
+
+# Do not commit service-account credentials or production access tokens.
+GOOGLE_OAUTH_ACCESS_TOKEN=
+GOOGLE_SERVICE_ACCOUNT_EMAIL=
+GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY=

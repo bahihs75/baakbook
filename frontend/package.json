@@ -1,0 +1,14 @@
+{
+  "name": "baak-books-pages",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "node scripts/generate-runtime-config.mjs && tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260819.1",
+    "typescript": "5.9.3",
+    "wrangler": "4.124.0"
+  }
+}

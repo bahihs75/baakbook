@@ -1,0 +1,22 @@
+name = "baak-books-api"
+main = "src/index.ts"
+compatibility_date = "2026-08-20"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGIN = "http://localhost:8000"
+
+# Fill these only after the local Worker passes all tests.
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "baakbook-production-db"
+# database_id = "REPLACE_AFTER_CREATION"
+# migrations_dir = "../../migration/d1/migrations"
+
+# [[r2_buckets]]
+# binding = "LIBRARY_BUCKET"
+# bucket_name = "baakbook-library"
+
+# Secrets are set with `wrangler secret put` and never committed:
+# ADMIN_TOKEN
+# TURNSTILE_SECRET_KEY

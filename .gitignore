@@ -13,6 +13,7 @@ htmlcov/
 .env
 .env.*
 !.env.example
+/frontend/runtime-config.js
 
 # Runtime data: the live file must remain on the host
 /data.json
@@ -21,6 +22,23 @@ htmlcov/
 *.log
 .DS_Store
 Thumbs.db
+
+# Firebase/Node build dependencies and local state
+**/node_modules/
+functions/lib/
+.firebase/
+**/.wrangler/
+
+# Cloudflare Pages local dependencies and secrets
+/frontend/node_modules/
+/frontend/.wrangler/
+/frontend/.wrangler-local-build/
+/frontend/.dev.vars
+/frontend/.dev.vars.*
+!/frontend/.dev.vars.example
+
+# Local migration exports and reports
+migration/reports/
 
 # PythonAnywhere account/session configuration
 bashrc.txt

@@ -1,0 +1,72 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn() && request.auth.token.admin == true;
+    }
+
+    function validProductPublicFields() {
+      return request.resource.data.title is string
+        && request.resource.data.category is string
+        && request.resource.data.price is int
+        && request.resource.data.price > 0
+        && request.resource.data.availability_type in ['in_stock', 'on_demand']
+        && request.resource.data.stock_quantity is int
+        && request.resource.data.stock_quantity >= 0
+        && request.resource.data.lead_time_min_days is int
+        && request.resource.data.lead_time_min_days >= 0
+        && request.resource.data.lead_time_min_days <= 1
+        && request.resource.data.lead_time_max_days is int
+        && request.resource.data.lead_time_max_days >= request.resource.data.lead_time_min_days
+        && request.resource.data.lead_time_max_days <= 1;
+    }
+
+    match /products/{productId} {
+      allow read: if resource.data.active == true && resource.data.archived != true;
+      allow create, update: if isAdmin() && validProductPublicFields();
+      allow delete: if false;
+    }
+
+    match /categories/{categoryId} {
+      allow read: if resource.data.active != false;
+      allow create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /deliveryFees/{deliveryFeeId} {
+      allow read: if resource.data.active != false;
+      allow create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /settings/public {
+      allow read: if true;
+      allow create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /orders/{orderId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /imageLibrary/{imageId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /auditLogs/{logId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /migrationMetadata/{batchId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+  }
+}

@@ -563,9 +563,10 @@ body.lab-dark .discover-choice small,body.lab-dark .discover-intro,body.lab-dark
   </div>
 </footer>
 
+<script src="/runtime-config.js"></script>
 <script>
 // ==================== CONFIG ====================
-const API_BASE = '/api';
+const API_BASE = window.BAAK_RUNTIME?.API_BASE || '/api';
 
 // ==================== STATE ====================
 let products = [];

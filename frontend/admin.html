@@ -388,8 +388,9 @@
 
   <div class="toast-container" id="toastContainer"></div>
 
+  <script src="/runtime-config.js"></script>
   <script>
-    const API_BASE = '/api';
+    const API_BASE = window.BAAK_RUNTIME?.API_BASE || '/api';
     let authToken = localStorage.getItem('admin_token') || '';
 
     // Helpers
