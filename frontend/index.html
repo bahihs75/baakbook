@@ -793,7 +793,7 @@ function normalizeHeroConfig(raw = {}) {
   return { visible: true, autoplay: true, interval: 6, dots: true, arrows: true, scroll_hint: true, scroll_hint_label: 'مرّر لاكتشاف الكتب', height: 540, pause_on_interaction: true, feature_rail_visible: true, ...raw, slides };
 }
 function heroActionLink(action, link) {
-  if (action === 'discovery' || action === 'gift' || action === 'on_demand' || action === 'ideas_lab') return '#';
+  if (['discovery', 'gift', 'on_demand', 'ideas_lab', 'section', 'category', 'product', 'contact'].includes(action)) return '#';
   const value = String(link || '#books').trim();
   return /^(https?:|mailto:|tel:|#|\/)/i.test(value) ? value : '#books';
 }
@@ -820,8 +820,8 @@ function renderHeroSlides(config) {
     const secondaryAction = slide.secondary_action || (slide.secondary_link ? 'link' : 'gift');
     const primaryFeature = heroActionFeatureAttr(primaryAction);
     const secondaryFeature = heroActionFeatureAttr(secondaryAction);
-    const primary = slide.primary_visible !== false && slide.primary_label ? `<a class="hero-slide-cta primary hero-action" data-hero-action="${esc(primaryAction)}" href="${esc(heroActionLink(primaryAction, slide.primary_link))}"${primaryFeature}>${esc(slide.primary_label)}</a>` : '';
-    const secondary = slide.secondary_visible !== false && slide.secondary_label ? `<a class="hero-slide-cta secondary hero-action" data-hero-action="${esc(secondaryAction)}" href="${esc(heroActionLink(secondaryAction, slide.secondary_link))}"${secondaryFeature}>${esc(slide.secondary_label)}</a>` : '';
+    const primary = slide.primary_visible !== false && slide.primary_label ? `<a class="hero-slide-cta primary hero-action" data-hero-action="${esc(primaryAction)}" data-hero-link="${esc(slide.primary_link || '')}" href="${esc(heroActionLink(primaryAction, slide.primary_link))}"${primaryFeature}>${esc(slide.primary_label)}</a>` : '';
+    const secondary = slide.secondary_visible !== false && slide.secondary_label ? `<a class="hero-slide-cta secondary hero-action" data-hero-action="${esc(secondaryAction)}" data-hero-link="${esc(slide.secondary_link || '')}" href="${esc(heroActionLink(secondaryAction, slide.secondary_link))}"${secondaryFeature}>${esc(slide.secondary_label)}</a>` : '';
     return `<article class="hero-slide ${index === heroIndex ? 'active' : ''} ${slide.reflection ? 'has-reflection' : ''}" data-slide-index="${index}" aria-hidden="${index === heroIndex ? 'false' : 'true'}" style="--hero-text:${color};--hero-text-shadow:${slide.text_backdrop ? '0 2px 18px rgba(0,0,0,.34)' : 'none'}"><img class="hero-slide-media" crossorigin="anonymous" src="${esc(slide.image || '')}" alt="${esc(slide.image_alt || slide.title || 'صورة Hero')}" loading="${index === 0 ? 'eager' : 'lazy'}"><div class="hero-slide-shade"></div><div class="hero-slide-reflection" aria-hidden="true"></div><div class="hero-slide-copy"><div class="hero-slide-eyebrow">${esc(slide.eyebrow || '')}</div><h1>${esc(slide.title || '')}</h1><p>${esc(slide.text || '')}</p><div class="hero-actions">${primary}${secondary}</div></div></article>`;
   }).join('');
   dots.innerHTML = heroSlides.length > 1 && config.dots !== false ? heroSlides.map((slide, index) => `<button class="hero-dot ${index === heroIndex ? 'active' : ''}" type="button" data-hero-dot="${index}" role="tab" aria-label="الشريحة ${index + 1}" aria-selected="${index === heroIndex}"></button>`).join('') : '';
@@ -1522,6 +1522,45 @@ $('heroRailDiscover').onclick = openDiscovery;
 $('discoverOpenHub').onclick = openDiscovery;
 $('heroRailGift').onclick = openGiftBuilder;
 $('giftOpen').onclick = openGiftBuilder;
+function heroScrollTo(selectors) {
+  const element = selectors.map(selector => document.querySelector(selector)).find(Boolean);
+  if (element) { element.scrollIntoView({ behavior: 'smooth', block: 'start' }); return true; }
+  return false;
+}
+function openHeroProduct(productId) {
+  const id = String(productId || '').trim();
+  if (!id) return;
+  const product = products.find(item => String(item.id) === id);
+  const productUrl = `/?product=${encodeURIComponent(id)}`;
+  if (product) {
+    history.pushState({ product: id }, '', productUrl);
+    openPopup(product);
+  } else {
+    window.location.assign(productUrl);
+  }
+}
+function handleHeroDestination(action, value) {
+  const destination = String(value || '').trim();
+  if (action === 'section') {
+    const sectionMap = { books: ['#products', '#books-section'], products: ['#products', '#books-section'], cart: ['#cart', '#cart-section'], contact: ['#contact', '.contact-section'] };
+    if (destination === 'cart') { openCart(); return; }
+    heroScrollTo(sectionMap[destination] || [destination.startsWith('#') ? destination : `#${destination}`]);
+    return;
+  }
+  if (action === 'category') {
+    if (!destination) return;
+    const filterButton = qsa('.filter-btn').find(button => button.dataset.cat === destination);
+    if (filterButton) filterButton.click();
+    else { currentFilter = destination; renderProducts(currentFilter, $('searchInput').value); heroScrollTo(['#products', '#books-section']); }
+    return;
+  }
+  if (action === 'product') { openHeroProduct(destination); return; }
+  if (action === 'contact') { heroScrollTo(['#contact', '.contact-section']); return; }
+  if (action === 'url' || action === 'link') {
+    const safe = /^(https?:|mailto:|tel:|#|\/)/i.test(destination) ? destination : '#books';
+    if (safe.startsWith('#')) heroScrollTo([safe]); else window.location.assign(safe);
+  }
+}
 document.addEventListener('click', event => {
   if (heroSwipeMoved) { heroSwipeMoved = false; return; }
   const dot = event.target.closest('[data-hero-dot]');
@@ -1529,10 +1568,12 @@ document.addEventListener('click', event => {
   const action = event.target.closest('.hero-action');
   if (!action) return;
   const name = action.dataset.heroAction;
-  if (name === 'discovery') { event.preventDefault(); openDiscovery(); }
-  else if (name === 'gift') { event.preventDefault(); openGiftBuilder(); }
-  else if (name === 'on_demand') { event.preventDefault(); $('heroRailOnDemand').click(); }
-  else if (name === 'ideas_lab') { event.preventDefault(); openLab(); }
+  if (['discovery', 'gift', 'on_demand', 'ideas_lab', 'section', 'category', 'product', 'contact', 'url', 'link'].includes(name)) event.preventDefault();
+  if (name === 'discovery') openDiscovery();
+  else if (name === 'gift') openGiftBuilder();
+  else if (name === 'on_demand') $('heroRailOnDemand').click();
+  else if (name === 'ideas_lab') openLab();
+  else handleHeroDestination(name, action.dataset.heroLink || action.getAttribute('href')?.replace(/^#/, '') || '');
 });
 $('heroSlider').addEventListener('mouseenter', () => { if (storefrontSettings.hero.pause_on_interaction !== false) stopHeroAutoplay(); });
 $('heroSlider').addEventListener('mouseleave', () => startHeroAutoplay(storefrontSettings.hero));
@@ -1884,7 +1925,8 @@ $('successBackBtn').onclick = () => {
 // ==================== DIRECT PRODUCT LINK ====================
 async function openProductFromURL() {
   const params = new URLSearchParams(window.location.search);
-  const productId = params.get('product');
+  const routeMatch = window.location.pathname.match(/^\/product\/([^/]+)$/i);
+  const productId = params.get('product') || (routeMatch ? decodeURIComponent(routeMatch[1]) : '');
   if (!productId) return;
 
   try {

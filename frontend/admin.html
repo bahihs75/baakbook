@@ -140,6 +140,33 @@
 
     .hero-admin-settings,.hero-slide-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.hero-slide-form[hidden]{display:none!important}.hero-slide-card{margin-top:16px;padding:18px;border:1px solid rgba(196,151,90,.22);border-radius:var(--radius-lg);background:rgba(255,255,255,.48)}.hero-slide-card.is-collapsed{padding-bottom:12px}.hero-slide-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;flex-wrap:wrap}.hero-slide-card.is-collapsed .hero-slide-head{margin-bottom:0}.hero-slide-head h3{font-size:15px}.hero-slide-summary{display:flex;align-items:center;gap:8px;flex:1;min-width:160px}.hero-slide-state{font-size:11px;color:var(--text-secondary);font-weight:600}.hero-slide-order{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.hero-slide-order button{padding:5px 8px;border-radius:9px;background:rgba(0,0,0,.05);font-size:11px}.hero-slide-toggle{border:1px solid rgba(196,151,90,.35)!important;color:var(--accent-dark)!important;background:rgba(196,151,90,.08)!important}.hero-slide-preview{width:100%;height:150px;object-fit:cover;border-radius:14px;background:#ece7df;margin-top:6px}.hero-slide-form .wide{grid-column:1/-1}.hero-slide-form input,.hero-slide-form select,.hero-slide-form textarea{width:100%;padding:9px 12px;border-radius:var(--radius-md);border:1px solid rgba(0,0,0,.1);background:rgba(255,255,255,.7);font-family:var(--font);font-size:13px}.hero-slide-form textarea{min-height:82px;resize:vertical}.hero-check{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;padding:9px 0}.hero-check input{width:auto!important}.danger-outline{border:1px solid var(--danger)!important;color:var(--danger)!important;background:transparent!important}.hero-empty{padding:24px;border:1px dashed rgba(0,0,0,.15);border-radius:var(--radius-md);color:var(--text-secondary);text-align:center}.hero-admin-note{padding:12px 14px;border-radius:var(--radius-md);background:rgba(196,151,90,.1);color:var(--accent-dark);font-size:12px;line-height:1.7;margin-bottom:16px}@media(max-width:760px){.hero-admin-settings,.hero-slide-form{grid-template-columns:1fr}.hero-slide-form .wide{grid-column:auto}}
 
+    /* Hero editor: compact, Afak-inspired rows with one source of truth for open state. */
+    .hero-editor-list{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+    .hero-slide-card{margin-top:0;padding:0;border:1px solid rgba(196,151,90,.22);border-radius:14px;background:rgba(255,255,255,.48);overflow:visible}
+    .hero-slide-card.is-collapsed{padding-bottom:0}
+    .hero-slide-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:62px;margin:0;padding:12px 14px;cursor:pointer}
+    .hero-slide-card.is-expanded .hero-slide-head{border-bottom:1px solid rgba(196,151,90,.18)}
+    .hero-slide-summary{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+    .hero-slide-summary h3{font-size:14px;margin:0;white-space:nowrap}
+    .hero-slide-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-secondary);font-size:12px}
+    .hero-slide-state{font-size:11px;color:var(--text-secondary);font-weight:700;white-space:nowrap}
+    .hero-slide-state.is-active{color:var(--success)}
+    .hero-slide-state.is-inactive{color:var(--danger)}
+    .hero-slide-order{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+    .hero-slide-order button{padding:6px 9px;border-radius:8px;background:rgba(0,0,0,.05);font-size:11px}
+    .hero-slide-toggle{border:0!important;color:var(--accent-dark)!important;background:transparent!important;min-width:34px}
+    .hero-slide-toggle::before{content:'⌄';display:inline-block;margin-left:5px;font-size:17px;line-height:1;transform:rotate(0deg)}
+    .hero-slide-card.is-expanded .hero-slide-toggle::before{transform:rotate(180deg)}
+    .hero-slide-form{padding:16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .hero-slide-form[hidden]{display:none!important}
+    .hero-slide-preview{width:100%;height:150px;object-fit:cover;border-radius:14px;background:#ece7df;margin-top:6px}
+    .hero-slide-form .wide{grid-column:1/-1}
+    .hero-remove{display:block;margin:0 16px 16px}
+    .hero-empty{padding:24px;border:1px dashed rgba(0,0,0,.15);border-radius:var(--radius-md);color:var(--text-secondary);text-align:center}
+    .hero-dirty-note{display:none;padding:10px 12px;margin:10px 0 0;border-radius:10px;background:rgba(196,151,90,.12);color:var(--accent-dark);font-size:12px;line-height:1.7}
+    .hero-dirty-note.is-visible{display:block}
+    @media(max-width:760px){.hero-slide-form{grid-template-columns:1fr}.hero-slide-form .wide{grid-column:auto}.hero-slide-head{padding:12px 10px}.hero-slide-order{gap:3px}.hero-slide-order button{padding:6px 7px}.hero-slide-summary{gap:7px}.hero-slide-title{max-width:28vw}.hero-slide-toggle{font-size:0}.hero-slide-toggle::before{font-size:19px}}
+
     .modal {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.3); backdrop-filter: blur(8px);
@@ -305,6 +332,7 @@
           <h2 style="font-size:20px; margin-bottom:6px;">إدارة الـHero</h2>
           <p class="feature-intro">هذا القسم مستقل عن «ميزات المتجر». يمكنك هنا بناء شرائح متعددة، ترتيبها، والتحكم في كل تفاصيل العرض كما في نموذج السلايدر المرجعي.</p>
           <div class="hero-admin-note"><strong>منطق الحفظ:</strong> إيقاف الـHero يخفيه فقط ولا يحذف الشرائح. إيقاف شريحة يستبعدها من العرض دون حذفها. كل التغييرات تُحفظ في إعدادات الموقع العامة ولا تمس الكتب أو الطلبات.</div>
+          <div class="hero-dirty-note" id="heroDirtyNote" role="status" aria-live="polite">لديك تعديلات غير محفوظة. احفظ إعدادات الـHero قبل مغادرة هذه الصفحة. <button type="button" class="btn-secondary hero-retry-save" id="retryHeroSave" hidden>إعادة المحاولة</button></div>
           <div class="hero-admin-settings">
             <label class="hero-check"><input type="checkbox" id="heroAdminVisible"> إظهار الـHero كاملًا</label>
             <label class="hero-check"><input type="checkbox" id="heroAdminAutoplay"> تشغيل التبديل التلقائي</label>
@@ -316,7 +344,7 @@
             <div class="form-group"><label>ارتفاع الـHero (بالبكسل)</label><input type="number" min="420" max="760" step="10" id="heroAdminHeight"></div>
             <div class="form-group wide"><label>نص تلميح التمرير</label><input type="text" maxlength="80" id="heroAdminScrollLabel"></div>
           </div>
-          <div id="heroSlidesList"></div>
+          <div id="heroSlidesList" class="hero-editor-list"></div>
           <button class="add-btn" id="addHeroSlideBtn" type="button">إضافة شريحة جديدة</button>
         </div>
         <button class="btn-primary save-settings" id="saveHeroBtn" type="button">حفظ إعدادات الـHero والشرائح</button>
@@ -515,6 +543,8 @@
     const ADMIN_EMAIL = 'baakbook01@gmail.com';
     let settingsState = { features: {}, storefront: {} };
     let heroAdminConfig = null;
+    let heroDirty = false;
+    const heroDestinationData = { products: [], categories: [] };
     const firebaseApp = initializeApp(window.BAAK_RUNTIME.FIREBASE);
     const auth = getAuth(firebaseApp);
     const db = getFirestore(firebaseApp);
@@ -908,9 +938,14 @@
     // Tab switching
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
+        const current = document.querySelector('.tab.active')?.dataset.tab;
+        const target = tab.dataset.tab;
+        if (current === 'hero' && target !== 'hero' && heroDirty) {
+          syncHeroDraft();
+          if (!confirm('لديك تعديلات غير محفوظة في Hero. هل تريد مغادرة التبويب؟ ستبقى المسودة ما دمت داخل هذه الجلسة.')) return;
+        }
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        const target = tab.dataset.tab;
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
         $(`panel-${target}`).classList.add('active');
         if (target === 'orders') loadOrders();
@@ -964,11 +999,13 @@
         const res = await adminFetch(`${API_BASE}/admin/products`, { headers: apiHeaders() });
         if (!res.ok) throw new Error('تعذر تحميل البيانات');
         const products = await res.json();
+        heroDestinationData.products = Array.isArray(products) ? products : [];
         renderProductsTable(products);
         // تحميل الفئات للقائمة المنسدلة
         const catRes = await adminFetch(`${API_BASE}/admin/categories`, { headers: apiHeaders() });
         if (catRes.ok) {
           const categories = await catRes.json();
+          heroDestinationData.categories = Array.isArray(categories) ? categories : [];
           const select = $('prodCategory');
           select.innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
         }
@@ -1270,6 +1307,7 @@
       try {
         const res = await adminFetch(`${API_BASE}/admin/categories`, { headers: apiHeaders() });
         const cats = await res.json();
+        heroDestinationData.categories = Array.isArray(cats) ? cats : [];
         const tbody = document.querySelector('#categoriesTable tbody');
         tbody.innerHTML = cats.map(c => `
           <tr>
@@ -1370,7 +1408,7 @@
         const data = await res.json();
         settingsState = { features: { ...(data.features || {}) }, storefront: { ...(data.storefront || {}) } };
         Object.entries(featureMap).forEach(([key, id]) => { if ($(id)) $(id).checked = adminFeatureEnabled(settingsState.features[key]); });
-        heroAdminConfig = normalizeHeroAdmin(settingsState.storefront.hero || {});
+        if (!heroDirty) heroAdminConfig = normalizeHeroAdmin(settingsState.storefront.hero || {});
         updateFeatureStates();
         if ($('panel-hero')?.classList.contains('active')) renderHeroEditor();
       } catch (err) { toast(err.message, 'error'); }
@@ -1390,7 +1428,7 @@
     $('saveSettingsBtn').onclick = async () => {
       const features = {};
       Object.entries(featureMap).forEach(([key, id]) => { features[key] = Boolean($(id)?.checked); });
-      const storefront = { ...settingsState.storefront, hero: heroAdminConfig || normalizeHeroAdmin(settingsState.storefront.hero || {}) };
+      const storefront = { ...settingsState.storefront, hero: syncHeroDraft() || heroAdminConfig || normalizeHeroAdmin(settingsState.storefront.hero || {}) };
       try {
         updateFeatureStates();
         const res = await adminFetch(`${API_BASE}/admin/settings`, { method: 'PUT', headers: apiHeaders(), body: JSON.stringify({ features, storefront }) });
@@ -1413,14 +1451,36 @@
     }
     function adminEsc(value) { return String(value ?? '').replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' }[char])); }
     function heroActionOptions(selected) {
-      return [['discovery','فتح قائمة اكتشاف الكتب'],['gift','فتح قسم الهدايا'],['on_demand','عرض الكتب التي يمكن اقتناؤها'],['ideas_lab','فتح مختبر الأفكار'],['link','رابط مخصص']].map(([value,label]) => `<option value="${value}" ${selected === value ? 'selected' : ''}>${label}</option>`).join('');
+      return [['discovery','فتح قائمة اكتشاف الكتب'],['gift','فتح قسم الهدايا'],['on_demand','عرض الكتب التي يمكن اقتناؤها'],['ideas_lab','فتح مختبر الأفكار'],['section','قسم من الموقع'],['category','تصنيف كتب'],['product','كتاب محدد'],['contact','تواصل معنا'],['url','رابط مخصص'],['link','رابط قديم']].map(([value,label]) => `<option value="${value}" ${selected === value ? 'selected' : ''}>${label}</option>`).join('');
+    }
+    function heroDestinationOptions() {
+      const sections = [['books','الكتب'],['products','الكتب'],['cart','السلة'],['contact','تواصل معنا']];
+      const categories = heroDestinationData.categories.map(category => [category, category]);
+      const products = heroDestinationData.products.map(product => [product.id, product.title || product.id]);
+      return [...sections, ...categories, ...products].map(([value, label]) => `<option value="${adminEsc(value)}">${adminEsc(label)}</option>`).join('');
     }
     const heroExpandedIds = new Set();
+    function setHeroDirty(value = true, saveFailed = false) {
+      heroDirty = value;
+      $('heroDirtyNote')?.classList.toggle('is-visible', value);
+      const retry = $('retryHeroSave');
+      if (retry) retry.hidden = !saveFailed;
+    }
+    function syncHeroDraft() {
+      if (document.querySelector('.hero-slide-card')) heroAdminConfig = collectHeroEditor();
+      return heroAdminConfig;
+    }
     function heroSlideRow(slide, index, total) {
       const expanded = heroExpandedIds.has(slide.id);
       const stateLabel = slide.active !== false ? 'مفعّلة' : 'متوقفة';
-      return `<div class="hero-slide-card ${expanded ? '' : 'is-collapsed'}" data-hero-id="${adminEsc(slide.id)}">
-        <div class="hero-slide-head"><div class="hero-slide-summary"><h3>الشريحة ${index + 1}</h3><span class="hero-slide-state">${stateLabel}</span></div><div class="hero-slide-order"><button type="button" class="hero-slide-toggle" aria-expanded="${expanded}" aria-controls="hero-form-${adminEsc(slide.id)}">${expanded ? 'طي التفاصيل' : 'فتح للتعديل'}</button><button type="button" class="hero-up" ${index === 0 ? 'disabled' : ''}>نقل إلى الأعلى</button><button type="button" class="hero-down" ${index === total - 1 ? 'disabled' : ''}>نقل إلى الأسفل</button></div></div>
+      const primaryAction = slide.primary_action || (slide.primary_link ? 'link' : 'discovery');
+      const secondaryAction = slide.secondary_action || (slide.secondary_link ? 'link' : 'gift');
+      const primaryListId = `hero-primary-destination-${slide.id}`;
+      const secondaryListId = `hero-secondary-destination-${slide.id}`;
+      const primaryValue = slide.primary_link || slide.btn_link || '';
+      const secondaryValue = slide.secondary_link || '';
+      return `<div class="hero-slide-card ${expanded ? 'is-expanded' : 'is-collapsed'}" data-hero-id="${adminEsc(slide.id)}">
+        <div class="hero-slide-head" role="button" tabindex="0" aria-expanded="${expanded}" aria-controls="hero-form-${adminEsc(slide.id)}"><div class="hero-slide-summary"><strong>الشريحة ${index + 1}</strong><span class="hero-slide-title">${adminEsc(slide.title || 'بدون عنوان')}</span><span class="hero-slide-state">${stateLabel}</span></div><div class="hero-slide-order"><button type="button" class="hero-slide-toggle" aria-expanded="${expanded}" aria-controls="hero-form-${adminEsc(slide.id)}">${expanded ? 'طي التفاصيل' : 'فتح للتعديل'}</button><button type="button" class="hero-up" ${index === 0 ? 'disabled' : ''}>نقل إلى الأعلى</button><button type="button" class="hero-down" ${index === total - 1 ? 'disabled' : ''}>نقل إلى الأسفل</button></div></div>
         <div class="hero-slide-form" id="hero-form-${adminEsc(slide.id)}" ${expanded ? '' : 'hidden'}>
           <label class="hero-check"><input type="checkbox" class="s-active" ${slide.active !== false ? 'checked' : ''}> الشريحة مفعّلة</label>
           <div class="form-group"><label>الشارة الصغيرة فوق العنوان</label><input class="s-eyebrow" maxlength="80" value="${adminEsc(slide.eyebrow)}"></div>
@@ -1433,12 +1493,12 @@
           <div class="form-group wide"><label>النص البديل للصورة</label><input class="s-alt" maxlength="180" value="${adminEsc(slide.image_alt)}"></div>
           <label class="hero-check"><input type="checkbox" class="s-primary-visible" ${slide.primary_visible !== false ? 'checked' : ''}> إظهار الزر الأساسي</label>
           <div class="form-group"><label>نص الزر الأساسي</label><input class="s-primary-label" maxlength="70" value="${adminEsc(slide.primary_label)}"></div>
-          <div class="form-group"><label>وجهة الزر الأساسي</label><select class="s-primary-action">${heroActionOptions(slide.primary_action || 'discovery')}</select></div>
-          <div class="form-group"><label>الرابط الأساسي عند اختيار «رابط مخصص»</label><input class="s-primary-link" type="url" maxlength="700" value="${adminEsc(slide.primary_link)}" placeholder="https://... أو #books"></div>
+          <div class="form-group"><label>نوع وجهة الزر الأساسي</label><select class="s-primary-action">${heroActionOptions(primaryAction)}</select></div>
+          <div class="form-group"><label>قيمة الوجهة الأساسية <small>(اختر القسم أو التصنيف أو الكتاب، أو أدخل الرابط)</small></label><input class="s-primary-link" type="text" maxlength="700" list="${adminEsc(primaryListId)}" value="${adminEsc(primaryValue)}" placeholder="مثل: books أو اسم التصنيف أو رقم الكتاب أو https://..."><datalist id="${adminEsc(primaryListId)}">${heroDestinationOptions()}</datalist></div>
           <label class="hero-check"><input type="checkbox" class="s-secondary-visible" ${slide.secondary_visible !== false ? 'checked' : ''}> إظهار الزر الثانوي</label>
           <div class="form-group"><label>نص الزر الثانوي</label><input class="s-secondary-label" maxlength="70" value="${adminEsc(slide.secondary_label)}"></div>
-          <div class="form-group"><label>وجهة الزر الثانوي</label><select class="s-secondary-action">${heroActionOptions(slide.secondary_action || 'gift')}</select></div>
-          <div class="form-group"><label>الرابط الثانوي عند اختيار «رابط مخصص»</label><input class="s-secondary-link" type="url" maxlength="700" value="${adminEsc(slide.secondary_link)}" placeholder="https://... أو #books"></div>
+          <div class="form-group"><label>نوع وجهة الزر الثانوي</label><select class="s-secondary-action">${heroActionOptions(secondaryAction)}</select></div>
+          <div class="form-group"><label>قيمة الوجهة الثانوية <small>(اختر القسم أو التصنيف أو الكتاب، أو أدخل الرابط)</small></label><input class="s-secondary-link" type="text" maxlength="700" list="${adminEsc(secondaryListId)}" value="${adminEsc(secondaryValue)}" placeholder="مثل: cart أو اسم التصنيف أو رقم الكتاب أو https://..."><datalist id="${adminEsc(secondaryListId)}">${heroDestinationOptions()}</datalist></div>
           <label class="hero-check"><input type="checkbox" class="s-reflection" ${slide.reflection ? 'checked' : ''}> تظليل علوي خفيف لتحسين وضوح الشعار والقائمة</label>
           <label class="hero-check"><input type="checkbox" class="s-text-backdrop" ${slide.text_backdrop ? 'checked' : ''}> ظل ناعم خلف نص الشريحة</label>
           <div class="form-group"><label>لون النص</label><select class="s-text-color-mode"><option value="auto" ${slide.text_color_mode !== 'manual' ? 'selected' : ''}>تلقائي</option><option value="manual" ${slide.text_color_mode === 'manual' ? 'selected' : ''}>يدوي</option></select></div>
@@ -1461,6 +1521,7 @@
         button.textContent = 'جارٍ رفع الصورة…';
         try {
           const result = await uploadImageToField(file, urlInput, 'صورة الـHero');
+          setHeroDirty();
           const preview = card.querySelector('.hero-slide-preview');
           if (preview) { preview.src = result.url; preview.style.display = 'block'; }
         } catch (error) { toast(error.message || 'تعذر رفع صورة الـHero', 'error'); }
@@ -1470,30 +1531,102 @@
 
     function renderHeroEditor() {
       if (!heroAdminConfig) heroAdminConfig = normalizeHeroAdmin();
-      $('heroAdminVisible').checked = heroAdminConfig.visible !== false; $('heroAdminAutoplay').checked = heroAdminConfig.autoplay !== false; $('heroAdminDots').checked = heroAdminConfig.dots !== false; $('heroAdminArrows').checked = heroAdminConfig.arrows !== false; $('heroAdminScrollHint').checked = heroAdminConfig.scroll_hint !== false; $('heroAdminPause').checked = heroAdminConfig.pause_on_interaction !== false; $('heroAdminInterval').value = heroAdminConfig.interval || 6; $('heroAdminHeight').value = heroAdminConfig.height || 540; $('heroAdminScrollLabel').value = heroAdminConfig.scroll_hint_label || 'مرّر لاكتشاف الكتب';
+      $('heroAdminVisible').checked = heroAdminConfig.visible !== false;
+      $('heroAdminAutoplay').checked = heroAdminConfig.autoplay !== false;
+      $('heroAdminDots').checked = heroAdminConfig.dots !== false;
+      $('heroAdminArrows').checked = heroAdminConfig.arrows !== false;
+      $('heroAdminScrollHint').checked = heroAdminConfig.scroll_hint !== false;
+      $('heroAdminPause').checked = heroAdminConfig.pause_on_interaction !== false;
+      $('heroAdminInterval').value = heroAdminConfig.interval || 6;
+      $('heroAdminHeight').value = heroAdminConfig.height || 540;
+      $('heroAdminScrollLabel').value = heroAdminConfig.scroll_hint_label || 'مرّر لاكتشاف الكتب';
       $('heroSlidesList').innerHTML = heroAdminConfig.slides.length ? heroAdminConfig.slides.map((slide, index) => heroSlideRow(slide, index, heroAdminConfig.slides.length)).join('') : '<div class="hero-empty">لا توجد شرائح. أضف شريحة جديدة للبدء.</div>';
+      $('retryHeroSave')?.toggleAttribute('hidden', true);
       document.querySelectorAll('.hero-slide-card').forEach(card => {
-        const id = card.dataset.heroId; const index = heroAdminConfig.slides.findIndex(slide => slide.id === id);
-        card.querySelector('.hero-slide-toggle')?.addEventListener('click', () => { if (heroExpandedIds.has(id)) heroExpandedIds.delete(id); else heroExpandedIds.add(id); renderHeroEditor(); });
-        card.querySelector('.hero-up')?.addEventListener('click', () => { if (index > 0) { [heroAdminConfig.slides[index - 1], heroAdminConfig.slides[index]] = [heroAdminConfig.slides[index], heroAdminConfig.slides[index - 1]]; renderHeroEditor(); } });
-        card.querySelector('.hero-down')?.addEventListener('click', () => { if (index < heroAdminConfig.slides.length - 1) { [heroAdminConfig.slides[index + 1], heroAdminConfig.slides[index]] = [heroAdminConfig.slides[index], heroAdminConfig.slides[index + 1]]; renderHeroEditor(); } });
-        card.querySelector('.hero-remove')?.addEventListener('click', () => { heroExpandedIds.delete(id); heroAdminConfig.slides = heroAdminConfig.slides.filter(slide => slide.id !== id); renderHeroEditor(); });
-        card.querySelector('.s-image')?.addEventListener('input', event => { const preview = card.querySelector('.hero-slide-preview'); preview.src = event.target.value.trim(); preview.style.display = event.target.value.trim() ? 'block' : 'none'; });
-        card.querySelector('.pick-hero-image')?.addEventListener('click', async () => { if (!mediaState.items.length) await loadMediaLibrary(); openMediaPicker({ type: 'hero', input: card.querySelector('.s-image') }); });
+        const id = card.dataset.heroId;
+        const form = card.querySelector('.hero-slide-form');
+        const toggle = () => {
+          syncHeroDraft();
+          if (heroExpandedIds.has(id)) heroExpandedIds.delete(id); else heroExpandedIds.add(id);
+          renderHeroEditor();
+        };
+        const head = card.querySelector('.hero-slide-head');
+        head?.addEventListener('click', event => { if (!event.target.closest('input, select, textarea, button, a')) toggle(); });
+        head?.addEventListener('keydown', event => { if ((event.key === 'Enter' || event.key === ' ') && event.target === head) { event.preventDefault(); toggle(); } });
+        head?.addEventListener('dblclick', event => { event.preventDefault(); event.stopPropagation(); });
+        card.querySelector('.hero-slide-toggle')?.addEventListener('click', event => { event.stopPropagation(); toggle(); });
+        card.querySelector('.hero-up')?.addEventListener('click', event => {
+          event.stopPropagation();
+          syncHeroDraft();
+          const currentIndex = heroAdminConfig.slides.findIndex(slide => slide.id === id);
+          if (currentIndex > 0) { [heroAdminConfig.slides[currentIndex - 1], heroAdminConfig.slides[currentIndex]] = [heroAdminConfig.slides[currentIndex], heroAdminConfig.slides[currentIndex - 1]]; setHeroDirty(); renderHeroEditor(); }
+        });
+        card.querySelector('.hero-down')?.addEventListener('click', event => {
+          event.stopPropagation();
+          syncHeroDraft();
+          const currentIndex = heroAdminConfig.slides.findIndex(slide => slide.id === id);
+          if (currentIndex < heroAdminConfig.slides.length - 1) { [heroAdminConfig.slides[currentIndex + 1], heroAdminConfig.slides[currentIndex]] = [heroAdminConfig.slides[currentIndex], heroAdminConfig.slides[currentIndex + 1]]; setHeroDirty(); renderHeroEditor(); }
+        });
+        card.querySelector('.hero-remove')?.addEventListener('click', event => {
+          event.stopPropagation();
+          if (!confirm(`هل تريد حذف «${card.querySelector('.hero-slide-title')?.textContent || `الشريحة ${id}`}»؟`)) return;
+          syncHeroDraft();
+          heroExpandedIds.delete(id);
+          heroAdminConfig.slides = heroAdminConfig.slides.filter(slide => slide.id !== id);
+          setHeroDirty();
+          renderHeroEditor();
+        });
+        card.querySelectorAll('input, select, textarea').forEach(field => {
+          field.addEventListener('input', () => { setHeroDirty(); if (field.classList.contains('s-title')) card.querySelector('.hero-slide-title').textContent = field.value.trim() || 'بدون عنوان'; if (field.classList.contains('s-image')) { const preview = card.querySelector('.hero-slide-preview'); preview.src = field.value.trim(); preview.style.display = field.value.trim() ? 'block' : 'none'; } });
+          field.addEventListener('change', () => { setHeroDirty(); if (field.classList.contains('s-active')) card.querySelector('.hero-slide-state').textContent = field.checked ? 'مفعّلة' : 'متوقفة'; });
+        });
+        card.querySelector('.pick-hero-image')?.addEventListener('click', async event => { event.stopPropagation(); if (!mediaState.items.length) await loadMediaLibrary(); openMediaPicker({ type: 'hero', input: card.querySelector('.s-image') }); });
         bindHeroImageUpload(card);
       });
+      ['heroAdminVisible','heroAdminAutoplay','heroAdminDots','heroAdminArrows','heroAdminScrollHint','heroAdminPause','heroAdminInterval','heroAdminHeight','heroAdminScrollLabel'].forEach(id => { const field = $(id); field?.addEventListener('input', setHeroDirty); field?.addEventListener('change', setHeroDirty); });
     }
-    function loadHeroEditor() { if (!heroAdminConfig) heroAdminConfig = normalizeHeroAdmin(); renderHeroEditor(); }
+    function loadHeroEditor() { if (!heroAdminConfig) heroAdminConfig = normalizeHeroAdmin(); heroExpandedIds.clear(); renderHeroEditor(); }
     function collectHeroEditor() {
       const slides = [];
       document.querySelectorAll('.hero-slide-card').forEach(card => {
-        const old = heroAdminConfig.slides.find(slide => slide.id === card.dataset.heroId) || {};
-        slides.push({ ...old, id: card.dataset.heroId, active: card.querySelector('.s-active').checked, eyebrow: card.querySelector('.s-eyebrow').value.trim(), eyebrow_en: card.querySelector('.s-eyebrow-en').value.trim(), title: card.querySelector('.s-title').value.trim(), title_en: card.querySelector('.s-title-en').value.trim(), text: card.querySelector('.s-text').value.trim(), text_en: card.querySelector('.s-text-en').value.trim(), image: card.querySelector('.s-image').value.trim(), image_alt: card.querySelector('.s-alt').value.trim(), primary_visible: card.querySelector('.s-primary-visible').checked, primary_label: card.querySelector('.s-primary-label').value.trim(), primary_action: card.querySelector('.s-primary-action').value, primary_link: card.querySelector('.s-primary-link').value.trim(), secondary_visible: card.querySelector('.s-secondary-visible').checked, secondary_label: card.querySelector('.s-secondary-label').value.trim(), secondary_action: card.querySelector('.s-secondary-action').value, secondary_link: card.querySelector('.s-secondary-link').value.trim(), reflection: card.querySelector('.s-reflection').checked, text_backdrop: card.querySelector('.s-text-backdrop').checked, text_color_mode: card.querySelector('.s-text-color-mode').value, text_color: card.querySelector('.s-text-color').value });
+        const id = card.dataset.heroId;
+        const old = heroAdminConfig.slides.find(slide => slide.id === id) || {};
+        const form = card.querySelector('.hero-slide-form');
+        if (!form || form.hidden) { slides.push({ ...old, id }); return; }
+        slides.push({ ...old, id, active: card.querySelector('.s-active').checked, eyebrow: card.querySelector('.s-eyebrow').value.trim(), eyebrow_en: card.querySelector('.s-eyebrow-en').value.trim(), title: card.querySelector('.s-title').value.trim(), title_en: card.querySelector('.s-title-en').value.trim(), text: card.querySelector('.s-text').value.trim(), text_en: card.querySelector('.s-text-en').value.trim(), image: card.querySelector('.s-image').value.trim(), image_alt: card.querySelector('.s-alt').value.trim(), primary_visible: card.querySelector('.s-primary-visible').checked, primary_label: card.querySelector('.s-primary-label').value.trim(), primary_action: card.querySelector('.s-primary-action').value, primary_link: card.querySelector('.s-primary-link').value.trim(), secondary_visible: card.querySelector('.s-secondary-visible').checked, secondary_label: card.querySelector('.s-secondary-label').value.trim(), secondary_action: card.querySelector('.s-secondary-action').value, secondary_link: card.querySelector('.s-secondary-link').value.trim(), reflection: card.querySelector('.s-reflection').checked, text_backdrop: card.querySelector('.s-text-backdrop').checked, text_color_mode: card.querySelector('.s-text-color-mode').value, text_color: card.querySelector('.s-text-color').value });
       });
       return { ...heroAdminConfig, visible: $('heroAdminVisible').checked, autoplay: $('heroAdminAutoplay').checked, dots: $('heroAdminDots').checked, arrows: $('heroAdminArrows').checked, scroll_hint: $('heroAdminScrollHint').checked, pause_on_interaction: $('heroAdminPause').checked, interval: Math.max(2, Math.min(60, Number($('heroAdminInterval').value) || 6)), height: Math.max(420, Math.min(760, Number($('heroAdminHeight').value) || 540)), scroll_hint_label: $('heroAdminScrollLabel').value.trim() || 'مرّر لاكتشاف الكتب', slides };
     }
-    $('addHeroSlideBtn').onclick = () => { heroAdminConfig = heroAdminConfig || normalizeHeroAdmin(); const id = `hero-${Date.now()}-${heroAdminConfig.slides.length}`; heroAdminConfig.slides.push({ ...DEFAULT_HERO_ADMIN.slides[0], id, active: true, title: 'عنوان شريحة جديد', text: 'اكتب وصفًا واضحًا يعرّف القارئ بما ينتظره هنا.', image: '' }); heroExpandedIds.add(id); renderHeroEditor(); };
-    $('saveHeroBtn').onclick = async () => { try { const hero = collectHeroEditor(); const features = settingsState.features || {}; const storefront = { ...(settingsState.storefront || {}), hero }; const res = await adminFetch(`${API_BASE}/admin/settings`, { method: 'PUT', headers: apiHeaders(), body: JSON.stringify({ features, storefront }) }); if (!res.ok) throw new Error('تعذر حفظ إعدادات الـHero'); heroAdminConfig = hero; settingsState = { features, storefront }; toast('تم حفظ إعدادات الـHero والشرائح', 'success'); } catch (error) { toast(error.message, 'error'); } };
+    function validateHeroEditor(hero) {
+      const errors = [];
+      hero.slides.forEach((slide, index) => {
+        if (!slide.title) errors.push(`الشريحة ${index + 1}: العنوان الرئيسي مطلوب`);
+        if (!slide.image) errors.push(`الشريحة ${index + 1}: صورة الخلفية مطلوبة`);
+        [['primary', slide.primary_visible, slide.primary_action, slide.primary_link], ['secondary', slide.secondary_visible, slide.secondary_action, slide.secondary_link]].forEach(([name, visible, action, value]) => {
+          if (!visible || !['section','category','product','url','link'].includes(action)) return;
+          if (!String(value || '').trim()) errors.push(`الشريحة ${index + 1}: قيمة وجهة الزر ${name === 'primary' ? 'الأساسي' : 'الثانوي'} مطلوبة`);
+          else if (action === 'url' && !/^(https?:|mailto:|tel:|#|\/)/i.test(String(value).trim())) errors.push(`الشريحة ${index + 1}: رابط الزر ${name === 'primary' ? 'الأساسي' : 'الثانوي'} غير صالح`);
+        });
+      });
+      if (errors.length) { heroExpandedIds.add(hero.slides[Math.max(0, hero.slides.findIndex(slide => !slide.title || !slide.image))]?.id); renderHeroEditor(); throw new Error(errors.slice(0, 3).join(' — ')); }
+    }
+    $('addHeroSlideBtn').onclick = () => { heroAdminConfig = syncHeroDraft() || normalizeHeroAdmin(); const id = `hero-${Date.now()}-${heroAdminConfig.slides.length}`; heroAdminConfig.slides.push({ ...DEFAULT_HERO_ADMIN.slides[0], id, active: true, title: 'عنوان شريحة جديد', text: 'اكتب وصفًا واضحًا يعرّف القارئ بما ينتظره هنا.', image: '' }); heroExpandedIds.add(id); setHeroDirty(); renderHeroEditor(); };
+    async function saveHeroSettings() {
+      try {
+        const hero = collectHeroEditor();
+        validateHeroEditor(hero);
+        heroAdminConfig = hero;
+        const features = settingsState.features || {};
+        const storefront = { ...(settingsState.storefront || {}), hero };
+        const res = await adminFetch(`${API_BASE}/admin/settings`, { method: 'PUT', headers: apiHeaders(), body: JSON.stringify({ features, storefront }) });
+        if (!res.ok) throw new Error('تعذر حفظ إعدادات الـHero');
+        settingsState = { features, storefront };
+        setHeroDirty(false);
+        toast('تم حفظ إعدادات الـHero والشرائح', 'success');
+      } catch (error) { setHeroDirty(true, true); toast(error.message || 'تعذر حفظ إعدادات الـHero. بقيت التعديلات في النموذج.', 'error'); }
+    }
+    $('saveHeroBtn').onclick = saveHeroSettings;
+    $('retryHeroSave')?.addEventListener('click', saveHeroSettings);
 
     // ========== DELIVERY FEES ==========
     async function loadDeliveryFees() {
@@ -1526,6 +1659,12 @@
         });
       } catch (err) { toast('تعذر تحميل رسوم التوصيل', 'error'); }
     }
+
+    window.addEventListener('beforeunload', event => {
+      if (!heroDirty) return;
+      event.preventDefault();
+      event.returnValue = '';
+    });
 
     // Firebase Auth state listener above is the single initialization path.
     // No legacy token-based auto-login is used in the direct Firestore mode.
