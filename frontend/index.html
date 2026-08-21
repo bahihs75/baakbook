@@ -776,6 +776,14 @@ function heroActionLink(action, link) {
   const value = String(link || '#books').trim();
   return /^(https?:|mailto:|tel:|#|\/)/i.test(value) ? value : '#books';
 }
+function heroActionFeature(action) {
+  return ({ discovery: 'discovery', gift: 'gifts', on_demand: 'on_demand', ideas_lab: 'ideas_lab' })[action] || '';
+}
+function heroActionFeatureAttr(action) {
+  const feature = heroActionFeature(action);
+  return feature ? ` data-feature="${feature}"` : '';
+}
+
 function renderHeroSlides(config) {
   const slider = $('heroSlider'); const list = $('heroSlides'); const dots = $('heroDots');
   if (!slider || !list || !dots) return;
@@ -789,8 +797,8 @@ function renderHeroSlides(config) {
     const color = slide.text_color_mode === 'auto' ? fallbackAutoColor : manualColor;
     const primaryAction = slide.primary_action || (slide.primary_link ? 'link' : 'discovery');
     const secondaryAction = slide.secondary_action || (slide.secondary_link ? 'link' : 'gift');
-    const primaryFeature = primaryAction === 'discovery' ? ' data-feature="discovery"' : '';
-    const secondaryFeature = secondaryAction === 'gift' ? ' data-feature="gifts"' : '';
+    const primaryFeature = heroActionFeatureAttr(primaryAction);
+    const secondaryFeature = heroActionFeatureAttr(secondaryAction);
     const primary = slide.primary_visible !== false && slide.primary_label ? `<a class="hero-slide-cta primary hero-action" data-hero-action="${esc(primaryAction)}" href="${esc(heroActionLink(primaryAction, slide.primary_link))}"${primaryFeature}>${esc(slide.primary_label)}</a>` : '';
     const secondary = slide.secondary_visible !== false && slide.secondary_label ? `<a class="hero-slide-cta secondary hero-action" data-hero-action="${esc(secondaryAction)}" href="${esc(heroActionLink(secondaryAction, slide.secondary_link))}"${secondaryFeature}>${esc(slide.secondary_label)}</a>` : '';
     return `<article class="hero-slide ${index === heroIndex ? 'active' : ''} ${slide.reflection ? 'has-reflection' : ''}" data-slide-index="${index}" aria-hidden="${index === heroIndex ? 'false' : 'true'}" style="--hero-text:${color};--hero-text-shadow:${slide.text_backdrop ? '0 2px 18px rgba(0,0,0,.34)' : 'none'}"><img class="hero-slide-media" crossorigin="anonymous" src="${esc(slide.image || '')}" alt="${esc(slide.image_alt || slide.title || 'صورة Hero')}" loading="${index === 0 ? 'eager' : 'lazy'}"><div class="hero-slide-shade"></div><div class="hero-slide-reflection" aria-hidden="true"></div><div class="hero-slide-copy"><div class="hero-slide-eyebrow">${esc(slide.eyebrow || '')}</div><h1>${esc(slide.title || '')}</h1><p>${esc(slide.text || '')}</p><div class="hero-actions">${primary}${secondary}</div></div></article>`;
@@ -947,7 +955,7 @@ function renderProducts(filter = 'all', search = '') {
                 : 'غير متاح'}
             </button>
               <button class="buy-now-btn ${p.price > 0 ? '' : 'disabled'}" data-id="${p.id}" ${p.price > 0 ? '' : 'disabled'} onclick="event.stopPropagation()">${p.availability_type === 'on_demand' ? 'اقتنه عند التوفر' : 'اقتنه الآن'}</button>
-                ${featureSettings.gift_from_product && featureSettings.gifts && giftableProduct(p) ? `<button class="gift-card-btn" data-gift-card-id="${esc(p.id)}" onclick="event.stopPropagation()">أهدِ هذا الكتاب</button>` : ''}
+                ${featureSettings.gift_from_product && giftableProduct(p) ? `<button class="gift-card-btn" data-gift-card-id="${esc(p.id)}" onclick="event.stopPropagation()">أهدِ هذا الكتاب</button>` : ''}
               </div>
             </div>
           </div>
@@ -1035,7 +1043,7 @@ function openPopup(prod) {
       $('popupOverlay').classList.remove('open');
       buyNow(prod);
     };
-    giftBtn.hidden = !featureSettings.gift_from_product || !featureSettings.gifts || !giftableProduct(prod);
+    giftBtn.hidden = !featureSettings.gift_from_product || !giftableProduct(prod);
     giftBtn.disabled = giftBtn.hidden;
     giftBtn.onclick = () => startGiftFlow([prod.id], 'product_card', prod);
   } else {
@@ -1129,11 +1137,11 @@ function updateCart() {
       <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" title="إزالة">✕</button>
     </div>`).join('');
   $('cartTotal').textContent = fmt(total);
-  $('groupGiftBtn').hidden = !featureSettings.gift_from_cart || !featureSettings.gifts || !cart.some(item => giftableProduct(products.find(p => p.id === item.id)));
+    $('groupGiftBtn').hidden = !featureSettings.gift_from_cart || !cart.some(item => giftableProduct(products.find(p => p.id === item.id)));
 }
 
 function openGroupGiftPicker() {
-  if (!guardFeature('gift_from_cart') || !guardFeature('gifts')) return;
+  if (!guardFeature('gift_from_cart')) return;
   const eligible = cart.filter(item => giftableProduct(products.find(p => p.id === item.id)));
   if (!eligible.length) { toast('لا توجد كتب قابلة للإهداء في السلة', 'info'); return; }
   $('groupGiftItems').innerHTML = eligible.map(item => `<label class="group-gift-item"><input type="checkbox" value="${esc(item.id)}" ${item.purchase_purpose === 'gift' ? 'checked' : ''}><img src="${esc(item.img)}" alt="${esc(item.title)}"><span><strong>${esc(item.title)}</strong><small>${fmt(item.price)} × ${item.qty}</small></span></label>`).join('');
