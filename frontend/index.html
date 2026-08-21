@@ -361,7 +361,7 @@ body.lab-dark .discover-choice small,body.lab-dark .discover-intro,body.lab-dark
   </div>
   <div class="hero-feature-rail" id="heroFeatureRail" data-feature-group aria-label="مسارات القراءة">
     <button class="hero-feature-card" id="heroRailDiscover" data-feature="discovery" type="button"><span class="hero-feature-icon">✦</span><span><strong>اكتشف كتابك</strong><small>اختيارات تناسب ذوقك الآن</small></span></button>
-    <button class="hero-feature-card" id="heroRailGift" data-feature="gifts" data-feature-requires="gift_finder" type="button"><span class="hero-feature-icon">🎁</span><span><strong>اصنع هدية</strong><small>كتاب يحمل معنى لمن تحب</small></span></button>
+    <button class="hero-feature-card" id="heroRailGift" data-feature="gifts" type="button"><span class="hero-feature-icon">🎁</span><span><strong>اصنع هدية</strong><small>كتاب يحمل معنى لمن تحب</small></span></button>
     <button class="hero-feature-card" id="heroRailOnDemand" data-feature="on_demand" type="button"><span class="hero-feature-icon">⌛</span><span><strong>كتب يمكن اقتناؤها</strong><small>عناوين تصل في اليوم نفسه أو خلال يوم</small></span></button>
     <button class="hero-feature-card" id="heroRailLab" data-feature="ideas_lab" type="button"><span class="hero-feature-icon">◈</span><span><strong>مختبر الأفكار</strong><small>مسارات جديدة لاكتشاف القراءة</small></span></button>
   </div>
@@ -374,7 +374,7 @@ body.lab-dark .discover-choice small,body.lab-dark .discover-intro,body.lab-dark
       <span class="feature-hub-note">تجارب واضحة · من دون حساب</span>
     </div>
     <div class="feature-hub-grid">
-      <button class="feature-card" id="giftOpen" data-feature="gifts" data-feature-requires="gift_finder" type="button"><span class="feature-card-icon">🎁</span><span><h3>اختر هدية تحمل معنى</h3><p>حدّد المناسبة والميزانية، ودعنا نقترح لك كتبًا تليق بمن تهديه.</p><span class="feature-link">صمّم هديتك ←</span></span></button>
+      <button class="feature-card" id="giftOpen" data-feature="gifts" type="button"><span class="feature-card-icon">🎁</span><span><h3>اختر هدية تحمل معنى</h3><p>حدّد المناسبة والميزانية، ودعنا نقترح لك كتبًا تليق بمن تهديه.</p><span class="feature-link">صمّم هديتك ←</span></span></button>
       <button class="feature-card" id="discoverOpenHub" data-feature="discovery" type="button"><span class="feature-card-icon">✦</span><span><h3>اكتشف كتابك القادم</h3><p>أجب عن ثلاثة أسئلة قصيرة لنقترح لك عناوين تناسب ما تبحث عنه الآن.</p><span class="feature-link">ابدأ الاكتشاف ←</span></span></button>
       <button class="feature-card" id="onDemandOpen" data-feature="on_demand" type="button"><span class="feature-card-icon">⌛</span><span><h3>كتب يمكن اقتناؤها</h3><p>عناوين ليست متوفرة الآن، لكن يمكنك اقتناؤها في اليوم نفسه أو خلال يوم واحد.</p><span class="feature-link">تصفح العناوين ←</span></span></button>
       <button class="feature-card" id="labOpenHub" data-feature="ideas_lab" type="button"><span class="feature-card-icon">◈</span><span><h3>مختبر الأفكار</h3><p>مساحات وتجارب نختبرها محليًا قبل اعتمادها في المتجر.</p><span class="feature-link">استكشف الأفكار ←</span></span></button>
@@ -722,7 +722,7 @@ async function loadInitialData() {
     deliveryFees = await feesRes.json();
     if (settingsRes && settingsRes.ok) {
       const settingsPayload = await settingsRes.json();
-      featureSettings = { ...featureSettings, ...(settingsPayload.features || {}) };
+      featureSettings = normalizeFeatureSettings({ ...featureSettings, ...(settingsPayload.features || {}) });
       storefrontSettings = { ...storefrontSettings, ...(settingsPayload.storefront || {}), hero: { ...storefrontSettings.hero, ...(settingsPayload.storefront?.hero || {}) } };
     }
     if (previewMode) featureSettings = getPreviewFeatureSettings(previewParam);
@@ -742,10 +742,20 @@ function isFeatureElementEnabled(element) {
   const feature = element?.dataset?.feature;
   if (!feature) return true;
   const requiredFeatures = (element.dataset.featureRequires || '').split(',').map(value => value.trim()).filter(Boolean);
-  return featureSettings[feature] !== false && requiredFeatures.every(required => featureSettings[required] !== false);
+  return featureEnabled(feature) && requiredFeatures.every(featureEnabled);
+}
+
+function featureEnabled(key) {
+  const value = featureSettings?.[key];
+  return value === true || value === 1 || (typeof value === 'string' && value.trim().toLowerCase() === 'true');
+}
+
+function normalizeFeatureSettings(raw = {}) {
+  return Object.fromEntries(Object.keys(DEFAULT_FEATURE_SETTINGS).map(key => [key, raw[key] === true || raw[key] === 1 || (typeof raw[key] === 'string' && raw[key].trim().toLowerCase() === 'true')]));
 }
 
 function applyFeatureVisibility() {
+  featureSettings = normalizeFeatureSettings(featureSettings);
   qsa('[data-feature]').forEach(element => {
     element.hidden = !isFeatureElementEnabled(element);
   });
@@ -774,14 +784,16 @@ function renderHeroSlides(config) {
   heroIndex = Math.min(heroIndex, heroSlides.length - 1);
   slider.style.minHeight = `${Math.max(420, Math.min(760, Number(config.height) || 540))}px`;
   list.innerHTML = heroSlides.map((slide, index) => {
-    const color = /^#[0-9a-f]{6}$/i.test(String(slide.text_color || '')) ? slide.text_color : '#ffffff';
+    const manualColor = /^#[0-9a-f]{6}$/i.test(String(slide.text_color || '')) ? slide.text_color : '#ffffff';
+    const fallbackAutoColor = /^#[0-9a-f]{6}$/i.test(String(slide.auto_text_color || '')) ? slide.auto_text_color : '#ffffff';
+    const color = slide.text_color_mode === 'auto' ? fallbackAutoColor : manualColor;
     const primaryAction = slide.primary_action || (slide.primary_link ? 'link' : 'discovery');
     const secondaryAction = slide.secondary_action || (slide.secondary_link ? 'link' : 'gift');
     const primaryFeature = primaryAction === 'discovery' ? ' data-feature="discovery"' : '';
-    const secondaryFeature = secondaryAction === 'gift' ? ' data-feature="gifts" data-feature-requires="gift_finder"' : '';
+    const secondaryFeature = secondaryAction === 'gift' ? ' data-feature="gifts"' : '';
     const primary = slide.primary_visible !== false && slide.primary_label ? `<a class="hero-slide-cta primary hero-action" data-hero-action="${esc(primaryAction)}" href="${esc(heroActionLink(primaryAction, slide.primary_link))}"${primaryFeature}>${esc(slide.primary_label)}</a>` : '';
     const secondary = slide.secondary_visible !== false && slide.secondary_label ? `<a class="hero-slide-cta secondary hero-action" data-hero-action="${esc(secondaryAction)}" href="${esc(heroActionLink(secondaryAction, slide.secondary_link))}"${secondaryFeature}>${esc(slide.secondary_label)}</a>` : '';
-    return `<article class="hero-slide ${index === heroIndex ? 'active' : ''} ${slide.reflection ? 'has-reflection' : ''}" data-slide-index="${index}" aria-hidden="${index === heroIndex ? 'false' : 'true'}" style="--hero-text:${color};--hero-text-shadow:${slide.text_backdrop ? '0 2px 18px rgba(0,0,0,.34)' : 'none'}"><img class="hero-slide-media" src="${esc(slide.image || '')}" alt="${esc(slide.image_alt || slide.title || 'صورة Hero')}" loading="${index === 0 ? 'eager' : 'lazy'}"><div class="hero-slide-shade"></div><div class="hero-slide-reflection" aria-hidden="true"></div><div class="hero-slide-copy"><div class="hero-slide-eyebrow">${esc(slide.eyebrow || '')}</div><h1>${esc(slide.title || '')}</h1><p>${esc(slide.text || '')}</p><div class="hero-actions">${primary}${secondary}</div></div></article>`;
+    return `<article class="hero-slide ${index === heroIndex ? 'active' : ''} ${slide.reflection ? 'has-reflection' : ''}" data-slide-index="${index}" aria-hidden="${index === heroIndex ? 'false' : 'true'}" style="--hero-text:${color};--hero-text-shadow:${slide.text_backdrop ? '0 2px 18px rgba(0,0,0,.34)' : 'none'}"><img class="hero-slide-media" crossorigin="anonymous" src="${esc(slide.image || '')}" alt="${esc(slide.image_alt || slide.title || 'صورة Hero')}" loading="${index === 0 ? 'eager' : 'lazy'}"><div class="hero-slide-shade"></div><div class="hero-slide-reflection" aria-hidden="true"></div><div class="hero-slide-copy"><div class="hero-slide-eyebrow">${esc(slide.eyebrow || '')}</div><h1>${esc(slide.title || '')}</h1><p>${esc(slide.text || '')}</p><div class="hero-actions">${primary}${secondary}</div></div></article>`;
   }).join('');
   dots.innerHTML = heroSlides.length > 1 && config.dots !== false ? heroSlides.map((slide, index) => `<button class="hero-dot ${index === heroIndex ? 'active' : ''}" type="button" data-hero-dot="${index}" role="tab" aria-label="الشريحة ${index + 1}" aria-selected="${index === heroIndex}"></button>`).join('') : '';
   $('heroPrev').hidden = config.arrows === false || heroSlides.length < 2;
@@ -789,11 +801,55 @@ function renderHeroSlides(config) {
   $('heroScrollHint').hidden = config.scroll_hint === false;
   $('heroScrollHint').textContent = config.scroll_hint_label || 'مرّر لاكتشاف الكتب';
   updateHeroSlideState();
+  applyHeroAutoTextColors();
+  const previous = $('heroPrev');
+  const next = $('heroNext');
+  if (previous) previous.onclick = () => setHeroSlide(heroIndex - 1);
+  if (next) next.onclick = () => setHeroSlide(heroIndex + 1);
   startHeroAutoplay(config);
 }
 function updateHeroSlideState() {
   qsa('.hero-slide', $('heroSlider')).forEach((slide, index) => { const active = index === heroIndex; slide.classList.toggle('active', active); slide.setAttribute('aria-hidden', String(!active)); });
   qsa('.hero-dot', $('heroDots')).forEach((dot, index) => { const active = index === heroIndex; dot.classList.toggle('active', active); dot.setAttribute('aria-selected', String(active)); });
+}
+
+function contrastColorFromImage(image) {
+  try {
+    if (!image.naturalWidth || !image.naturalHeight) return null;
+    const canvas = document.createElement('canvas');
+    canvas.width = 12; canvas.height = 12;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    if (!context) return null;
+    context.drawImage(image, 0, 0, 12, 12);
+    const pixels = context.getImageData(0, 0, 12, 12).data;
+    let luminance = 0; let count = 0;
+    for (let index = 0; index < pixels.length; index += 4) {
+      const alpha = pixels[index + 3] / 255;
+      if (!alpha) continue;
+      const r = pixels[index] / 255; const g = pixels[index + 1] / 255; const b = pixels[index + 2] / 255;
+      const linear = [r, g, b].map(channel => channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4);
+      luminance += (0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]) * alpha;
+      count += alpha;
+    }
+    return count && luminance / count > 0.52 ? '#1d1d1f' : '#ffffff';
+  } catch (error) {
+    return null;
+  }
+}
+
+function applyHeroAutoTextColors() {
+  qsa('.hero-slide', $('heroSlider')).forEach((slideElement, index) => {
+    const slide = heroSlides[index];
+    if (!slide || slide.text_color_mode !== 'auto') return;
+    const image = qs('.hero-slide-media', slideElement);
+    if (!image) return;
+    const apply = () => {
+      const color = contrastColorFromImage(image) || ( /^#[0-9a-f]{6}$/i.test(String(slide.auto_text_color || '')) ? slide.auto_text_color : '#ffffff' );
+      slideElement.style.setProperty('--hero-text', color);
+    };
+    image.addEventListener('load', apply, { once: true });
+    if (image.complete) apply();
+  });
 }
 function setHeroSlide(next, restart = true) { if (!heroSlides.length) return; heroIndex = (next + heroSlides.length) % heroSlides.length; updateHeroSlideState(); if (restart) startHeroAutoplay(storefrontSettings.hero); }
 function stopHeroAutoplay() { if (heroTimer) { clearInterval(heroTimer); heroTimer = null; } }
@@ -805,8 +861,8 @@ function applyHeroSettings() {
   if (!hero) return;
   hero.hidden = config.visible === false;
   renderHeroSlides(config);
-  if ($('heroFeatureRail')) $('heroFeatureRail').hidden = config.feature_rail_visible === false || !$qsaVisible('[data-feature]', $('heroFeatureRail'));
   applyFeatureVisibility();
+  if ($('heroFeatureRail')) $('heroFeatureRail').hidden = config.feature_rail_visible === false || !$qsaVisible('[data-feature]', $('heroFeatureRail'));
 }
 
 function $qsaVisible(selector, parent) {
@@ -814,7 +870,7 @@ function $qsaVisible(selector, parent) {
 }
 
 function guardFeature(feature) {
-  if (featureSettings[feature] === false) {
+  if (!featureEnabled(feature)) {
     toast('هذا الخيار غير متاح حاليًا', 'info');
     return false;
   }
@@ -1441,8 +1497,6 @@ document.addEventListener('click', event => {
   if (heroSwipeMoved) { heroSwipeMoved = false; return; }
   const dot = event.target.closest('[data-hero-dot]');
   if (dot) { setHeroSlide(Number(dot.dataset.heroDot)); return; }
-  if (event.target.closest('#heroPrev')) { setHeroSlide(heroIndex - 1); return; }
-  if (event.target.closest('#heroNext')) { setHeroSlide(heroIndex + 1); return; }
   const action = event.target.closest('.hero-action');
   if (!action) return;
   const name = action.dataset.heroAction;
@@ -1485,7 +1539,7 @@ $('labOverlay').onclick = event => { if (event.target === $('labOverlay')) close
 if (localStorage.getItem('baak-lab-dark') === 'true') document.body.classList.add('lab-dark');
 
 function openGiftBuilder() {
-  if (!guardFeature('gifts') || !guardFeature('gift_finder')) return;
+  if (!guardFeature('gifts')) return;
   $('giftOverlay').classList.add('open');
   $('giftOverlay').setAttribute('aria-hidden', 'false');
   renderGiftBookPicks();
